@@ -231,10 +231,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         #     attn_mask=attn_mask,
         # )
 
-        IN_UNIT = 111
-        IN_CHANNEL = 222
-        NUM_UNIT = 333
-        UNIT_SIZE = 444
+        IN_UNIT = 1
+        IN_CHANNEL = 2
+        NUM_UNIT = 3
+        UNIT_SIZE = 4
         NUM_ROUTING = 5
 
         capsnet = CapsuleSubLayer(in_unit=IN_UNIT, in_channel=IN_CHANNEL, num_unit=NUM_UNIT, unit_size=UNIT_SIZE, use_routing=True, num_routing=NUM_ROUTING, cuda_enabled=True)
