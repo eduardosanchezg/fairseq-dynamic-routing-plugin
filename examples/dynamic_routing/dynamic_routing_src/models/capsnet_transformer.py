@@ -34,7 +34,7 @@ class CapsNetTransformerEncoder(TransformerEncoder):
     def __init__(self, args, dictionary, embed_tokens):
         super().__init__(args, dictionary, embed_tokens)
 
-        self.layers[0] = nn.CapsNetTransformerEncoderLayer(args, dictionary, embed_tokens)
+        self.layers[0] = CapsNetTransformerEncoderLayer(args, dictionary, embed_tokens)
 
 
 
