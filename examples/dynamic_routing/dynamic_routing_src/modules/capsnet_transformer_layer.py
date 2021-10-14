@@ -15,6 +15,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 import numpy as np
+import torch.utils
 
 BATCH_SIZE = 100
 NUM_CLASSES = 10
