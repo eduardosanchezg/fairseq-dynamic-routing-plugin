@@ -64,7 +64,7 @@ class CapsuleSubLayer(nn.Module):
                     logits = logits + delta_logits
         else:
             outputs = [capsule(x).view(x.size(0), -1, 1) for capsule in self.capsules]
-            outputs = torch.cat(outputs, dim=-1)
+            outputs = torch.cat(outputs, dim=3)
             outputs = self.squash(outputs)
 
         return outputs
