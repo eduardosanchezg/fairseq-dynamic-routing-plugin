@@ -98,6 +98,9 @@ class CapsuleSubLayer(nn.Module):
         batch_weight = batch_weight.cuda()
         x = x.cuda().float()
 
+        print("|||||||||||||||||||||||||||||||||| D E B U G || INNER LAYER ||||||||||||||||||||||||||||||||||")
+        print(batch_weight.size())
+        print(x.size())
 
         u_hat = torch.matmul(batch_weight, x)
 
@@ -234,17 +237,17 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         #     attn_mask=attn_mask,
         # )
 
-        IN_UNIT = 13
-        IN_CHANNEL = 17
-        NUM_UNIT = 224
-        UNIT_SIZE = 512
+        IN_UNIT = 224
+        IN_CHANNEL = 512
+        NUM_UNIT = 23
+        UNIT_SIZE = 43
         NUM_ROUTING = 5
 
         capsnet = CapsuleSubLayer(in_unit=IN_UNIT, in_channel=IN_CHANNEL, num_unit=NUM_UNIT, unit_size=UNIT_SIZE, use_routing=True, num_routing=NUM_ROUTING, cuda_enabled=True)
 
         x = capsnet.forward(x)
 
-        print("|||||||||||||||||||||||||||||||||| D E B U G ||||||||||||||||||||||||||||||||||")
+        print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
         print(residual.size())
         print(x.size())
 
