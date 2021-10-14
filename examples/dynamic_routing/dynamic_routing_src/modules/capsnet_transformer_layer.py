@@ -103,7 +103,7 @@ class CapsuleSubLayer(nn.Module):
         print("|||||||||||||||||||||||||||||||||| D E B U G ||||||||||||||||||||||||||||||||||")
         print(batch_weight.size())
         print(x.size())
-        u_hat = batch_weight @ x
+        u_hat = torch.matmul(batch_weight, x)
 
 
         # All the routing logits (b_ij in the paper) are initialized to zero.
@@ -241,7 +241,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         IN_UNIT = 1
         IN_CHANNEL = 512
         NUM_UNIT = 3
-        UNIT_SIZE = 4
+        UNIT_SIZE = 224
         NUM_ROUTING = 5
 
         capsnet = CapsuleSubLayer(in_unit=IN_UNIT, in_channel=IN_CHANNEL, num_unit=NUM_UNIT, unit_size=UNIT_SIZE, use_routing=True, num_routing=NUM_ROUTING, cuda_enabled=True)
