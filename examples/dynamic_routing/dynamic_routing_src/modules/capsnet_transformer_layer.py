@@ -98,7 +98,7 @@ class CapsuleSubLayer(nn.Module):
         # Matrix product of 2 tensors with shape: [128, 1152, 10, 16, 8] x [128, 1152, 10, 8, 1]
         # u_hat shape: [128, 1152, 10, 16, 1]
         batch_weight = batch_weight.cuda()
-        u_hat = torch.matmul(batch_weight, x)
+        u_hat = batch_weight @ x
 
 
         # All the routing logits (b_ij in the paper) are initialized to zero.
