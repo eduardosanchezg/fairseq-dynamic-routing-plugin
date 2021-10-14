@@ -67,6 +67,8 @@ class CapsuleSubLayer(nn.Module):
             outputs = torch.cat(outputs, dim=-1)
             outputs = self.squash(outputs)
 
+        print(":::OUTPUTS:::")
+        print(outputs)
         return outputs
 
 class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
