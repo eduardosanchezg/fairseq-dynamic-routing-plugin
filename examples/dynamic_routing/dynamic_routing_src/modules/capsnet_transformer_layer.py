@@ -7,15 +7,13 @@ from typing import Dict, List, Optional
 
 import torch
 import torch.nn as nn
-from fairseq import utils
 from fairseq.modules import TransformerEncoderLayer
 from torch import Tensor
-
+import utils
 import torch
 import torch.nn.functional as F
 from torch import nn
 import numpy as np
-import torch.utils as tutils
 
 BATCH_SIZE = 100
 NUM_CLASSES = 10
@@ -141,7 +139,7 @@ class CapsuleSubLayer(nn.Module):
             #             num_classes, output_unit_size from u_hat, 1]
             # == [128, 1, 10, 16, 1]
             # So, the length of the output vector of a capsule is 16, which is in dim 3.
-            v_j = tutils.squash(s_j, dim=3)
+            v_j = utils.squash(s_j, dim=3)
 
             # in_channel is 1152.
             # v_j1 shape: [128, 1152, 10, 16, 1]
