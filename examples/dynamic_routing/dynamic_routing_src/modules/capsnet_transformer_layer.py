@@ -63,9 +63,9 @@ class CapsuleSubLayer(nn.Module):
                     delta_logits = (priors * outputs).sum(dim=-1, keepdim=True)
                     logits = logits + delta_logits
         else:
-            outputs = [capsule(x).view(x.size(0), -1, 1) for capsule in self.capsules]
-            outputs = torch.cat(outputs, dim=3)
-            outputs = self.squash(outputs, dim=3)
+            outputs = [capsule(x) for capsule in self.capsules]
+            outputs = torch.cat(outputs, dim=-1)
+            outputs = self.squash(outputs)
 
         return outputs
 
@@ -126,7 +126,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # )
 
         capsnet = CapsuleSubLayer(num_capsules=8, num_route_nodes=-1, in_channels=224, out_channels=12,
-                                             kernel_size=512, stride=1)
+                                             kernel_size=9, stride=2)
 
         x = capsnet.forward(x)
 
