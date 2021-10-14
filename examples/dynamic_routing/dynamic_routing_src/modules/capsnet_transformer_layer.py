@@ -98,9 +98,7 @@ class CapsuleSubLayer(nn.Module):
         batch_weight = batch_weight.cuda()
         x = x.cuda().float()
 
-        print("|||||||||||||||||||||||||||||||||| D E B U G ||||||||||||||||||||||||||||||||||")
-        print(batch_weight.size())
-        print(x.size())
+
         u_hat = torch.matmul(batch_weight, x)
 
 
@@ -245,6 +243,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         capsnet = CapsuleSubLayer(in_unit=IN_UNIT, in_channel=IN_CHANNEL, num_unit=NUM_UNIT, unit_size=UNIT_SIZE, use_routing=True, num_routing=NUM_ROUTING, cuda_enabled=True)
 
         x = capsnet.forward(x)
+
+        print("|||||||||||||||||||||||||||||||||| D E B U G ||||||||||||||||||||||||||||||||||")
+        print(residual.size())
+        print(x.size())
 
         x = self.dropout_module(x)
 
