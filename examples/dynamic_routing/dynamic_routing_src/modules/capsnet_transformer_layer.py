@@ -55,7 +55,7 @@ class CapsuleSubLayer(nn.Module):
             print("|||||||||||||||||||||||||DEBUG||||||||||||||||||||||||||||||||||||||")
             print(x.dim())
             print(self.route_weights.dim())
-            priors = x[None, :, :, None, :] @ self.route_weights[:, None, :, :, :]
+            priors = x[None, :, :, None, :] @ self.route_weights[:, None, :, :, None]
 
             logits = Variable(torch.zeros(*priors.size())).cuda()
             for i in range(self.num_iterations):
