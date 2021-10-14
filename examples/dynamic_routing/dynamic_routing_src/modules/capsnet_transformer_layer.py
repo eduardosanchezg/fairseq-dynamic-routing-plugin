@@ -84,7 +84,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         args (argparse.Namespace): parsed command-line arguments
     """
 
-    def __init__(self, args, drop_residual_after_att=False):
+    def __init__(self, args):
         super().__init__(args)
         #print('****************************', drop_residual_after_att)
         #self.drop_residual_after_att = drop_residual_after_att
