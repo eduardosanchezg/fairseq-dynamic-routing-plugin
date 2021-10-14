@@ -232,7 +232,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # )
 
         IN_UNIT = 1
-        IN_CHANNEL = 2
+        IN_CHANNEL = 512
         NUM_UNIT = 3
         UNIT_SIZE = 4
         NUM_ROUTING = 5
