@@ -101,8 +101,8 @@ class CapsuleSubLayer(nn.Module):
         x = x.cuda().float()
 
         print("|||||||||||||||||||||||||||||||||| D E B U G ||||||||||||||||||||||||||||||||||")
-        print(batch_weight.dim())
-        print(x.dim())
+        print(batch_weight.size())
+        print(x.size())
         u_hat = batch_weight @ x
 
 
