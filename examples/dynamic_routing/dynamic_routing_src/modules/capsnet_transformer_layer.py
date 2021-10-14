@@ -52,6 +52,9 @@ class CapsuleSubLayer(nn.Module):
 
     def forward(self, x):
         if self.num_route_nodes != -1:
+            print("|||||||||||||||||||||||||DEBUG||||||||||||||||||||||||||||||||||||||")
+            print(type(x))
+            print(type(self.route_weights))
             priors = x[None, :, :, None, :] @ self.route_weights[:, None, :, :, :]
 
             logits = Variable(torch.zeros(*priors.size())).cuda()
