@@ -126,7 +126,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # )
 
         capsnet = CapsuleSubLayer(num_capsules=8, num_route_nodes=-1, in_channels=224, out_channels=12,
-                                             kernel_size=512, stride=2)
+                                             kernel_size=512, stride=1)
 
         x = capsnet.forward(x)
 
