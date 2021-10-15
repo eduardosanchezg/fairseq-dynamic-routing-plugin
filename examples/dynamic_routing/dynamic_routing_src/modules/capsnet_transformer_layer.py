@@ -117,7 +117,8 @@ class CapsuleSubLayer(nn.Module):
 
         u_hat = torch.matmul(batch_weight, x)
 
-
+        print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
+        print(u_hat.size())
         # All the routing logits (b_ij in the paper) are initialized to zero.
         # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
         # self.num_unit = num_classes = 10
