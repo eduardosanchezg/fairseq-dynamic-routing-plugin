@@ -124,6 +124,10 @@ class CapsuleSubLayer(nn.Module):
         # self.num_unit = num_classes = 10
         # b_ij shape: [1, 1152, 10, 1]
         b_ij = Variable(torch.zeros(1, self.in_channel, self.num_unit, 1))
+
+        print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
+        print(b_ij.size())
+
         if self.cuda_enabled:
             b_ij = b_ij.cuda()
 
@@ -137,8 +141,19 @@ class CapsuleSubLayer(nn.Module):
             # Calculate routing or also known as coupling coefficients (c_ij).
             # c_ij shape: [1, 1152, 10, 1]
             c_ij = F.softmax(b_ij, dim=2)  # Convert routing logits (b_ij) to softmax.
+
+            print("||||Cij AFTER SOFTMAX|||")
+            print(c_ij.size())
+            print(iteration)
+            print("||||||||||||||||||||")
+
             # c_ij shape from: [128, 1152, 10, 1] to: [128, 1152, 10, 1, 1]
             c_ij = torch.cat([c_ij] * batch_size, dim=0).unsqueeze(4)
+
+            print("||||Cij AFTER UNZQUEEZE|||")
+            print(c_ij.size())
+            print(iteration)
+            print("||||||||||||||||||||")
 
             # Implement equation 2 in the paper.
             # s_j is total input to a capsule, is a weigthed sum over all "prediction vectors".
@@ -148,6 +163,11 @@ class CapsuleSubLayer(nn.Module):
             # Sum of Primary Capsules outputs, 1152D becomes 1D.
             s_j = (c_ij * u_hat).sum(dim=1, keepdim=True)
 
+            print("||||Sj AFTER MUL AND SUM|||")
+            print(s_j.size())
+            print(iteration)
+            print("||||||||||||||||||||")
+
             # Squash the vector output of capsule j.
             # v_j shape: [batch_size, weighted sum of PrimaryCaps output,
             #             num_classes, output_unit_size from u_hat, 1]
@@ -155,9 +175,19 @@ class CapsuleSubLayer(nn.Module):
             # So, the length of the output vector of a capsule is 16, which is in dim 3.
             v_j = squash(s_j, dim=3)
 
+            print("||||Vj after squash|||")
+            print(v_j.size())
+            print(iteration)
+            print("||||||||||||||||||||")
+
             # in_channel is 1152.
             # v_j1 shape: [128, 1152, 10, 16, 1]
             v_j1 = torch.cat([v_j] * self.in_channel, dim=1)
+
+            print("||||v_j1 after cat|||")
+            print(v_j1.size())
+            print(iteration)
+            print("||||||||||||||||||||")
 
             # The agreement.
             # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
@@ -165,7 +195,19 @@ class CapsuleSubLayer(nn.Module):
             # u_vj1 shape: [1, 1152, 10, 1]
             u_vj1 = torch.matmul(u_hat.transpose(3, 4), v_j1).squeeze(4).mean(dim=0, keepdim=True)
 
+            print("||||u_vj1 after matmul|||")
+            print(u_vj1.size())
+            print(iteration)
+            print("||||||||||||||||||||")
+
             # Update routing (b_ij) by adding the agreement to the initial logit.
+
+            print("||||Bij and Uvj1 after matmul|||")
+            print(b_ij.size())
+            print(u_vj1.size())
+            print(iteration)
+            print("||||||||||||||||||||")
+
             b_ij = b_ij + u_vj1
 
         return v_j.squeeze() # shape: [128, 10, 16, 1]
@@ -255,7 +297,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         IN_CHANNEL = 512
         NUM_UNIT = 8
         UNIT_SIZE = 4
-        NUM_ROUTING = 5
+        NUM_ROUTING = 3
 
         capsnet = CapsuleSubLayer(in_unit=IN_UNIT, in_channel=IN_CHANNEL, num_unit=NUM_UNIT, unit_size=UNIT_SIZE, use_routing=True, num_routing=NUM_ROUTING, cuda_enabled=True)
 
