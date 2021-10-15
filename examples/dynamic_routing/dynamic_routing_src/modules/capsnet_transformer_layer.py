@@ -78,14 +78,27 @@ class CapsuleSubLayer(nn.Module):
         :input: tensor x of shape [128, 8, 1152]
         :return: vector output of capsule j
         """
+
+        print("||||INITIAL VALUE|||")
+        print(x.size())
+        print("||||||||||||||||||||")
+
         batch_size = x.size(0)
 
         x = x.transpose(1, 2) # dim 1 and dim 2 are swapped. out tensor shape: [128, 1152, 8]
+
+        print("||||AFTER TRANSPOSE|||")
+        print(x.size())
+        print("||||||||||||||||||||")
 
         # Stacking and adding a dimension to a tensor.
         # stack ops output shape: [128, 1152, 10, 8]
         # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
         x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
+
+        print("||||AFTER STACKING AND ADDING|||")
+        print(x.size())
+        print("||||||||||||||||||||")
 
         # Convert single weight to batch weight.
         # [1 x 1152 x 10 x 16 x 8] to: [128, 1152, 10, 16, 8]
