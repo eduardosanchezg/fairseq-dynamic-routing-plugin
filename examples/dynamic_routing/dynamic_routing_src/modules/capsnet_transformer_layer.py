@@ -51,7 +51,7 @@ class CapsuleSubLayer(nn.Module):
             # weight shape:
             # [1 x primary_unit_size x num_classes x output_unit_size x num_primary_unit]
             # == [1 x 1152 x 10 x 16 x 8]
-            self.weight = nn.Parameter(torch.randn(1, in_channel, num_unit, unit_size, in_unit))
+            self.weight = nn.Parameter(torch.randn(1 , num_unit,unit_size,in_channel , in_unit))
         else:
             """
             According to the CapsNet architecture section in the paper,
