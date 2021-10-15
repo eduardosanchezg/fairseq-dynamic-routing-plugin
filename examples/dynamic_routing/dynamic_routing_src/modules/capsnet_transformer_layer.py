@@ -182,7 +182,7 @@ class CapsuleSubLayer(nn.Module):
 
             # in_channel is 1152.
             # v_j1 shape: [128, 1152, 10, 16, 1]
-            v_j1 = torch.cat([v_j] * self.in_channel, dim=1)
+            v_j1 = torch.cat([v_j] * self.num_unit, dim=1)
 
             print("||||v_j1 after cat|||")
             print(v_j1.size())
