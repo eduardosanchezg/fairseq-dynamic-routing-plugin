@@ -42,7 +42,7 @@ class CapsuleSubLayer(nn.Module):
         self.use_routing = use_routing
         self.num_routing = num_routing
         self.cuda_enabled = cuda_enabled
-
+        self.unit_size = unit_size
         if self.use_routing:
             """
             Based on the paper, DigitCaps which is capsule layer(s) with
@@ -123,7 +123,7 @@ class CapsuleSubLayer(nn.Module):
         # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
         # self.num_unit = num_classes = 10
         # b_ij shape: [1, 1152, 10, 1]
-        b_ij = Variable(torch.zeros(1, self.in_channel, self.num_unit, 1))
+        b_ij = Variable(torch.zeros(1, self.unit_size, self.num_unit, 1))
 
         print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
         print(b_ij.size())
