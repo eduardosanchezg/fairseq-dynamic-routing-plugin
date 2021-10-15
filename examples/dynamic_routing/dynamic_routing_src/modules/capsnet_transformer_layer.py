@@ -202,7 +202,7 @@ class CapsuleSubLayer(nn.Module):
 
             # Update routing (b_ij) by adding the agreement to the initial logit.
 
-            print("||||Bij and Uvj1 after matmul|||")
+            print("||||Bij and Uvj1 before adding|||")
             print(b_ij.size())
             print(u_vj1.size())
             print(iteration)
@@ -295,7 +295,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         IN_UNIT = 224
         IN_CHANNEL = 512
-        NUM_UNIT = 8
+        NUM_UNIT = 224
         UNIT_SIZE = 4
         NUM_ROUTING = 3
 
