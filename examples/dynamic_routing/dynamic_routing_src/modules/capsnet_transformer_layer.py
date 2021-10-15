@@ -182,7 +182,7 @@ class CapsuleSubLayer(nn.Module):
 
             # in_channel is 1152.
             # v_j1 shape: [128, 1152, 10, 16, 1]
-            v_j1 = torch.cat([v_j] * self.num_unit, dim=1)
+            v_j1 = torch.cat([v_j] * self.unit_size, dim=1)
 
             print("||||v_j1 after cat|||")
             print(v_j1.size())
@@ -193,7 +193,7 @@ class CapsuleSubLayer(nn.Module):
             # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
             # so we can do matrix product u_hat and v_j1.
             # u_vj1 shape: [1, 1152, 10, 1]
-            u_vj1 = torch.matmul(u_hat, v_j1).squeeze(4).mean(dim=0, keepdim=True)
+            u_vj1 = torch.matmul(u_hat.transpose(3, 4), v_j1).squeeze(4).mean(dim=0, keepdim=True)
 
             print("||||u_vj1 after matmul|||")
             print(u_vj1.size())
