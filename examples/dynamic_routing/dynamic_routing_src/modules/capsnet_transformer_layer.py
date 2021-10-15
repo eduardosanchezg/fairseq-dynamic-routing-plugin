@@ -401,7 +401,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         #print(residual.size())
         #print(x.size())
 
-        dynamic_routing = DynamicRouting(224,512,False)
+        dynamic_routing = DynamicRouting(12,512,False)
 
         x = dynamic_routing.forward(x,3)
 
