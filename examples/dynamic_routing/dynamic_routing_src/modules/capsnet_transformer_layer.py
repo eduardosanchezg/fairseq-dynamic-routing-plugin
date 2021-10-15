@@ -161,7 +161,7 @@ class CapsuleSubLayer(nn.Module):
             # c_ij * u_hat shape: [128, 1152, 10, 16, 1]
             # s_j output shape: [batch_size=128, 1, 10, 16, 1]
             # Sum of Primary Capsules outputs, 1152D becomes 1D.
-            s_j = (c_ij * u_hat).sum(dim=1, keepdim=True)
+            s_j = (c_ij * u_hat).sum(dim=2, keepdim=True)
 
             print("||||Sj AFTER MUL AND SUM|||")
             print(s_j.size())
