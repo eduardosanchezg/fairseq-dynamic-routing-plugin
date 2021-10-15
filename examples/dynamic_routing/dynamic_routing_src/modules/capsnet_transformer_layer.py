@@ -282,7 +282,7 @@ class DynamicRouting(nn.Module):
         i = u_hat.shape[2]  # number of parent capsules
 
         # init empty b_vec, on init would be better, but b and i are unknown there. Takes hardly any time this way.
-        self.b_vec = torch.zeros(b, self.j, i, requires_grad=False)
+        self.b_vec = torch.zeros(b, self.j, i, device="cuda", requires_grad=False)
         b_vec = self.b_vec
 
         # loop over all routing iterations
@@ -294,7 +294,7 @@ class DynamicRouting(nn.Module):
             # created unsquashed prediction for parents capsules by a weighted sum over the child predictions
             # in einsum: bij, bjin-> bjn
             # in matmul: bj1i, bjin = bj (1i)(in) -> bjn
-            s_vec = torch.matmul(c_vec.view(b, self.j, 1, i), u_hat).squeeze()
+            s_vec = torch.matmul(c_vec.view(b, self.j, 1, i), u_hat.float()).squeeze()
 
             # add bias to s_vec
             if type(self.bias) == nn.Parameter:
