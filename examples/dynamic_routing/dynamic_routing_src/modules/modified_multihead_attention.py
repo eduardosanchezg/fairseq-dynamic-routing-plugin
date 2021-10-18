@@ -368,6 +368,14 @@ class ModifiedMultiheadAttention(nn.Module):
         assert v is not None
         attn = torch.bmm(attn_probs, v)
         assert list(attn.size()) == [bsz * self.num_heads, tgt_len, self.head_dim]
+
+        #attn here are the attn scores we're looking for
+        print("attn here are the attn scores we're looking for")
+
+        routed_attn = None
+
+        attn = routed_attn
+
         print("||||||||||||attn.size()|||||||||||||")
         print(attn.size())
         print("|||||||||||||")
