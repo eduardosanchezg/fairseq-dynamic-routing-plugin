@@ -74,8 +74,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
-            16,
-            0.1,
+            #self.cfg.encoder.attention_heads,
+            #dropout=self.cfg.attention_dropout,
+            num_heads=16,
+            dropout=0.1,
             self_attention=True,
             q_noise=self.quant_noise,
             qn_block_size=self.quant_noise_block_size,
