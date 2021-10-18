@@ -8,9 +8,9 @@ from typing import Dict, List, Optional
 import torch
 import torch.nn as nn
 
-from examples.dynamic_routing.dynamic_routing_src.modules.capsnet_transformer_layer import ModifiedMultiheadAttention
+from examples.dynamic_routing.dynamic_routing_src.modules.modified_multihead_attention import ModifiedMultiheadAttention
 from fairseq import utils
-from fairseq.modules import LayerNorm, MultiheadAttention
+from fairseq.modules import LayerNorm
 from fairseq.modules.fairseq_dropout import FairseqDropout
 from fairseq.modules.quant_noise import quant_noise
 from torch import Tensor
@@ -19,7 +19,7 @@ from fairseq.models.transformer import (
 )
 
 
-class TransformerEncoderLayerBase(nn.Module):
+class ModifiedTransformerEncoderLayerBase(nn.Module):
     """Encoder layer block.
 
     In the original paper each operation (multi-head attention or FFN) is
@@ -168,7 +168,7 @@ class TransformerEncoderLayerBase(nn.Module):
 
 
 # backward compatible with the legacy argparse format
-class TransformerEncoderLayer(TransformerEncoderLayerBase):
+class ModifiedTransformerEncoderLayer(ModifiedTransformerEncoderLayerBase):
     def __init__(self, args):
         super().__init__(TransformerConfig.from_namespace(args))
         self.args = args
@@ -262,7 +262,7 @@ class TransformerDecoderLayerBase(nn.Module):
     def build_self_attention(
         self, embed_dim, cfg, add_bias_kv=False, add_zero_attn=False
     ):
-        return MultiheadAttention(
+        return ModifiedMultiheadAttention(
             embed_dim,
             cfg.decoder.attention_heads,
             dropout=cfg.attention_dropout,
@@ -274,7 +274,7 @@ class TransformerDecoderLayerBase(nn.Module):
         )
 
     def build_encoder_attention(self, embed_dim, cfg):
-        return MultiheadAttention(
+        return ModifiedMultiheadAttention(
             embed_dim,
             cfg.decoder.attention_heads,
             kdim=cfg.encoder.embed_dim,
