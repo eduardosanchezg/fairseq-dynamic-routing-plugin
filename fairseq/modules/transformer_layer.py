@@ -80,6 +80,7 @@ class TransformerEncoderLayerBase(nn.Module):
         )
 
     def build_self_attention(self, embed_dim, cfg):
+        print("ENTERED MODIFIED")
         return ModifiedMultiheadAttention(
             embed_dim,
             cfg.encoder.attention_heads,
