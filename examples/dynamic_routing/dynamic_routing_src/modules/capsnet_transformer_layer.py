@@ -385,17 +385,20 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         print(x.size())
         print("||||||||||||||||||||||")
 
-        x, _ = self.self_attn(
+        x, attn = self.self_attn(
              query=x,
              key=x,
              value=x,
              key_padding_mask=encoder_padding_mask,
-             need_weights=False,
+             need_weights=True,
              attn_mask=attn_mask,
          )
         print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")
         print(x.size())
         print("||||||||||||||||||||||")
+        print("||||||||||||||attn weights||||||||")
+        print(attn.size())
+        print("|||||||||||||||||||")
         IN_UNIT = 224
         IN_CHANNEL = 2
         NUM_UNIT = 224
