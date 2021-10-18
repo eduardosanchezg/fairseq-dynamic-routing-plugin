@@ -18,6 +18,7 @@ import torch.nn.functional as F
 from torch import nn
 import numpy as np
 
+from .modified_multihead_attention import ModifiedMultiheadAttention
 
 
 class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
@@ -74,7 +75,15 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # print(x.size())
         # print("||||||||||||||||||||||")
 
-        x, attn = self.self_attn(
+        self_attn_layer = ModifiedMultiheadAttention(
+            self.embed_dim,
+            self.cfg.encoder.attention_heads,
+            dropout=self.cfg.attention_dropout,
+            self_attention=True,
+            q_noise=self.quant_noise,
+            qn_block_size=self.quant_noise_block_size,
+        )
+        x, _ = self_attn_layer(
              query=x,
              key=x,
              value=x,
