@@ -40,7 +40,15 @@ class TransformerEncoderLayerBase(nn.Module):
         self.embed_dim = cfg.encoder.embed_dim
         self.quant_noise = cfg.quant_noise.pq
         self.quant_noise_block_size = cfg.quant_noise.pq_block_size
-        self.self_attn = self.build_self_attention(self.embed_dim, cfg)
+        # self.self_attn = self.build_self_attention(self.embed_dim, cfg)
+        self.selt_attn = ModifiedMultiheadAttention(
+            self.embed_dim,
+            cfg.encoder.attention_heads,
+            dropout=cfg.attention_dropout,
+            self_attention=True,
+            q_noise=self.quant_noise,
+            qn_block_size=self.quant_noise_block_size,
+        )
         self.self_attn_layer_norm = LayerNorm(self.embed_dim, export=cfg.export)
         self.dropout_module = FairseqDropout(
             cfg.dropout, module_name=self.__class__.__name__

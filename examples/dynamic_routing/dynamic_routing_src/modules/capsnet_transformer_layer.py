@@ -65,14 +65,14 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         #    attn_mask = attn_mask.masked_fill(attn_mask.to(torch.bool), -1e8)
 
         residual = x
-        print("||||||||||||||||RESIDUAL|||||||||||||||||||||")
-        print(x.size())
-        print("||||||||||||||||||||||")
+        # print("||||||||||||||||RESIDUAL|||||||||||||||||||||")
+        # print(x.size())
+        # print("||||||||||||||||||||||")
         if self.normalize_before:
             x = self.self_attn_layer_norm(x)
-        print("||||||||||||||||NORMALIZED|||||||||||||||||||||")
-        print(x.size())
-        print("||||||||||||||||||||||")
+        # print("||||||||||||||||NORMALIZED|||||||||||||||||||||")
+        # print(x.size())
+        # print("||||||||||||||||||||||")
 
         x, attn = self.self_attn(
              query=x,
@@ -82,12 +82,12 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
              need_weights=True,
              attn_mask=attn_mask,
          )
-        print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")
-        print(x.size())
-        print("||||||||||||||||||||||")
-        print("||||||||||||||attn weights||||||||")
-        print(attn.size())
-        print("|||||||||||||||||||")
+        # print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")
+        # print(x.size())
+        # print("||||||||||||||||||||||")
+        # print("||||||||||||||attn weights||||||||")
+        # print(attn.size())
+        # print("|||||||||||||||||||")
         IN_UNIT = 224
         IN_CHANNEL = 2
         NUM_UNIT = 224
