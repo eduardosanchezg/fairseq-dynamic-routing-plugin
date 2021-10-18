@@ -37,8 +37,8 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
     """
 
     def __init__(self, args):
-        super().super().__init__(args)
-
+        super().__init__(args)
+        self.cfg = args
     def forward(self, x, encoder_padding_mask: Optional[Tensor], attn_mask: Optional[Tensor] = None):
         """
         Args:
