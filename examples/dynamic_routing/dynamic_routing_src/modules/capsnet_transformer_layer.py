@@ -84,12 +84,12 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
             q_noise=self.quant_noise,
             qn_block_size=self.quant_noise_block_size,
         )
-        x, _ = self_attn_layer.self_attention(
+        x, _ = self_attn_layer(
              query=x,
              key=x,
              value=x,
              key_padding_mask=encoder_padding_mask,
-             need_weights=True,
+             need_weights=False,
              attn_mask=attn_mask,
          )
         # print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")

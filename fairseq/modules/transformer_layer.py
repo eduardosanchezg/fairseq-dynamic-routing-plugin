@@ -7,8 +7,6 @@ from typing import Dict, List, Optional
 
 import torch
 import torch.nn as nn
-
-from examples.dynamic_routing.dynamic_routing_src.modules.capsnet_transformer_layer import ModifiedMultiheadAttention
 from fairseq import utils
 from fairseq.modules import LayerNorm, MultiheadAttention
 from fairseq.modules.fairseq_dropout import FairseqDropout
@@ -80,8 +78,7 @@ class TransformerEncoderLayerBase(nn.Module):
         )
 
     def build_self_attention(self, embed_dim, cfg):
-        print("ENTERED MODIFIED")
-        return ModifiedMultiheadAttention(
+        return MultiheadAttention(
             embed_dim,
             cfg.encoder.attention_heads,
             dropout=cfg.attention_dropout,
