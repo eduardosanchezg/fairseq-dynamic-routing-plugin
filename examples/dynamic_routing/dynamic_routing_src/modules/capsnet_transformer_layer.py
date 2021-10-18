@@ -7,6 +7,8 @@ from typing import Dict, List, Optional
 
 import torch
 import torch.nn as nn
+
+from examples.dynamic_routing.dynamic_routing_src.modules.dynamic_routing import DynamicRouting
 from fairseq.modules import TransformerEncoderLayer
 from torch import Tensor
 import torch
