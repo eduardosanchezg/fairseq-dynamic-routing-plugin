@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from examples.dynamic_routing.dynamic_routing_src.modules.utils import squash
+from .utils import squash
 
 
 class DynamicRouting(nn.Module):
