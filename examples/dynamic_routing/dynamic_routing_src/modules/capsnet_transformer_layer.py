@@ -38,7 +38,6 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
     def __init__(self, args):
         super().__init__(args)
-        self.cfg = args
     def forward(self, x, encoder_padding_mask: Optional[Tensor], attn_mask: Optional[Tensor] = None):
         """
         Args:
@@ -75,8 +74,8 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
-            self.cfg.encoder.attention_heads,
-            dropout=self.cfg.attention_dropout,
+            16,
+            0.1,
             self_attention=True,
             q_noise=self.quant_noise,
             qn_block_size=self.quant_noise_block_size,
