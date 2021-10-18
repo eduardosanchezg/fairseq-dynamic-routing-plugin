@@ -376,17 +376,26 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         #    attn_mask = attn_mask.masked_fill(attn_mask.to(torch.bool), -1e8)
 
         residual = x
+        print("||||||||||||||||RESIDUAL|||||||||||||||||||||")
+        print(x.shape())
+        print("||||||||||||||||||||||")
         if self.normalize_before:
             x = self.self_attn_layer_norm(x)
-        # x, _ = self.self_attn(
-        #     query=x,
-        #     key=x,
-        #     value=x,
-        #     key_padding_mask=encoder_padding_mask,
-        #     need_weights=False,
-        #     attn_mask=attn_mask,
-        # )
+        print("||||||||||||||||NORMALIZED|||||||||||||||||||||")
+        print(x.shape())
+        print("||||||||||||||||||||||")
 
+        x, _ = self.self_attn(
+             query=x,
+             key=x,
+             value=x,
+             key_padding_mask=encoder_padding_mask,
+             need_weights=False,
+             attn_mask=attn_mask,
+         )
+        print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")
+        print(x.shape())
+        print("||||||||||||||||||||||")
         IN_UNIT = 224
         IN_CHANNEL = 2
         NUM_UNIT = 224
