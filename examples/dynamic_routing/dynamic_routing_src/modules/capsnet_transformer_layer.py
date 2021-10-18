@@ -377,12 +377,12 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         residual = x
         print("||||||||||||||||RESIDUAL|||||||||||||||||||||")
-        print(x.shape())
+        print(x.size())
         print("||||||||||||||||||||||")
         if self.normalize_before:
             x = self.self_attn_layer_norm(x)
         print("||||||||||||||||NORMALIZED|||||||||||||||||||||")
-        print(x.shape())
+        print(x.size())
         print("||||||||||||||||||||||")
 
         x, _ = self.self_attn(
@@ -394,7 +394,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
              attn_mask=attn_mask,
          )
         print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")
-        print(x.shape())
+        print(x.size())
         print("||||||||||||||||||||||")
         IN_UNIT = 224
         IN_CHANNEL = 2
