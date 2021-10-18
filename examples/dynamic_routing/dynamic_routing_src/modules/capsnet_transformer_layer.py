@@ -37,9 +37,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
     """
 
     def __init__(self, args):
-        super().__init__(args)
-        #print('****************************', drop_residual_after_att)
-        #self.drop_residual_after_att = drop_residual_after_att
+        super().super().__init__(args)
 
     def forward(self, x, encoder_padding_mask: Optional[Tensor], attn_mask: Optional[Tensor] = None):
         """
