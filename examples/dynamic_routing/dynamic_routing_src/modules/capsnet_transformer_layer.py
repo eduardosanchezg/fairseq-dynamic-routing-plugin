@@ -72,6 +72,8 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # print(x.size())
         # print("||||||||||||||||||||||")
 
+        self.embed_dim = x.size(2)
+
         self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
             #self.cfg.encoder.attention_heads,
