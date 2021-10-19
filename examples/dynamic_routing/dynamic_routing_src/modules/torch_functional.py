@@ -4404,9 +4404,14 @@ def multi_head_attention_forward(
 
     from .capsule_sublayer import CapsuleSubLayer
 
-    #capsnet_sublayer = CapsuleSubLayer()
+    #no idea why in_channel=16 and num_unit=10
+    capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=10, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True)
 
-    #capsule_vectors
+    capsule_vectors = capsnet_sublayer.forward(attn_output)
+
+    print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
+    print(capsule_vectors.size())
+    print("|||||||||||||||||||||||||||||||||||||")
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
