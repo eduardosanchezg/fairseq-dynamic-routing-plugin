@@ -17,6 +17,7 @@ from torch.nn import grad  # noqa: F401
 from torch.nn.modules import utils
 from torch.nn.modules.utils import _single, _pair, _triple, _list_with_default
 
+import fairseq.models.transformer
 
 Tensor = torch.Tensor
 
@@ -4415,8 +4416,10 @@ def multi_head_attention_forward(
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
 
-    capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
-    attn_output = linear(capsule_vectors, out_proj_weight, out_proj_bias)
+    l = torch.nn.Linear(35840, 1376256)
+    linear_output = l.forward(capsule_vectors)
+    linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
+    attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
 
     if need_weights:
         # average attention weights over heads
