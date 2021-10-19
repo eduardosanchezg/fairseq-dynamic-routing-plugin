@@ -4422,7 +4422,8 @@ def multi_head_attention_forward(
     ##linear_output = linear_output
     ##linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     ##attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
-    attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
+
+    attn_output = linear(linear_output.contiguous().view(tgt_len, bsz, embed_dim), out_proj_weight, out_proj_bias)
     if need_weights:
         # average attention weights over heads
         attn_output_weights = attn_output_weights.view(bsz, num_heads, tgt_len, src_len)
