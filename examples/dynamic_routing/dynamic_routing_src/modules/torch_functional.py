@@ -4416,7 +4416,7 @@ def multi_head_attention_forward(
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
 
-    l = torch.nn.Linear(160, 6144)
+    l = torch.nn.Linear(160, 6144,device='cuda')
     linear_output = l.forward(capsule_vectors.cuda())
     linear_output = linear_output.cuda()
     linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
