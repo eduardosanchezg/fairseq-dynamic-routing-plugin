@@ -4420,7 +4420,7 @@ def multi_head_attention_forward(
     linear_output = l.forward(capsule_vectors.contiguous().view(bsz, 160))
     linear_output = linear_output
     linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
-    attn_output = linear(linear_output.float(), out_proj_weight.float(), out_proj_bias.float())
+    attn_output = linear(linear_output.half(), out_proj_weight.half(), out_proj_bias.half())
 
     if need_weights:
         # average attention weights over heads
