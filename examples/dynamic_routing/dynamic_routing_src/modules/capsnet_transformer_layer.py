@@ -84,7 +84,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
             qn_block_size=self.quant_noise_block_size,
         )
 
-        self_attn_layer = self_attn_layer.half()
+        #self_attn_layer = self_attn_layer.half()
         self_attn_layer = self_attn_layer.cuda()
         x, _ = self_attn_layer(
              query=x,
