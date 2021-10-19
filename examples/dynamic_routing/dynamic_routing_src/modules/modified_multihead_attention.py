@@ -9,6 +9,8 @@ from typing import Dict, Optional, Tuple
 
 import torch
 import torch.nn.functional as F
+
+from .torch_functional import multi_head_attention_forward
 from fairseq import utils
 from fairseq.incremental_decoding_utils import with_incremental_state
 from fairseq.modules.fairseq_dropout import FairseqDropout
@@ -169,7 +171,7 @@ class ModifiedMultiheadAttention(nn.Module):
             and not torch.jit.is_scripting()
         ):
             assert key is not None and value is not None
-            return F.multi_head_attention_forward(
+            return multi_head_attention_forward(
                 query,
                 key,
                 value,
