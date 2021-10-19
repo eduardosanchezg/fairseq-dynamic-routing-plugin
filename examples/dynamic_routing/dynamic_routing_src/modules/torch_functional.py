@@ -4414,6 +4414,8 @@ def multi_head_attention_forward(
     print("|||||||||||||||||||||||||||||||||||||")
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
+
+    capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(capsule_vectors, out_proj_weight, out_proj_bias)
 
     if need_weights:
