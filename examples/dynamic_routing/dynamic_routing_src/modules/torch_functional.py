@@ -4393,37 +4393,38 @@ def multi_head_attention_forward(
     #
     attn_output, attn_output_weights = _scaled_dot_product_attention(q, k, v, attn_mask, dropout_p)
 
-    # print("|||||||||||||||||||||||||||||attn_scores|||||||||||||||||||1")
-    # print(attn_output.size())
-    # print("|||||||||||||||||||||||||||||||||||||")
+    print("|||||||||||||||||||||||||||||attn_scores|||||||||||||||||||1")
+    print(attn_output.size())
+    print("|||||||||||||||||||||||||||||||||||||")
 
-    attn_output = attn_output.contiguous().view(bsz, tgt_len, embed_dim)
 
-    # print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
-    # print(attn_output.size())
-    # print("|||||||||||||||||||||||||||||||||||||")
 
-    ##from .capsule_sublayer import CapsuleSubLayer
-
-    #no idea why in_channel=16 and num_unit=10
-    ##capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=10, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True)
-
-    ##capsule_vectors = capsnet_sublayer.forward(attn_output)
-
-    #print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
-    #print(capsule_vectors.size())
+    #print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
+    #print(attn_output.size())
     #print("|||||||||||||||||||||||||||||||||||||")
 
+    from .capsule_sublayer import CapsuleSubLayer
+
+    #no idea why in_channel=16 and num_unit=10
+    capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=10, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True)
+
+    capsule_vectors = capsnet_sublayer.forward(attn_output)
+
+    print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
+    print(capsule_vectors.size())
+    print("|||||||||||||||||||||||||||||||||||||")
+
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
-    l = torch.nn.Linear(tgt_len*embed_dim, tgt_len*embed_dim)
-    l = l.cuda()
+    #l = torch.nn.Linear(tgt_len*embed_dim, tgt_len*embed_dim)
+    #l = l.cuda()
     ###l = torch.nn.Linear(160, tgt_len*embed_dim,device='cuda')
-    linear_output = l.forward(attn_output.float().contiguous().view(bsz, tgt_len*embed_dim))
+    #linear_output = l.forward(attn_output.float().contiguous().view(bsz, tgt_len*embed_dim))
     ##linear_output = linear_output
     ##linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     ##attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
 
-    attn_output = linear(linear_output.contiguous().view(tgt_len, bsz, embed_dim), out_proj_weight, out_proj_bias)
+    attn_output = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
+    attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
     if need_weights:
         # average attention weights over heads
         attn_output_weights = attn_output_weights.view(bsz, num_heads, tgt_len, src_len)
