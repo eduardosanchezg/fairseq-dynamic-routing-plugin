@@ -4405,17 +4405,17 @@ def multi_head_attention_forward(
     #print(attn_output.size())
     #print("|||||||||||||||||||||||||||||||||||||")
 
-    from .capsule_sublayer import CapsuleSubLayer
+    #from .capsule_sublayer import CapsuleSubLayer
 
     #no idea why in_channel=16 and num_unit=10
-    capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=10, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True)
+    #capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=10, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True)
 
-    capsule_vectors = capsnet_sublayer.forward(attn_output)
+    #capsule_vectors = capsnet_sublayer.forward(attn_output)
 
-    print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
-    print(capsule_vectors.size())
+    #print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
+    #print(capsule_vectors.size())
 
-    print("|||||||||||||||||||||||||||||||||||||")
+    #print("|||||||||||||||||||||||||||||||||||||")
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     #l = torch.nn.Linear(tgt_len*embed_dim, tgt_len*embed_dim)
@@ -4426,10 +4426,10 @@ def multi_head_attention_forward(
     ##linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     ##attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
 
-    capsule_proj_weight = Parameter(torch.empty((embed_dim, embed_dim / num_heads),device="cuda", dtype="half"))
-    capsule_proj_bias = Parameter(torch.empty(embed_dim,device="cuda", dtype="half"))
-    #attn_output = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, capsule_proj_bias)
-    attn_output = linear(capsule_vectors, capsule_proj_weight, capsule_proj_bias)
+    #capsule_proj_weight = Parameter(torch.empty((embed_dim, embed_dim / num_heads),device="cuda", dtype="half"))
+    #capsule_proj_bias = Parameter(torch.empty(embed_dim,device="cuda", dtype="half"))
+    attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
+    #attn_output = linear(capsule_vectors, capsule_proj_weight, capsule_proj_bias)
     if need_weights:
         # average attention weights over heads
         attn_output_weights = attn_output_weights.view(bsz, num_heads, tgt_len, src_len)
