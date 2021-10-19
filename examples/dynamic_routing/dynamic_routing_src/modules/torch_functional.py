@@ -13,7 +13,7 @@ from torch.overrides import (
     has_torch_function, has_torch_function_unary, has_torch_function_variadic,
     handle_torch_function)
 from torch.nn import _reduction as _Reduction
-from . import grad  # noqa: F401
+from torch.nn import grad  # noqa: F401
 from torch.nn.modules import utils
 from torch.nn.modules.utils import _single, _pair, _triple, _list_with_default
 
