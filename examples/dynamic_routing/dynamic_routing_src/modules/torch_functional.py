@@ -4395,6 +4395,8 @@ def multi_head_attention_forward(
 
     print("|||||||||||||||||||||||||||||attn_scores|||||||||||||||||||1")
     print(attn_output.size())
+    print("|||bsz")
+    print(bsz)
     print("|||||||||||||||||||||||||||||||||||||")
 
 
@@ -4412,6 +4414,7 @@ def multi_head_attention_forward(
 
     print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
     print(capsule_vectors.size())
+
     print("|||||||||||||||||||||||||||||||||||||")
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
