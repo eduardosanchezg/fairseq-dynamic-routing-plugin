@@ -4406,7 +4406,7 @@ def multi_head_attention_forward(
     from .capsule_sublayer import CapsuleSubLayer
 
     #no idea why in_channel=16 and num_unit=10
-    capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=512, num_unit=10, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True)
+    capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=10, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True)
 
     capsule_vectors = capsnet_sublayer.forward(attn_output)
 
@@ -4417,8 +4417,8 @@ def multi_head_attention_forward(
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
 
     l = torch.nn.Linear(160, 6144,device='cuda')
-    linear_output = l.forward(capsule_vectors.cuda())
-    linear_output = linear_output.cuda()
+    linear_output = l.forward(capsule_vectors)
+    linear_output = linear_output
     linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
 
