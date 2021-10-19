@@ -73,9 +73,9 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # print("||||||||||||||||||||||")
 
         self.embed_dim = x.size(2)
-        print("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿")
+        print("||||||||||||||||||||||||||||||||||||||||||||||")
         print(self.embed_dim)
-        print("¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿")
+        print("|||||||||||||||||||||||||||||||||||||||||||||||")
         self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
             #self.cfg.encoder.attention_heads,
