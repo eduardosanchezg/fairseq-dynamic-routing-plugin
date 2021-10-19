@@ -4396,7 +4396,19 @@ def multi_head_attention_forward(
     print(attn_output.size())
     print("|||||||||||||||||||||||||||||||||||||")
 
-    attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
+    attn_output = attn_output.contiguous().view(bsz, tgt_len, embed_dim)
+
+    print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
+    print(attn_output.size())
+    print("|||||||||||||||||||||||||||||||||||||")
+
+    from .capsule_sublayer import CapsuleSubLayer
+
+    #capsnet_sublayer = CapsuleSubLayer()
+
+    #capsule_vectors
+
+    #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
 
     if need_weights:

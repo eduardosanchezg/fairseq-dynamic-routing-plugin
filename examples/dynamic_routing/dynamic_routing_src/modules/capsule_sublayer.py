@@ -5,7 +5,7 @@ from examples.dynamic_routing.dynamic_routing_src.modules.utils import squash
 
 BATCH_SIZE = 100
 NUM_CLASSES = 10
-NUM_EPOCHS = 500
+#NUM_EPOCHS = 500
 NUM_ROUTING_ITERATIONS = 3
 
 from torch.autograd import Variable
@@ -47,10 +47,7 @@ class CapsuleSubLayer(nn.Module):
             self.weight = nn.Parameter(torch.randn(1 ,unit_size, num_unit,in_channel , in_unit))
         else:
             """
-            According to the CapsNet architecture section in the paper,
-            we have routing only between two consecutive capsule layers (e.g. PrimaryCapsules and DigitCaps).
-            No routing is used between Conv1 and PrimaryCapsules.
-            This means PrimaryCapsules is composed of several convolutional units.
+            
             """
             # Define 8 convolutional units.
             self.conv_units = nn.ModuleList([
