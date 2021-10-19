@@ -4412,10 +4412,10 @@ def multi_head_attention_forward(
 
     capsule_vectors = capsnet_sublayer.forward(attn_output)
 
-    #print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
-    #print(capsule_vectors.size())
+    print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
+    print(capsule_vectors.size())
 
-    #print("|||||||||||||||||||||||||||||||||||||")
+    print("|||||||||||||||||||||||||||||||||||||")
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     #l = torch.nn.Linear(tgt_len*embed_dim, tgt_len*embed_dim)
