@@ -151,7 +151,7 @@ class CapsuleSubLayer(nn.Module):
             # c_ij * u_hat shape: [128, 1152, 10, 16, 1]
             # s_j output shape: [batch_size=128, 1, 10, 16, 1]
             # Sum of Primary Capsules outputs, 1152D becomes 1D.
-            s_j = (c_ij * u_hat).sum(dim=3, keepdim=True)
+            s_j = (c_ij * u_hat).sum(dim=1, keepdim=True)
 
             print("||||Sj AFTER MUL AND SUM|||")
             print(s_j.size())
@@ -183,7 +183,7 @@ class CapsuleSubLayer(nn.Module):
             # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
             # so we can do matrix product u_hat and v_j1.
             # u_vj1 shape: [1, 1152, 10, 1]
-            u_vj1 = torch.matmul(u_hat.transpose(3, 4), v_j1).squeeze(4).mean(dim=0, keepdim=True)
+            u_vj1 = torch.matmul(u_hat.transpose(3, 4), v_j).squeeze(4).mean(dim=0, keepdim=True)
 
             print("||||u_vj1 after matmul|||")
             print(u_vj1.size())
