@@ -560,9 +560,9 @@ def lp_pool2d(
         )
     kw, kh = utils._pair(kernel_size)
     if stride is not None:
-        out = avg_pool2d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
+        out = torch.avg_pool2d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
     else:
-        out = avg_pool2d(input.pow(norm_type), kernel_size, padding=0, ceil_mode=ceil_mode)
+        out = torch.avg_pool2d(input.pow(norm_type), kernel_size, padding=0, ceil_mode=ceil_mode)
 
     return (torch.sign(out) * relu(torch.abs(out))).mul(kw * kh).pow(1.0 / norm_type)
 
@@ -584,9 +584,9 @@ def lp_pool1d(
             lp_pool1d, (input,), input, norm_type, kernel_size, stride=stride, ceil_mode=ceil_mode
         )
     if stride is not None:
-        out = avg_pool1d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
+        out = torch.avg_pool1d(input.pow(norm_type), kernel_size, stride, 0, ceil_mode)
     else:
-        out = avg_pool1d(input.pow(norm_type), kernel_size, padding=0, ceil_mode=ceil_mode)
+        out = torch.avg_pool1d(input.pow(norm_type), kernel_size, padding=0, ceil_mode=ceil_mode)
 
     return (torch.sign(out) * relu(torch.abs(out))).mul(kernel_size).pow(1.0 / norm_type)
 
@@ -711,20 +711,7 @@ adaptive_max_pool3d = boolean_dispatch(
 )
 
 
-adaptive_avg_pool1d = _add_docstr(
-    torch.adaptive_avg_pool1d,
-    r"""
-adaptive_avg_pool1d(input, output_size) -> Tensor
 
-Applies a 1D adaptive average pooling over an input signal composed of
-several input planes.
-
-See :class:`~torch.nn.AdaptiveAvgPool1d` for details and output shape.
-
-Args:
-    output_size: the target output size (single integer)
-""",
-)
 
 
 def adaptive_avg_pool2d(input: Tensor, output_size: BroadcastingList2[int]) -> Tensor:
@@ -888,14 +875,7 @@ def _threshold(input: Tensor, threshold: float, value: float, inplace: bool = Fa
 # function needed for __torch_function__ support
 threshold = _threshold
 
-threshold_ = _add_docstr(
-    _VF.threshold_,
-    r"""
-threshold_(input, threshold, value) -> Tensor
 
-In-place version of :func:`~threshold`.
-""",
-)
 
 
 def relu(input: Tensor, inplace: bool = False) -> Tensor:
@@ -913,14 +893,6 @@ def relu(input: Tensor, inplace: bool = False) -> Tensor:
     return result
 
 
-relu_ = _add_docstr(
-    torch.relu_,
-    r"""
-relu_(input) -> Tensor
-
-In-place version of :func:`~relu`.
-""",
-)
 
 
 def glu(input: Tensor, dim: int = -1) -> Tensor:
@@ -964,15 +936,6 @@ def hardtanh(input: Tensor, min_val: float = -1.0, max_val: float = 1.0, inplace
     return result
 
 
-hardtanh_ = _add_docstr(
-    torch._C._nn.hardtanh_,
-    r"""
-hardtanh_(input, min_val=-1., max_val=1.) -> Tensor
-
-In-place version of :func:`~hardtanh`.
-""",
-)
-
 
 def relu6(input: Tensor, inplace: bool = False) -> Tensor:
     r"""relu6(input, inplace=False) -> Tensor
@@ -1005,14 +968,7 @@ def elu(input: Tensor, alpha: float = 1.0, inplace: bool = False) -> Tensor:
     return result
 
 
-elu_ = _add_docstr(
-    torch._C._nn.elu_,
-    r"""
-elu_(input, alpha=1.) -> Tensor
 
-In-place version of :func:`~elu`.
-""",
-)
 
 
 def selu(input: Tensor, inplace: bool = False) -> Tensor:
@@ -1034,14 +990,7 @@ def selu(input: Tensor, inplace: bool = False) -> Tensor:
     return result
 
 
-selu_ = _add_docstr(
-    torch.selu_,
-    r"""
-selu_(input) -> Tensor
 
-In-place version of :func:`~selu`.
-""",
-)
 
 
 def celu(input: Tensor, alpha: float = 1.0, inplace: bool = False) -> Tensor:
@@ -1061,14 +1010,7 @@ def celu(input: Tensor, alpha: float = 1.0, inplace: bool = False) -> Tensor:
     return result
 
 
-celu_ = _add_docstr(
-    torch.celu_,
-    r"""
-celu_(input, alpha=1.) -> Tensor
 
-In-place version of :func:`~celu`.
-""",
-)
 
 
 def leaky_relu(input: Tensor, negative_slope: float = 0.01, inplace: bool = False) -> Tensor:
@@ -1089,14 +1031,7 @@ def leaky_relu(input: Tensor, negative_slope: float = 0.01, inplace: bool = Fals
     return result
 
 
-leaky_relu_ = _add_docstr(
-    torch._C._nn.leaky_relu_,
-    r"""
-leaky_relu_(input, negative_slope=0.01) -> Tensor
 
-In-place version of :func:`~leaky_relu`.
-""",
-)
 
 
 def prelu(input: Tensor, weight: Tensor) -> Tensor:
@@ -1133,25 +1068,6 @@ def rrelu(
     return result
 
 
-rrelu_ = _add_docstr(
-    torch.rrelu_,
-    r"""
-rrelu_(input, lower=1./8, upper=1./3, training=False) -> Tensor
-
-In-place version of :func:`~rrelu`.
-""",
-)
-
-logsigmoid = _add_docstr(
-    torch._C._nn.log_sigmoid,
-    r"""
-logsigmoid(input) -> Tensor
-
-Applies element-wise :math:`\text{LogSigmoid}(x_i) = \log \left(\frac{1}{1 + \exp(-x_i)}\right)`
-
-See :class:`~torch.nn.LogSigmoid` for more details.
-""",
-)
 
 
 def gelu(input):
@@ -1206,19 +1122,6 @@ def softsign(input):
     return input / (input.abs() + 1)
 
 
-softplus = _add_docstr(
-    torch._C._nn.softplus,
-    r"""
-softplus(input, beta=1, threshold=20) -> Tensor
-
-Applies element-wise, the function :math:`\text{Softplus}(x) = \frac{1}{\beta} * \log(1 + \exp(\beta * x))`.
-
-For numerical stability the implementation reverts to the linear function
-when :math:`input \times \beta > threshold`.
-
-See :class:`~torch.nn.Softplus` for more details.
-""",
-)
 
 
 def _get_softmax_dim(name: str, ndim: int, stacklevel: int) -> int:
@@ -1384,17 +1287,6 @@ def log_softmax(input: Tensor, dim: Optional[int] = None, _stacklevel: int = 3, 
         ret = input.log_softmax(dim, dtype=dtype)
     return ret
 
-
-softshrink = _add_docstr(
-    torch._C._nn.softshrink,
-    r"""
-softshrink(input, lambd=0.5) -> Tensor
-
-Applies the soft shrinkage function elementwise
-
-See :class:`~torch.nn.Softshrink` for more details.
-""",
-)
 
 
 def tanh(input):
@@ -1993,12 +1885,12 @@ def local_response_norm(input: Tensor, size: int, alpha: float = 1e-4, beta: flo
     div = input.mul(input).unsqueeze(1)
     if dim == 3:
         div = pad(div, (0, 0, size // 2, (size - 1) // 2))
-        div = avg_pool2d(div, (size, 1), stride=1).squeeze(1)
+        div = torch.avg_pool2d(div, (size, 1), stride=1).squeeze(1)
     else:
         sizes = input.size()
         div = div.view(sizes[0], 1, sizes[1], sizes[2], -1)
         div = pad(div, (0, 0, 0, 0, size // 2, (size - 1) // 2))
-        div = avg_pool3d(div, (size, 1, 1), stride=1).squeeze(1)
+        div = torch.avg_pool3d(div, (size, 1, 1), stride=1).squeeze(1)
         div = div.view(sizes)
     div = div.mul(alpha).add(k).pow(beta)
     return input / div
@@ -2849,7 +2741,7 @@ def multilabel_soft_margin_loss(
     if size_average is not None or reduce is not None:
         reduction = _Reduction.legacy_get_string(size_average, reduce)
 
-    loss = -(target * logsigmoid(input) + (1 - target) * logsigmoid(-input))
+    loss = -(target * torch.logsigmoid(input) + (1 - target) * torch.logsigmoid(-input))
 
     if weight is not None:
         loss = loss * weight
@@ -2941,94 +2833,6 @@ def multi_margin_loss(
     return torch._C._nn.multi_margin_loss(input, target, p, margin, weight, reduction_enum)
 
 
-pixel_shuffle = _add_docstr(
-    torch.pixel_shuffle,
-    r"""
-pixel_shuffle(input, upscale_factor) -> Tensor
-
-Rearranges elements in a tensor of shape :math:`(*, C \times r^2, H, W)` to a
-tensor of shape :math:`(*, C, H \times r, W \times r)`, where r is the :attr:`upscale_factor`.
-
-See :class:`~torch.nn.PixelShuffle` for details.
-
-Args:
-    input (Tensor): the input tensor
-    upscale_factor (int): factor to increase spatial resolution by
-
-Examples::
-
-    >>> input = torch.randn(1, 9, 4, 4)
-    >>> output = torch.nn.functional.pixel_shuffle(input, 3)
-    >>> print(output.size())
-    torch.Size([1, 1, 12, 12])
-""",
-)
-
-pixel_unshuffle = _add_docstr(
-    torch.pixel_unshuffle,
-    r"""
-pixel_unshuffle(input, downscale_factor) -> Tensor
-
-Reverses the :class:`~torch.nn.PixelShuffle` operation by rearranging elements in a
-tensor of shape :math:`(*, C, H \times r, W \times r)` to a tensor of shape
-:math:`(*, C \times r^2, H, W)`, where r is the :attr:`downscale_factor`.
-
-See :class:`~torch.nn.PixelUnshuffle` for details.
-
-Args:
-    input (Tensor): the input tensor
-    downscale_factor (int): factor to increase spatial resolution by
-
-Examples::
-
-    >>> input = torch.randn(1, 1, 12, 12)
-    >>> output = torch.nn.functional.pixel_unshuffle(input, 3)
-    >>> print(output.size())
-    torch.Size([1, 9, 4, 4])
-""",
-)
-
-channel_shuffle = _add_docstr(
-    torch.channel_shuffle,
-    r"""
-channel_shuffle(input, groups) -> Tensor
-
-Divide the channels in a tensor of shape :math:`(*, C , H, W)`
-into g groups and rearrange them as :math:`(*, C \frac g, g, H, W)`,
-while keeping the original tensor shape.
-
-See :class:`~torch.nn.ChannelShuffle` for details.
-
-Args:
-    input (Tensor): the input tensor
-    groups (int): number of groups to divide channels in and rearrange.
-
-Examples::
-
-    >>> input = torch.randn(1, 4, 2, 2)
-    >>> print(input)
-    [[[[1, 2],
-       [3, 4]],
-      [[5, 6],
-       [7, 8]],
-      [[9, 10],
-       [11, 12]],
-      [[13, 14],
-       [15, 16]],
-     ]]
-    >>> output = torch.nn.functional.channel_shuffle(input, 2)
-    >>> print(output)
-    [[[[1, 2],
-       [3, 4]],
-      [[9, 10],
-       [11, 12]],
-      [[5, 6],
-       [7, 8]],
-      [[13, 14],
-       [15, 16]],
-     ]]
-""",
-)
 
 
 @_overload  # noqa: F811
@@ -3307,7 +3111,7 @@ def interpolate(input: Tensor, size: Optional[int] = None, scale_factor: Optiona
 
     if input.dim() == 3 and mode == "area":
         assert output_size is not None
-        return adaptive_avg_pool1d(input, output_size)
+        return torch.adaptive_avg_pool1d(input, output_size)
     if input.dim() == 4 and mode == "area":
         assert output_size is not None
         return adaptive_avg_pool2d(input, output_size)
@@ -3819,113 +3623,6 @@ def pairwise_distance(x1: Tensor, x2: Tensor, p: float = 2.0, eps: float = 1e-6,
         return handle_torch_function(pairwise_distance, (x1, x2), x1, x2, p=p, eps=eps, keepdim=keepdim)
     return torch.pairwise_distance(x1, x2, p, eps, keepdim)
 
-
-pdist = _add_docstr(
-    torch.pdist,
-    r"""
-pdist(input, p=2) -> Tensor
-
-Computes the p-norm distance between every pair of row vectors in the input.
-This is identical to the upper triangular portion, excluding the diagonal, of
-`torch.norm(input[:, None] - input, dim=2, p=p)`. This function will be faster
-if the rows are contiguous.
-
-If input has shape :math:`N \times M` then the output will have shape
-:math:`\frac{1}{2} N (N - 1)`.
-
-This function is equivalent to `scipy.spatial.distance.pdist(input,
-'minkowski', p=p)` if :math:`p \in (0, \infty)`. When :math:`p = 0` it is
-equivalent to `scipy.spatial.distance.pdist(input, 'hamming') * M`.
-When :math:`p = \infty`, the closest scipy function is
-`scipy.spatial.distance.pdist(xn, lambda x, y: np.abs(x - y).max())`.
-
-Args:
-    input: input tensor of shape :math:`N \times M`.
-    p: p value for the p-norm distance to calculate between each vector pair
-        :math:`\in [0, \infty]`.
-""",
-)
-
-
-cosine_similarity = _add_docstr(
-    torch.cosine_similarity,
-    r"""
-cosine_similarity(x1, x2, dim=1, eps=1e-8) -> Tensor
-
-Returns cosine similarity between x1 and x2, computed along dim.
-
-.. math ::
-    \text{similarity} = \dfrac{x_1 \cdot x_2}{\max(\Vert x_1 \Vert _2 \cdot \Vert x_2 \Vert _2, \epsilon)}
-
-Args:
-    x1 (Tensor): First input.
-    x2 (Tensor): Second input (of size matching x1).
-    dim (int, optional): Dimension of vectors. Default: 1
-    eps (float, optional): Small value to avoid division by zero.
-        Default: 1e-8
-
-Shape:
-    - Input: :math:`(\ast_1, D, \ast_2)` where D is at position `dim`.
-    - Output: :math:`(\ast_1, \ast_2)` where 1 is at position `dim`.
-
-Example::
-
-    >>> input1 = torch.randn(100, 128)
-    >>> input2 = torch.randn(100, 128)
-    >>> output = F.cosine_similarity(input1, input2)
-    >>> print(output)
-""",
-)
-
-
-one_hot = _add_docstr(
-    torch._C._nn.one_hot,
-    r"""
-one_hot(tensor, num_classes=-1) -> LongTensor
-
-Takes LongTensor with index values of shape ``(*)`` and returns a tensor
-of shape ``(*, num_classes)`` that have zeros everywhere except where the
-index of last dimension matches the corresponding value of the input tensor,
-in which case it will be 1.
-
-See also `One-hot on Wikipedia`_ .
-
-.. _One-hot on Wikipedia:
-    https://en.wikipedia.org/wiki/One-hot
-
-Arguments:
-    tensor (LongTensor): class values of any shape.
-    num_classes (int):  Total number of classes. If set to -1, the number
-        of classes will be inferred as one greater than the largest class
-        value in the input tensor.
-
-Returns:
-    LongTensor that has one more dimension with 1 values at the
-    index of last dimension indicated by the input, and 0 everywhere
-    else.
-
-Examples:
-    >>> F.one_hot(torch.arange(0, 5) % 3)
-    tensor([[1, 0, 0],
-            [0, 1, 0],
-            [0, 0, 1],
-            [1, 0, 0],
-            [0, 1, 0]])
-    >>> F.one_hot(torch.arange(0, 5) % 3, num_classes=5)
-    tensor([[1, 0, 0, 0, 0],
-            [0, 1, 0, 0, 0],
-            [0, 0, 1, 0, 0],
-            [1, 0, 0, 0, 0],
-            [0, 1, 0, 0, 0]])
-    >>> F.one_hot(torch.arange(0, 6).view(3,2) % 3)
-    tensor([[[1, 0, 0],
-             [0, 1, 0]],
-            [[0, 0, 1],
-             [1, 0, 0]],
-            [[0, 1, 0],
-             [0, 0, 1]]])
-""",
-)
 
 
 def triplet_margin_loss(
