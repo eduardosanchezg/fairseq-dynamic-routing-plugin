@@ -76,24 +76,34 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         print("||||||||||||||||||||||||||||||||||||||||||||||")
         print(self.embed_dim)
         print("|||||||||||||||||||||||||||||||||||||||||||||||")
-        self_attn_layer = ModifiedMultiheadAttention(
-            self.embed_dim,
-            #self.cfg.encoder.attention_heads,
-            #dropout=self.cfg.attention_dropout,
-            num_heads=16,
-            dropout=0.1,
-            self_attention=True,
-            q_noise=self.quant_noise,
-            qn_block_size=self.quant_noise_block_size,
+        # self_attn_layer = ModifiedMultiheadAttention(
+        #     self.embed_dim,
+        #     #self.cfg.encoder.attention_heads,
+        #     #dropout=self.cfg.attention_dropout,
+        #     num_heads=16,
+        #     dropout=0.1,
+        #     self_attention=True,
+        #     q_noise=self.quant_noise,
+        #     qn_block_size=self.quant_noise_block_size,
+        # )
+        # x, _ = self_attn_layer(
+        #      query=x,
+        #      key=x,
+        #      value=x,
+        #      key_padding_mask=encoder_padding_mask,
+        #      need_weights=False,
+        #      attn_mask=attn_mask,
+        #  )
+
+        x, _ = self.self_attn(
+            query=x,
+            key=x,
+            value=x,
+            key_padding_mask=encoder_padding_mask,
+            need_weights=False,
+            attn_mask=attn_mask,
         )
-        x, _ = self_attn_layer(
-             query=x,
-             key=x,
-             value=x,
-             key_padding_mask=encoder_padding_mask,
-             need_weights=False,
-             attn_mask=attn_mask,
-         )
+
         # print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")
         # print(x.size())
         # print("||||||||||||||||||||||")
