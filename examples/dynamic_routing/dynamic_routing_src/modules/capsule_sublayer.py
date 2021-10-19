@@ -69,26 +69,26 @@ class CapsuleSubLayer(nn.Module):
         :return: vector output of capsule j
         """
 
-        print("||||INITIAL VALUE|||")
-        print(x.size())
-        print("||||||||||||||||||||")
+        # print("||||INITIAL VALUE|||")
+        # print(x.size())
+        # print("||||||||||||||||||||")
 
         batch_size = x.size(0)
 
         x = x.transpose(1, 2) # dim 1 and dim 2 are swapped. out tensor shape: [128, 1152, 8]
 
-        print("||||AFTER TRANSPOSE|||")
-        print(x.size())
-        print("||||||||||||||||||||")
+        # print("||||AFTER TRANSPOSE|||")
+        # print(x.size())
+        # print("||||||||||||||||||||")
 
         # Stacking and adding a dimension to a tensor.
         # stack ops output shape: [128, 1152, 10, 8]
         # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
         x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
 
-        print("||||AFTER STACKING AND ADDING|||")
-        print(x.size())
-        print("||||||||||||||||||||")
+        # print("||||AFTER STACKING AND ADDING|||")
+        # print(x.size())
+        # print("||||||||||||||||||||")
 
         # Convert single weight to batch weight.
         # [1 x 1152 x 10 x 16 x 8] to: [128, 1152, 10, 16, 8]
@@ -101,22 +101,23 @@ class CapsuleSubLayer(nn.Module):
         batch_weight = batch_weight.cuda()
         x = x.cuda().float()
 
-        print("|||||||||||||||||||||||||||||||||| D E B U G || INNER LAYER ||||||||||||||||||||||||||||||||||")
-        print(batch_weight.size())
-        print(x.size())
+        # print("|||||||||||||||||||||||||||||||||| D E B U G || INNER LAYER ||||||||||||||||||||||||||||||||||")
+        # print(batch_weight.size())
+        # print(x.size())
 
         u_hat = torch.matmul(batch_weight, x)
 
-        print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
-        print(u_hat.size())
+        # print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
+        # print(u_hat.size())
+
         # All the routing logits (b_ij in the paper) are initialized to zero.
         # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
         # self.num_unit = num_classes = 10
         # b_ij shape: [1, 1152, 10, 1]
         b_ij = Variable(torch.zeros(1, self.unit_size, self.num_unit, 1))
 
-        print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
-        print(b_ij.size())
+        # print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
+        # print(b_ij.size())
 
         if self.cuda_enabled:
             b_ij = b_ij.cuda()
@@ -132,18 +133,18 @@ class CapsuleSubLayer(nn.Module):
             # c_ij shape: [1, 1152, 10, 1]
             c_ij = F.softmax(b_ij, dim=2)  # Convert routing logits (b_ij) to softmax.
 
-            print("||||Cij AFTER SOFTMAX|||")
-            print(c_ij.size())
-            print(iteration)
-            print("||||||||||||||||||||")
+            # print("||||Cij AFTER SOFTMAX|||")
+            # print(c_ij.size())
+            # print(iteration)
+            # print("||||||||||||||||||||")
 
             # c_ij shape from: [128, 1152, 10, 1] to: [128, 1152, 10, 1, 1]
             c_ij = torch.cat([c_ij] * batch_size, dim=0).unsqueeze(4)
 
-            print("||||Cij AFTER UNZQUEEZE|||")
-            print(c_ij.size())
-            print(iteration)
-            print("||||||||||||||||||||")
+            # print("||||Cij AFTER UNZQUEEZE|||")
+            # print(c_ij.size())
+            # print(iteration)
+            # print("||||||||||||||||||||")
 
             # Implement equation 2 in the paper.
             # s_j is total input to a capsule, is a weigthed sum over all "prediction vectors".
@@ -153,10 +154,10 @@ class CapsuleSubLayer(nn.Module):
             # Sum of Primary Capsules outputs, 1152D becomes 1D.
             s_j = (c_ij * u_hat).sum(dim=1, keepdim=True)
 
-            print("||||Sj AFTER MUL AND SUM|||")
-            print(s_j.size())
-            print(iteration)
-            print("||||||||||||||||||||")
+            # print("||||Sj AFTER MUL AND SUM|||")
+            # print(s_j.size())
+            # print(iteration)
+            # print("||||||||||||||||||||")
 
             # Squash the vector output of capsule j.
             # v_j shape: [batch_size, weighted sum of PrimaryCaps output,
@@ -165,19 +166,19 @@ class CapsuleSubLayer(nn.Module):
             # So, the length of the output vector of a capsule is 16, which is in dim 3.
             v_j = squash(s_j, dim=3)
 
-            print("||||Vj after squash|||")
-            print(v_j.size())
-            print(iteration)
-            print("||||||||||||||||||||")
+            # print("||||Vj after squash|||")
+            # print(v_j.size())
+            # print(iteration)
+            # print("||||||||||||||||||||")
 
             # in_channel is 1152.
             # v_j1 shape: [128, 1152, 10, 16, 1]
             v_j1 = torch.cat([v_j] * self.unit_size, dim=1)
 
-            print("||||v_j1 after cat|||")
-            print(v_j1.size())
-            print(iteration)
-            print("||||||||||||||||||||")
+            # print("||||v_j1 after cat|||")
+            # print(v_j1.size())
+            # print(iteration)
+            # print("||||||||||||||||||||")
 
             # The agreement.
             # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
@@ -185,18 +186,18 @@ class CapsuleSubLayer(nn.Module):
             # u_vj1 shape: [1, 1152, 10, 1]
             u_vj1 = torch.matmul(u_hat.transpose(3, 4), v_j).squeeze(4).mean(dim=0, keepdim=True)
 
-            print("||||u_vj1 after matmul|||")
-            print(u_vj1.size())
-            print(iteration)
-            print("||||||||||||||||||||")
+            # print("||||u_vj1 after matmul|||")
+            # print(u_vj1.size())
+            # print(iteration)
+            # print("||||||||||||||||||||")
 
             # Update routing (b_ij) by adding the agreement to the initial logit.
 
-            print("||||Bij and Uvj1 before adding|||")
-            print(b_ij.size())
-            print(u_vj1.size())
-            print(iteration)
-            print("||||||||||||||||||||")
+            # print("||||Bij and Uvj1 before adding|||")
+            # print(b_ij.size())
+            # print(u_vj1.size())
+            # print(iteration)
+            # print("||||||||||||||||||||")
 
             b_ij = b_ij + u_vj1
 

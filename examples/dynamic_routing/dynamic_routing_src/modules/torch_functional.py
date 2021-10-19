@@ -4393,15 +4393,15 @@ def multi_head_attention_forward(
     #
     attn_output, attn_output_weights = _scaled_dot_product_attention(q, k, v, attn_mask, dropout_p)
 
-    print("|||||||||||||||||||||||||||||attn_scores|||||||||||||||||||1")
-    print(attn_output.size())
-    print("|||||||||||||||||||||||||||||||||||||")
+    # print("|||||||||||||||||||||||||||||attn_scores|||||||||||||||||||1")
+    # print(attn_output.size())
+    # print("|||||||||||||||||||||||||||||||||||||")
 
     attn_output = attn_output.contiguous().view(bsz, tgt_len, embed_dim)
 
-    print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
-    print(attn_output.size())
-    print("|||||||||||||||||||||||||||||||||||||")
+    # print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
+    # print(attn_output.size())
+    # print("|||||||||||||||||||||||||||||||||||||")
 
     from .capsule_sublayer import CapsuleSubLayer
 
@@ -4410,9 +4410,9 @@ def multi_head_attention_forward(
 
     capsule_vectors = capsnet_sublayer.forward(attn_output)
 
-    print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
-    print(capsule_vectors.size())
-    print("|||||||||||||||||||||||||||||||||||||")
+    #print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
+    #print(capsule_vectors.size())
+    #print("|||||||||||||||||||||||||||||||||||||")
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
 
