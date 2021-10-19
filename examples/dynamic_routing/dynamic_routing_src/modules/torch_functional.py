@@ -4429,7 +4429,7 @@ def multi_head_attention_forward(
     #capsule_proj_weight = Parameter(torch.empty((embed_dim, embed_dim / num_heads),device="cuda", dtype="half"))
     #capsule_proj_bias = Parameter(torch.empty(embed_dim,device="cuda", dtype="half"))
     attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
-    #attn_output = linear(capsule_vectors, capsule_proj_weight, capsule_proj_bias)
+    attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
     if need_weights:
         # average attention weights over heads
         attn_output_weights = attn_output_weights.view(bsz, num_heads, tgt_len, src_len)
