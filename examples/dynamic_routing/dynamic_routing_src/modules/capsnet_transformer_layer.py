@@ -130,6 +130,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         x = self.dropout_module(x)
 
+        print("|||||||||||||| RESIDUAL |||||||||||||||||||")
+        print(residual.size())
+        print("|||||||||||||||||||||||||||||||1")
+
         x = self.residual_connection(x, residual)
         if not self.normalize_before:
             x = self.self_attn_layer_norm(x)
