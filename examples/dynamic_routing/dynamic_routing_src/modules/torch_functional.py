@@ -4395,8 +4395,8 @@ def multi_head_attention_forward(
 
     print("|||||||||||||||||||||||||||||attn_scores|||||||||||||||||||1")
     print(attn_output.size())
-    print("|||bsz")
-    print(bsz)
+    print("|||numheads")
+    print(num_heads)
     print("|||||||||||||||||||||||||||||||||||||")
 
 
