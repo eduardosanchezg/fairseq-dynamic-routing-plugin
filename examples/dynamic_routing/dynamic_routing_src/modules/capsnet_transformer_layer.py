@@ -43,9 +43,9 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         self.capsule_proj_weight = Parameter(torch.empty((512, 16)))
         self.capsule_proj_bias = Parameter(torch.empty(512))
 
-        print("||||||||||||||TENSOR CHECK (capsnet_trans init)||||||||||")
-        print(self.capsule_proj_weight.size())
-        print(self.capsule_proj_bias.size())
+        # print("||||||||||||||TENSOR CHECK (capsnet_trans init)||||||||||")
+        # print(self.capsule_proj_weight.size())
+        # print(self.capsule_proj_bias.size())
 
         self.self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
@@ -145,9 +145,9 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         x = self.dropout_module(x)
 
-        print("|||||||||||||| RESIDUAL |||||||||||||||||||")
-        print(residual.size())
-        print("|||||||||||||||||||||||||||||||1")
+        # print("|||||||||||||| RESIDUAL |||||||||||||||||||")
+        # print(residual.size())
+        # print("|||||||||||||||||||||||||||||||1")
 
         x = self.residual_connection(x, residual)
         if not self.normalize_before:
