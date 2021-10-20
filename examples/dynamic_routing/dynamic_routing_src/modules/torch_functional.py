@@ -4408,9 +4408,9 @@ def multi_head_attention_forward(
 
     attn_output = attn_output.contiguous().view(bsz, tgt_len, embed_dim)
 
-    # print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
-    # print(attn_output.size())
-    # print("|||||||||||||||||||||||||||||||||||||")
+    print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
+    print(attn_output.size())
+    print("|||||||||||||||||||||||||||||||||||||")
 
     from .capsule_sublayer import CapsuleSubLayer
 
@@ -4419,10 +4419,10 @@ def multi_head_attention_forward(
 
     capsule_vectors = capsnet_sublayer.forward(attn_output)
 
-    # print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
-    # print(capsule_vectors.size())
+    print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
+    print(capsule_vectors.size())
     #
-    # print("|||||||||||||||||||||||||||||||||||||")
+    print("|||||||||||||||||||||||||||||||||||||")
 
     #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     #l = torch.nn.Linear(tgt_len*embed_dim, tgt_len*embed_dim)
@@ -4442,9 +4442,9 @@ def multi_head_attention_forward(
     #capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(capsule_vectors, capsule_proj_weight, capsule_proj_bias)
     attn_output = attn_output.transpose(0,1)
-    # print("||||||| linear_output |||||")
-    # print(attn_output.size())
-    # print("|||||||||||||||||||||1")
+    print("||||||| linear_output |||||")
+    print(attn_output.size())
+    print("|||||||||||||||||||||1")
 
     if need_weights:
         # average attention weights over heads
