@@ -4169,8 +4169,8 @@ def multi_head_attention_forward(
     v_proj_weight: Optional[Tensor] = None,
     static_k: Optional[Tensor] = None,
     static_v: Optional[Tensor] = None,
-    capsule_proj_weight=None,
-    capsule_proj_bias=None,
+    capsule_proj_weight: Optional[Tensor] = None,
+    capsule_proj_bias: Optional[Tensor] = None,
 ) -> Tuple[Tensor, Optional[Tensor]]:
     r"""
     Args:
