@@ -163,6 +163,6 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         x = self.residual_connection(x, residual)
         if not self.normalize_before:
             x = self.final_layer_norm(x)
-        return x.detach()
+        return x
 
 
