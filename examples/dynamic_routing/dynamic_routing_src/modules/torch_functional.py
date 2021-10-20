@@ -4415,7 +4415,7 @@ def multi_head_attention_forward(
     from .capsule_sublayer import CapsuleSubLayer
 
     #no idea why in_channel=16 and num_unit=10
-    capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=tgt_len, unit_size=embed_dim, num_routing=3, use_routing=True)
+    capsnet_sublayer = CapsuleSubLayer(in_unit=tgt_len,in_channel=16, num_unit=tgt_len, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=False)
 
     capsule_vectors = capsnet_sublayer.forward(attn_output)
 
