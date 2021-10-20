@@ -60,6 +60,8 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
             capsule_proj_bias=self.capsule_proj_bias
         )
 
+
+
     def forward(self, x, encoder_padding_mask: Optional[Tensor], attn_mask: Optional[Tensor] = None):
         """
         Args:
