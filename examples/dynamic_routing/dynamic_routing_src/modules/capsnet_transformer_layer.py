@@ -108,7 +108,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
              key_padding_mask=encoder_padding_mask,
              need_weights=False,
              attn_mask=attn_mask,
-         ).detach()
+         )
 
         # x, _ = self.self_attn(
         #     query=x,
@@ -163,6 +163,6 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         x = self.residual_connection(x, residual)
         if not self.normalize_before:
             x = self.final_layer_norm(x)
-        return x
+        return x.detach()
 
 
