@@ -96,7 +96,7 @@ class ModifiedMultiheadAttention(nn.Module):
         self.capsule_proj_weight = capsule_proj_weight
         self.capsule_proj_bias = capsule_proj_bias
 
-        print("||||||||||||||TENSOR CHECK (multihead init)||||||||||")
+        print("||||||||||||||TENSOR CHECK (capsnet_trans init)||||||||||")
         print(self.capsule_proj_weight.size())
         print(self.capsule_proj_bias.size())
 
