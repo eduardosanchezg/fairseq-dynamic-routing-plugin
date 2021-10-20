@@ -4229,9 +4229,9 @@ def multi_head_attention_forward(
           L is the target sequence length, S is the source sequence length.
     """
 
-    print("||||||||||||||TENSOR CHECK||||||||||")
-    print(capsule_proj_weight.size())
-    print(capsule_proj_bias.size())
+    # print("||||||||||||||TENSOR CHECK||||||||||")
+    # print(capsule_proj_weight.size())
+    # print(capsule_proj_bias.size())
 
     tens_ops = (query, key, value, in_proj_weight, in_proj_bias, bias_k, bias_v, out_proj_weight, out_proj_bias)
     if has_torch_function(tens_ops):
