@@ -104,7 +104,7 @@ class CapsuleSubLayer(nn.Module):
         # print(batch_weight.size())
         # print(x.size())
 
-        u_hat = torch.matmul(batch_weight.cuda(), x)
+        u_hat = torch.matmul(batch_weight.cuda().half(), x)
 
         # print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
         # print(u_hat.size())
