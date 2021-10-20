@@ -108,7 +108,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
              key_padding_mask=encoder_padding_mask,
              need_weights=False,
              attn_mask=attn_mask,
-         )
+         ).detach()
 
         # x, _ = self.self_attn(
         #     query=x,
