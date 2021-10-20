@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 
 import torch
 import torch.nn as nn
+from torch.nn import Parameter
 
 from .dynamic_routing import DynamicRouting
 
@@ -35,9 +36,25 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
     Args:
         args (argparse.Namespace): parsed command-line arguments
     """
-
+    capsule_proj_weight: Tensor
+    capsule_proj_bias: Tensor
     def __init__(self, args):
         super().__init__(args)
+        self.capsule_proj_weight = Parameter(torch.empty((512, 16)))
+        self.capsule_proj_bias = Parameter(torch.empty(512))
+        self.self_attn_layer = ModifiedMultiheadAttention(
+            self.embed_dim,
+            #self.cfg.encoder.attention_heads,
+            #dropout=self.cfg.attention_dropout,
+            num_heads=16,
+            dropout=0.1,
+            self_attention=True,
+            q_noise=self.quant_noise,
+            qn_block_size=self.quant_noise_block_size,
+            capsule_proj_weight=self.capsule_proj_weight,
+            capsule_proj_bias=self.capsule_proj_bias
+        )
+
     def forward(self, x, encoder_padding_mask: Optional[Tensor], attn_mask: Optional[Tensor] = None):
         """
         Args:
@@ -73,19 +90,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # print("||||||||||||||||||||||")
 
         self.embed_dim = x.size(2)
-        self_attn_layer = ModifiedMultiheadAttention(
-            self.embed_dim,
-            #self.cfg.encoder.attention_heads,
-            #dropout=self.cfg.attention_dropout,
-            num_heads=16,
-            dropout=0.1,
-            self_attention=True,
-            q_noise=self.quant_noise,
-            qn_block_size=self.quant_noise_block_size,
-        )
+
 
         #self_attn_layer = self_attn_layer.half()
-        self_attn_layer = self_attn_layer.cuda()
+        self_attn_layer = self.self_attn_layer.cuda()
         x, _ = self_attn_layer(
              query=x,
              key=x,

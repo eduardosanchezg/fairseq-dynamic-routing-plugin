@@ -4169,6 +4169,8 @@ def multi_head_attention_forward(
     v_proj_weight: Optional[Tensor] = None,
     static_k: Optional[Tensor] = None,
     static_v: Optional[Tensor] = None,
+    capsule_proj_weight=None,
+    capsule_proj_bias=None,
 ) -> Tuple[Tensor, Optional[Tensor]]:
     r"""
     Args:
@@ -4426,8 +4428,7 @@ def multi_head_attention_forward(
     ##linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     ##attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
 
-    capsule_proj_weight = Parameter(torch.empty((embed_dim, 16),device="cuda", dtype=torch.float16))
-    capsule_proj_bias = Parameter(torch.empty(embed_dim,device="cuda", dtype=torch.float16))
+
     #capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(capsule_vectors, capsule_proj_weight, capsule_proj_bias)
     attn_output = attn_output.transpose(0,1)
