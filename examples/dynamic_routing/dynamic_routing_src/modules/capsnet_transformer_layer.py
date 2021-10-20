@@ -42,6 +42,11 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         super().__init__(args)
         self.capsule_proj_weight = Parameter(torch.empty((512, 16)))
         self.capsule_proj_bias = Parameter(torch.empty(512))
+
+        print("||||||||||||||TENSOR CHECK (capsnet_trans init)||||||||||")
+        print(self.capsule_proj_weight.size())
+        print(self.capsule_proj_bias.size())
+
         self.self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
             #self.cfg.encoder.attention_heads,
