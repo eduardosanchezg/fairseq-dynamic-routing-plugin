@@ -201,7 +201,7 @@ class CapsuleSubLayer(nn.Module):
 
             b_ij = b_ij + u_vj1
 
-        return v_j.squeeze() # shape: [128, 10, 16, 1]
+        return v_j.squeeze(1) # shape: [128, 10, 16, 1]
 
     def no_routing(self, x):
         """
