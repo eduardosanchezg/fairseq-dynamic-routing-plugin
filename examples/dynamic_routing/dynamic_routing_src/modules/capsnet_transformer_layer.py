@@ -40,8 +40,8 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
     capsule_proj_bias: Tensor
     def __init__(self, args):
         super().__init__(args)
-        self.capsule_proj_weight = Parameter(torch.empty((512, 16)))
-        self.capsule_proj_bias = Parameter(torch.empty(512))
+        self.capsule_proj_weight = Parameter(torch.randn(512, 16))
+        self.capsule_proj_bias = Parameter(torch.randn(512))
 
         # print("||||||||||||||TENSOR CHECK (capsnet_trans init)||||||||||")
         # print(self.capsule_proj_weight.size())
