@@ -82,8 +82,8 @@ class ModifiedMultiheadAttention(nn.Module):
             nn.Linear(512, 16, bias=bias), q_noise, qn_block_size
         )
 
-        self.capsule_proj_weight = Parameter(torch.randn(512, 16))
-        self.capsule_proj_bias = Parameter(torch.randn(512))  # emb_size
+        #self.capsule_proj_weight = Parameter(torch.randn(512, 16))
+        #self.capsule_proj_bias = Parameter(torch.randn(512))  # emb_size
         self.dynamic_routing_weight = nn.Parameter(torch.randn(1, 512, 128, 16, 128))
 
         if add_bias_kv:
