@@ -48,6 +48,9 @@ class CapsuleSubLayer(nn.Module):
 
             self.weight = weight #replaced in_unit for num_unit in last position
 
+            print("||||||||||||||TENSOR CHECK (after assigning in capslayer init) ||||||||||")
+            print(self.weight.size())
+
         else:
             """
             

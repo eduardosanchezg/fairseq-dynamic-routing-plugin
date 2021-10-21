@@ -42,11 +42,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         super().__init__(args)
         self.capsule_proj_weight = Parameter(torch.randn(512, 16))
         self.capsule_proj_bias = Parameter(torch.randn(512))    #emb_size
-        self.dynamic_routing_weight = nn.Parameter(torch.randn(1 ,512, 256,16 , 256))
+        self.dynamic_routing_weight = nn.Parameter(torch.randn(1 ,512, 256, 16 , 256))
 
-        # print("||||||||||||||TENSOR CHECK (capsnet_trans init)||||||||||")
-        # print(self.capsule_proj_weight.size())
-        # print(self.capsule_proj_bias.size())
+        print("||||||||||||||TENSOR CHECK ||||||||||")
+        print(self.dynamic_routing_weight.size())
 
         self.self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,

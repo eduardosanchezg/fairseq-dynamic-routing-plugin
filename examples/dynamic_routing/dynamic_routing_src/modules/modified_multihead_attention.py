@@ -181,6 +181,10 @@ class ModifiedMultiheadAttention(nn.Module):
             and not torch.jit.is_scripting()
         ):
             assert key is not None and value is not None
+
+            print("||||||||||||||TENSOR CHECK (before calling mha_forward) ||||||||||")
+            print(self.dynamic_routing_weight.size())
+
             return multi_head_attention_forward(
                 query,
                 key,
@@ -383,16 +387,10 @@ class ModifiedMultiheadAttention(nn.Module):
         attn = torch.bmm(attn_probs, v)
         assert list(attn.size()) == [bsz * self.num_heads, tgt_len, self.head_dim]
 
-        #attn here are the attn scores we're looking for
-        print("attn here are the attn scores we're looking for")
-
         routed_attn = None
 
         attn = routed_attn
 
-        print("||||||||||||attn.size()|||||||||||||")
-        print(attn.size())
-        print("|||||||||||||")
         if self.onnx_trace and attn.size(1) == 1:
             # when ONNX tracing a single decoder step (sequence length == 1)
             # the transpose is a no-op copy before view, thus unnecessary
