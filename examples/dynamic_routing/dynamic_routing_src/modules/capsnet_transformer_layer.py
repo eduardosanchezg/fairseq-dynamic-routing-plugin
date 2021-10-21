@@ -145,10 +145,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         x = self.dropout_module(x)
 
-        print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
-        print(residual.size())
-        print(x.size())
-        print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+        # print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
+        # print(residual.size())
+        # print(x.size())
+        # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
 
         x = self.residual_connection(x, residual)
@@ -166,9 +166,9 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         if not self.normalize_before:
             x = self.final_layer_norm(x)
 
-        print("|||||||||||||||||||||||||||||||||| FINAL || OUTPUT ||||||||||||||||||||||||||||||||||")
-        print(x.size())
-        print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+        # print("|||||||||||||||||||||||||||||||||| FINAL || OUTPUT ||||||||||||||||||||||||||||||||||")
+        # print(x.size())
+        # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
         return x
 
