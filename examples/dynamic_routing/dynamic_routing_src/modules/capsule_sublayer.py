@@ -46,7 +46,7 @@ class CapsuleSubLayer(nn.Module):
             # == [1 x 1152 x 10 x 16 x 8]
             with torch.no_grad():
                 self.weight = nn.Parameter(torch.randn(1 ,unit_size, num_unit,in_channel , in_unit))
-            #self.weight.requires_grad = False
+            self.weight.requires_grad = False
         else:
             """
             
