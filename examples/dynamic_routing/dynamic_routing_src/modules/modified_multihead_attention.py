@@ -100,7 +100,7 @@ class ModifiedMultiheadAttention(nn.Module):
 
         self.capsule_proj_weight = capsule_proj_weight
         self.capsule_proj_bias = capsule_proj_bias
-        self.dynamic_routing_weight = dynamic_routing_weight
+        #self.dynamic_routing_weight = dynamic_routing_weight
 
         # print("||||||||||||||TENSOR CHECK (capsnet_trans init)||||||||||")
         # print(self.capsule_proj_weight.size())
