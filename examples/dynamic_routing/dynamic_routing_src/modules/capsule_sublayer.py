@@ -26,7 +26,7 @@ class CapsuleSubLayer(nn.Module):
     """
 
     def __init__(self, in_unit, in_channel, num_unit, unit_size, use_routing,
-                 num_routing, cuda_enabled):
+                 num_routing, cuda_enabled, weight):
         super(CapsuleSubLayer, self).__init__()
 
         self.in_unit = in_unit
@@ -45,7 +45,7 @@ class CapsuleSubLayer(nn.Module):
             # [1 x primary_unit_size x num_classes x output_unit_size x num_primary_unit]
             # == [1 x 1152 x 10 x 16 x 8]
             with torch.no_grad():
-                self.weight = nn.Parameter(torch.randn(1 ,unit_size, num_unit,in_channel , num_unit)) #replaced in_unit for num_unit in last position
+                self.weight = weight #replaced in_unit for num_unit in last position
             self.weight.requires_grad = False
         else:
             """
