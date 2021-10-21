@@ -4422,10 +4422,10 @@ def multi_head_attention_forward(
     capsnet_sublayer = CapsuleSubLayer(in_unit=32,in_channel=16, num_unit=32, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True, weight=dynamic_routing_weight)
 
     #pad seq_len to 256
-    padded_attn = torch.zeros(bsz, 32, embed_dim).half()
+    padded_attn = torch.zeros(bsz, 32, embed_dim)
     padded_attn[:, :tgt_len, :] = attn_output
 
-    capsule_vectors = capsnet_sublayer.forward(padded_attn)
+    capsule_vectors = capsnet_sublayer.forward(padded_attn.cuda())
 
     # print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
     # print(capsule_vectors.size())
