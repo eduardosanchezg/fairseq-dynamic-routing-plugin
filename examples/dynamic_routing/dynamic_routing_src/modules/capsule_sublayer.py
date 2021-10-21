@@ -202,14 +202,14 @@ class CapsuleSubLayer(nn.Module):
             b_ij = b_ij + u_vj1
 
         #ORIGINAL: return v_j.squeeze(1) # shape: [128, 10, 16, 1]
-        squeezed =  v_j.squeeze() # shape: [128, 10, 16, 1]
+        squeezed =  v_j.squeeze(1).squeeze(4) # shape: [128, 10, 16, 1]
 
         print("||||squeezed and normal|||")
         print(squeezed.size())
         print(v_j.size())
         print("||||||||||||||||||||")
 
-        return v_j
+        return squeezed
 
     def no_routing(self, x):
         """
