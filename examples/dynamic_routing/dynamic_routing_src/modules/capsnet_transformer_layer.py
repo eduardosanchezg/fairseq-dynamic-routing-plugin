@@ -148,7 +148,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
         #print(residual.size())
-        print(x)
+        print(x[0,11:,0])
         print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
 
