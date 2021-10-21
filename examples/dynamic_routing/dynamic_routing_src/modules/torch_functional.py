@@ -4420,7 +4420,7 @@ def multi_head_attention_forward(
 
     #pad seq_len to 256
     padded_attn = torch.zeros(bsz, 256, embed_dim)
-    padded_attn[:, :, :tgt_len] = attn_output
+    padded_attn[:, :tgt_len, :] = attn_output
 
     capsule_vectors = capsnet_sublayer.forward(padded_attn)
 
