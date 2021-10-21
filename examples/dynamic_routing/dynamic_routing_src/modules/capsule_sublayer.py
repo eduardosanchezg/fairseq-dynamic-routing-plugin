@@ -202,7 +202,7 @@ class CapsuleSubLayer(nn.Module):
             b_ij = b_ij + u_vj1
 
         #ORIGINAL: return v_j.squeeze(1) # shape: [128, 10, 16, 1]
-        squeezed =  v_j.squeeze(1).squeeze(3) # shape: [128, 10, 16, 1]
+        squeezed =  v_j.squeeze(4).squeeze(1) # shape: [128, 10, 16, 1]
 
         print("||||squeezed and normal|||")
         print(squeezed.size())
