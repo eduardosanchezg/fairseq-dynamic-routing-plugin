@@ -146,10 +146,10 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         x = self.dropout_module(x)
 
-        # print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
-        # print(residual.size())
-        # print(x.size())
-        # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+        print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
+        #print(residual.size())
+        print(x)
+        print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
 
         x = self.residual_connection(x, residual)
