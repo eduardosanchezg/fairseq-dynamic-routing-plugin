@@ -36,6 +36,7 @@ class CapsuleSubLayer(nn.Module):
         self.num_routing = num_routing
         self.cuda_enabled = cuda_enabled
         self.unit_size = unit_size
+        self.weight = weight
         if self.use_routing:
             """
             Based on the paper, DigitCaps which is capsule layer(s) with
@@ -44,9 +45,9 @@ class CapsuleSubLayer(nn.Module):
             # weight shape:
             # [1 x primary_unit_size x num_classes x output_unit_size x num_primary_unit]
             # == [1 x 1152 x 10 x 16 x 8]
-            with torch.no_grad():
-                self.weight = weight #replaced in_unit for num_unit in last position
-            self.weight.requires_grad = False
+
+            self.weight = weight #replaced in_unit for num_unit in last position
+
         else:
             """
             
