@@ -4415,8 +4415,8 @@ def multi_head_attention_forward(
 
     from .capsule_sublayer import CapsuleSubLayer
 
-    print("||||||||||||||TENSOR CHECK (before init capsulesublayer) ||||||||||")
-    print(dynamic_routing_weight.size())
+    # print("||||||||||||||TENSOR CHECK (before init capsulesublayer) ||||||||||")
+    # print(dynamic_routing_weight.size())
 
     #no idea why in_channel=16 and num_unit=10
     capsnet_sublayer = CapsuleSubLayer(in_unit=64,in_channel=16, num_unit=64, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True, weight=dynamic_routing_weight)

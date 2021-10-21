@@ -182,8 +182,8 @@ class ModifiedMultiheadAttention(nn.Module):
         ):
             assert key is not None and value is not None
 
-            print("||||||||||||||TENSOR CHECK (before calling mha_forward) ||||||||||")
-            print(self.dynamic_routing_weight.size())
+            # print("||||||||||||||TENSOR CHECK (before calling mha_forward) ||||||||||")
+            # print(self.dynamic_routing_weight.size())
 
             return multi_head_attention_forward(
                 query,
