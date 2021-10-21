@@ -4439,6 +4439,7 @@ def multi_head_attention_forward(
     # print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
 
+    #capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(bsz, tgt_len, embed_dim)
     #capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(capsule_vectors, capsule_proj_weight, capsule_proj_bias)
     attn_output = attn_output.transpose(0,1)
