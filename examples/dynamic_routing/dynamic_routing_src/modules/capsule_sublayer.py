@@ -102,9 +102,9 @@ class CapsuleSubLayer(nn.Module):
         # u_hat shape: [128, 1152, 10, 16, 1]
         batch_weight = batch_weight
 
-        # print("|||||||||||||||||||||||||||||||||| D E B U G || INNER LAYER ||||||||||||||||||||||||||||||||||")
-        # print(batch_weight.size())
-        # print(x.size())
+        print("|||||||||||||||||||||||||||||||||| D E B U G || INNER LAYER ||||||||||||||||||||||||||||||||||")
+        print(batch_weight.size())
+        print(x.size())
 
         u_hat = torch.matmul(batch_weight.cuda().half(), x.half())
 
