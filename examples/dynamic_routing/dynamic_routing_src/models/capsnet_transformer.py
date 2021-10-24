@@ -27,15 +27,15 @@ class CapsNetTransformerModel(TransformerModel):
 
 
 class CapsNetTransformerEncoder(TransformerEncoder):
-    """Residual drop (https://) implemented in
-    TransformerEncoder.
-    """
 
     def __init__(self, args, dictionary, embed_tokens):
         super().__init__(args, dictionary, embed_tokens)
 
         self.layers[0] = CapsNetTransformerEncoderLayer(args)
 
+        print("///////////////////////////////////////////////////////// LAYERS ///////////////////////////////////////////////")
+        print(self.layers)
+        print("///////////////////////////////////////////////////////////////////////////////////////")
 
 
 @register_model_architecture(
