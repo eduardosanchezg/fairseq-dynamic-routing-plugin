@@ -24,6 +24,8 @@ class CapsNetTransformerModel(TransformerModel):
     @classmethod
     def build_encoder(cls, args, src_dict, embed_tokens):
         return CapsNetTransformerEncoder(args, src_dict, embed_tokens)
+        from torchsummary import summary
+        summary(self, (128, 224, 512))
 
 
 class CapsNetTransformerEncoder(TransformerEncoder):
@@ -37,8 +39,7 @@ class CapsNetTransformerEncoder(TransformerEncoder):
         print(self.layers)
         print("///////////////////////////////////////////////////////////////////////////////////////")
 
-        from torchsummary import summary
-        summary(self,(128,224,512))
+
 
 
 
