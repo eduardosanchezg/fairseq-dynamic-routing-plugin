@@ -38,7 +38,8 @@ class CapsNetTransformerEncoder(TransformerEncoder):
         print(self.layers)
         print("///////////////////////////////////////////////////////////////////////////////////////")
         from torchsummary import summary
-        summary(self.layers, (128, 224, 512))
+        summary(self, (128, 224, 512))
+
 
 
 
