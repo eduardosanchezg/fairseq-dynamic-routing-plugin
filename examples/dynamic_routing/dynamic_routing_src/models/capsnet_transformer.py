@@ -37,6 +37,10 @@ class CapsNetTransformerEncoder(TransformerEncoder):
         print(self.layers)
         print("///////////////////////////////////////////////////////////////////////////////////////")
 
+        from torchsummary import summary
+        summary(self,(128,512),224)
+
+
 
 @register_model_architecture(
     "capsnet_transformer", "capsnet_transformer"
