@@ -38,7 +38,7 @@ class CapsNetTransformerEncoder(TransformerEncoder):
         print(self.layers)
         print("///////////////////////////////////////////////////////////////////////////////////////")
         for param in self.parameters():
-            print(param)
+            #print(param)
             print(param.data.size())
 
 
