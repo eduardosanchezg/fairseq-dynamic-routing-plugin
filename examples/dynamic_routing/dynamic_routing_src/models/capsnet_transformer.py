@@ -24,13 +24,12 @@ class CapsNetTransformerModel(TransformerModel):
     @classmethod
     def build_encoder(cls, args, src_dict, embed_tokens):
         return CapsNetTransformerEncoder(args, src_dict, embed_tokens)
-        from torchsummary import summary
-        summary(self, (128, 224, 512))
+
 
 
 class CapsNetTransformerEncoder(TransformerEncoder):
 
-    def __init__(self, args, dictionary, embed_tokens):
+    def __init__(self, args, dictionary, embed_tokens, model):
         super().__init__(args, dictionary, embed_tokens)
 
         self.layers[0] = CapsNetTransformerEncoderLayer(args)
@@ -38,7 +37,8 @@ class CapsNetTransformerEncoder(TransformerEncoder):
         print("///////////////////////////////////////////////////////// LAYERS ///////////////////////////////////////////////")
         print(self.layers)
         print("///////////////////////////////////////////////////////////////////////////////////////")
-
+        from torchsummary import summary
+        summary(self.layers, (128, 224, 512))
 
 
 
