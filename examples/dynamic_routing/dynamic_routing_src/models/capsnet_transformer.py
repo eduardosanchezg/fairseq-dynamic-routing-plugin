@@ -38,7 +38,7 @@ class CapsNetTransformerEncoder(TransformerEncoder):
         print("///////////////////////////////////////////////////////////////////////////////////////")
 
         from torchsummary import summary
-        summary(self,(224,128,512))
+        summary(self,(128,224,512))
 
 
 
