@@ -29,7 +29,7 @@ class CapsNetTransformerModel(TransformerModel):
 
 class CapsNetTransformerEncoder(TransformerEncoder):
 
-    def __init__(self, args, dictionary, embed_tokens, model):
+    def __init__(self, args, dictionary, embed_tokens):
         super().__init__(args, dictionary, embed_tokens)
 
         self.layers[0] = CapsNetTransformerEncoderLayer(args)
