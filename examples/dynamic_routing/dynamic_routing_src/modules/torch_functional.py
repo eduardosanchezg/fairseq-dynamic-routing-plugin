@@ -4407,7 +4407,7 @@ def multi_head_attention_forward(
     print(num_heads)
     print("|||||||||||||||||||||||||||||||||||||")
 
-    attn_output = attn_output.contiguous().view(bsz, tgt_len, embed_dim)
+    #attn_output = attn_output.contiguous().view(bsz, tgt_len, embed_dim)
 
     # print("|||||||||||||||||||||||||||||after_view|||||||||||||||||||1")
     # print(attn_output.size())
