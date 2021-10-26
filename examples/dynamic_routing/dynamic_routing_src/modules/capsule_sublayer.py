@@ -105,7 +105,7 @@ class CapsuleSubLayer(nn.Module):
             # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
             # self.num_unit = num_classes = 10
             # b_ij shape: [1, 1152, 10, 1]
-            b_ij = Variable(torch.zeros(1, head_dim, num_heads ,1))
+            b_ij = Variable(torch.randn(1, head_dim, num_heads ,1))
 
             # print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
             # print(b_ij.size())
