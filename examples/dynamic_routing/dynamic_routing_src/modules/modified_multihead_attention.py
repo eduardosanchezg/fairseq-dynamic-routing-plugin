@@ -210,8 +210,8 @@ class ModifiedMultiheadAttention(nn.Module):
                 q_proj_weight=self.q_proj.weight,
                 k_proj_weight=self.k_proj.weight,
                 v_proj_weight=self.v_proj.weight,
-                capsule_proj_weight=self.capsule_proj_weight,
-                capsule_proj_bias=self.capsule_proj_bias,
+                # capsule_proj_weight=self.capsule_proj_weight,
+                # capsule_proj_bias=self.capsule_proj_bias,
                 dynamic_routing_weight=self.dynamic_routing_weight
             )
 

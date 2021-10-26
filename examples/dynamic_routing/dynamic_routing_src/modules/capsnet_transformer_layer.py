@@ -40,9 +40,9 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
     capsule_proj_bias: Tensor
     def __init__(self, args):
         super().__init__(args)
-        self.capsule_proj_weight = None#Parameter(torch.randn(512, 16))
-        self.capsule_proj_bias = None#Parameter(torch.randn(512))    #emb_size
-        self.dynamic_routing_weight = None #nn.Parameter(torch.randn(1 ,512, 128, 16 , 128))
+        #self.capsule_proj_weight = None#Parameter(torch.randn(512, 16))
+        #self.capsule_proj_bias = None#Parameter(torch.randn(512))    #emb_size
+        #self.dynamic_routing_weight = None #nn.Parameter(torch.randn(1 ,512, 128, 16 , 128))
 
         # print("||||||||||||||TENSOR CHECK ||||||||||")
         # print(self.dynamic_routing_weight.size())
@@ -56,9 +56,9 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
             self_attention=True,
             q_noise=self.quant_noise,
             qn_block_size=self.quant_noise_block_size,
-            capsule_proj_weight=self.capsule_proj_weight,
-            capsule_proj_bias=self.capsule_proj_bias,
-            dynamic_routing_weight = self.dynamic_routing_weight
+            #capsule_proj_weight=self.capsule_proj_weight,
+            #capsule_proj_bias=self.capsule_proj_bias,
+            #dynamic_routing_weight = self.dynamic_routing_weight
         )
 
 
