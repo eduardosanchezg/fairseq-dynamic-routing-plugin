@@ -68,7 +68,7 @@ class CapsuleSubLayer(nn.Module):
             # stack ops output shape: [128, 1152, 10, 8]
             # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
             #x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
-            stacked_u_i = torch.stack([u_i]*num_heads, dim=3) # EDU: stacking u_i num_head times to multiply simultaneously
+            stacked_u_i = torch.stack([u_i]*num_heads, dim=2) # EDU: stacking u_i num_head times to multiply simultaneously
             # print("||||stacked_u_i|||")
             # print(stacked_u_i.size())
             # print("||||||||||||||||||||")
@@ -96,7 +96,7 @@ class CapsuleSubLayer(nn.Module):
             print(batch_weight.size())
             print("||||stacked_u_i|||")
             print(stacked_u_i.size())
-            u_hat = torch.matmul(batch_weight, stacked_u_i.transpose(1,2))
+            u_hat = torch.matmul(batch_weight, stacked_u_i.transpose(1,3))
 
             # print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
             # print(u_hat.size())
