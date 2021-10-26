@@ -34,7 +34,7 @@ class CapsuleSubLayer(nn.Module):
         self.weights = weights
 
     def forward(self, x):
-        self.routing(x)
+        return self.routing(x)
 
     def routing(self, x):
         """
@@ -207,28 +207,3 @@ class CapsuleSubLayer(nn.Module):
         print("////////// output ///////////////")
         print(torch.cat(output,dim=3).size())
         return torch.cat(output,dim=3)
-
-    def no_routing(self, x):
-        """
-        Get output for each unit.
-        A unit has batch, channels, height, width.
-        An example of a unit output shape is [128, 32, 6, 6]
-        :return: vector output of capsule j
-        """
-        # Create 8 convolutional unit.
-        # A convolutional unit uses normal convolutional layer with a non-linearity (squash).
-        unit = [self.conv_units[i](x) for i, l in enumerate(self.conv_units)]
-
-        # Stack all unit outputs.
-        # Stacked of 8 unit output shape: [128, 8, 32, 6, 6]
-        unit = torch.stack(unit, dim=1)
-
-        batch_size = x.size(0)
-
-        # Flatten the 32 of 6x6 grid into 1152.
-        # Shape: [128, 8, 1152]
-        unit = unit.view(batch_size, self.num_unit, -1)
-
-        # Add non-linearity
-        # Return squashed outputs of shape: [128, 8, 1152]
-        return squash(unit, dim=2) # dim 2 is the third dim (1152D array) in our tensor
