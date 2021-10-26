@@ -202,7 +202,7 @@ class CapsuleSubLayer(nn.Module):
 
             # print("/////// squeezed #" + str(i) + " /////////////////")
             # print(squeezed.size())
-            # output.append(squeezed)
+            output.append(squeezed)
 
         # print("////////// output ///////////////")
         # print(torch.cat(output,dim=3).size())
