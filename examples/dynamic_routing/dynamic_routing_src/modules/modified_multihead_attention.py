@@ -43,7 +43,7 @@ class ModifiedMultiheadAttention(nn.Module):
         qn_block_size=8,
         capsule_proj_weight=None,
         capsule_proj_bias=None,
-        dynamic_routing_weights=None,
+        dynamic_routing_weight=None,
     ):
         super().__init__()
         self.embed_dim = embed_dim
@@ -83,7 +83,7 @@ class ModifiedMultiheadAttention(nn.Module):
         )
 
         # Added capsule weights
-        self.dynamic_routing_weights = dynamic_routing_weights
+        self.dynamic_routing_weights = [nn.Parameter(torch.ones( self.head_dim, self.num_heads, self.num_heads, device='cuda', dtype= torch.half, requires_grad=True)) for _ in range (0, self.num_heads)]
 
         if add_bias_kv:
             self.bias_k = Parameter(torch.Tensor(1, 1, embed_dim))
