@@ -72,6 +72,7 @@ class CapsuleSubLayer(nn.Module):
         for i in range(num_heads):
 
             u_i = x[i,:,:,:] # EDU: keep only one of the heads
+
             print("||||u_i|||")
             print(u_i.size())
             print("||||||||||||||||||||")
@@ -87,7 +88,7 @@ class CapsuleSubLayer(nn.Module):
             # stack ops output shape: [128, 1152, 10, 8]
             # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
             #x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
-            stacked_u_i = torch.stack([u_i]*num_heads, dim=0) # EDU: stacking u_i num_head times to multiply simultaneously
+            stacked_u_i = torch.stack([u_i]*num_heads, dim=1) # EDU: stacking u_i num_head times to multiply simultaneously
             print("||||stacked_u_i|||")
             print(stacked_u_i.size())
             print("||||||||||||||||||||")
@@ -97,7 +98,7 @@ class CapsuleSubLayer(nn.Module):
 
             # Convert single weight to batch weight.
             # [1 x 1152 x 10 x 16 x 8] to: [128, 1152, 10, 16, 8]
-            batch_weight = torch.cat([self.weight[i]] * bsz, dim=0)
+            batch_weight = torch.stack([self.weight[i]] * bsz, dim=0)
             print("||||self.weight[i]|||")
             print(self.weight[i].size())
             print("||||||||||||||||||||")
@@ -108,13 +109,11 @@ class CapsuleSubLayer(nn.Module):
             # Transform inputs by weight matrix.
             # Matrix product of 2 tensors with shape: [128, 1152, 10, 16, 8] x [128, 1152, 10, 8, 1]
             # u_hat shape: [128, 1152, 10, 16, 1]
-            batch_weight = batch_weight
 
-            print("|||||||||||||||||||||||||||||||||| D E B U G || INNER LAYER ||||||||||||||||||||||||||||||||||")
-            print(batch_weight.size())
-            print(x.size())
 
-            u_hat = torch.matmul(batch_weight.cuda().half(), x.half())
+            #stacked_u_i = stacked_u_i.transpose(2,3)
+
+            u_hat = torch.matmul(batch_weight, stacked_u_i.transpose(1,2))
 
             # print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
             # print(u_hat.size())
@@ -123,7 +122,7 @@ class CapsuleSubLayer(nn.Module):
             # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
             # self.num_unit = num_classes = 10
             # b_ij shape: [1, 1152, 10, 1]
-            b_ij = Variable(torch.zeros(1, self.unit_size, self.num_unit, 1))
+            b_ij = Variable(torch.zeros(1, head_dim, num_heads ,1))
 
             # print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
             # print(b_ij.size())
@@ -148,7 +147,7 @@ class CapsuleSubLayer(nn.Module):
                 # print("||||||||||||||||||||")
 
                 # c_ij shape from: [128, 1152, 10, 1] to: [128, 1152, 10, 1, 1]
-                c_ij = torch.cat([c_ij] * batch_size, dim=0).unsqueeze(4)
+                c_ij = torch.cat([c_ij] * bsz, dim=0)
 
                 # print("||||Cij AFTER UNZQUEEZE|||")
                 # print(c_ij.size())
@@ -161,7 +160,7 @@ class CapsuleSubLayer(nn.Module):
                 # c_ij * u_hat shape: [128, 1152, 10, 16, 1]
                 # s_j output shape: [batch_size=128, 1, 10, 16, 1]
                 # Sum of Primary Capsules outputs, 1152D becomes 1D.
-                s_j = (c_ij * u_hat).sum(dim=1, keepdim=True)
+                s_j = (c_ij.transpose(2,3) * u_hat.transpose(2,3)).sum(dim=3, keepdim=True)
 
                 # print("||||Sj AFTER MUL AND SUM|||")
                 # print(s_j.size())
@@ -182,7 +181,7 @@ class CapsuleSubLayer(nn.Module):
 
                 # in_channel is 1152.
                 # v_j1 shape: [128, 1152, 10, 16, 1]
-                v_j1 = torch.cat([v_j] * self.unit_size, dim=1)
+                v_j1 = torch.cat([v_j] * num_heads, dim=3)
 
                 # print("||||v_j1 after cat|||")
                 # print(v_j1.size())
@@ -193,7 +192,7 @@ class CapsuleSubLayer(nn.Module):
                 # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
                 # so we can do matrix product u_hat and v_j1.
                 # u_vj1 shape: [1, 1152, 10, 1]
-                u_vj1 = torch.matmul(u_hat.transpose(3, 4), v_j1.half()).squeeze(4).mean(dim=0, keepdim=True)
+                u_vj1 = torch.matmul(u_hat, v_j1).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
 
                 # print("||||u_vj1 after matmul|||")
                 # print(u_vj1.size())
@@ -211,14 +210,16 @@ class CapsuleSubLayer(nn.Module):
                 b_ij = b_ij + u_vj1
 
             #ORIGINAL: return v_j.squeeze(1) # shape: [128, 10, 16, 1]
-            squeezed =  v_j.squeeze(4).squeeze(1) # shape: [128, 10, 16, 1]
+            squeezed =  v_j.squeeze(2).squeeze(1) # shape: [128, 10, 16, 1]
 
             # print("||||squeezed and normal|||")
             # print(squeezed.size())
             # print(v_j.size())
             # print("||||||||||||||||||||")
 
-            return squeezed
+            output.append(squeezed)
+
+        return torch.cat(output,dim=3)
 
     def no_routing(self, x):
         """

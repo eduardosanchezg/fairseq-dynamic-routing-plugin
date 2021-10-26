@@ -79,13 +79,11 @@ class ModifiedMultiheadAttention(nn.Module):
         )
 
         self.out_proj = quant_noise(
-            nn.Linear(512, 16, bias=bias), q_noise, qn_block_size
+            nn.Linear(embed_dim, embed_dim, bias=bias), q_noise, qn_block_size
         )
 
-        self.capsule_proj_weight = Parameter(torch.randn(512, 16))
-        self.capsule_proj_bias = Parameter(torch.randn(512))  # emb_size
-        #self.dynamic_routing_weight = nn.Parameter(torch.randn(1, 512, 128, 16, 128))
-        self.dynamic_routing_weights = [nn.Parameter(torch.randn(self.num_heads, self.head_dim, self.head_dim)) for _ in range (0, self.num_heads)]
+
+        self.dynamic_routing_weights = [nn.Parameter(torch.randn( self.head_dim, self.num_heads, self.num_heads)) for _ in range (0, self.num_heads)]
 
         if add_bias_kv:
             self.bias_k = Parameter(torch.Tensor(1, 1, embed_dim))

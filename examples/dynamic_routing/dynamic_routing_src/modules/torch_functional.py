@@ -4421,40 +4421,13 @@ def multi_head_attention_forward(
     #no idea why in_channel=16 and num_unit=10
     capsnet_sublayer = CapsuleSubLayer(in_unit=256,in_channel=16, num_unit=256, unit_size=embed_dim, num_routing=3, use_routing=True, cuda_enabled=True, weight=dynamic_routing_weight)
 
-    #pad seq_len to 256
-    padded_attn = torch.zeros(bsz, 256, embed_dim)
-    padded_attn[:, :tgt_len, :] = attn_output
-
-    capsule_vectors = capsnet_sublayer.forward(padded_attn.cuda())
-
-    # print("|||||||||||||||||||||||||||||capsule_vectors|||||||||||||||||||1")
-    # print(capsule_vectors.size())
-    # #
-    # print("|||||||||||||||||||||||||||||||||||||")
-
-    #attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
-    #l = torch.nn.Linear(tgt_len*embed_dim, tgt_len*embed_dim)
-    #l = l.cuda()
-    ###l = torch.nn.Linear(160, tgt_len*embed_dim,device='cuda')
-    #linear_output = l.forward(attn_output.float().contiguous().view(bsz, tgt_len*embed_dim))
-    ##linear_output = linear_output
-    ##linear_output = linear_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
-    ##attn_output = linear(linear_output, out_proj_weight, out_proj_bias)
-
-    # print("||||||||||||||||||||||||||||||||||||||||||| CAPS LINEAR PARAMS||||||||||||||||||||||||||||||||")
-    # print(capsule_proj_weight)
-    # print(capsule_proj_bias)
-    # print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
 
-    #capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(bsz, tgt_len, embed_dim)
-    #capsule_vectors = capsule_vectors.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
-    attn_output = linear(capsule_vectors, out_proj_weight, out_proj_bias)
-    attn_output = attn_output.transpose(0,1)
-    attn_output = attn_output[attn_output.nonzero()]
-    # print("||||||| linear_output |||||")
-    # print(attn_output.size())
-    # print("|||||||||||||||||||||1")
+    capsule_vectors = capsnet_sublayer.forward(attn_output)
+
+
+    attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
+    attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
 
     if need_weights:
         # average attention weights over heads
