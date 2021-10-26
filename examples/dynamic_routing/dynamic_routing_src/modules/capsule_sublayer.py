@@ -175,7 +175,7 @@ class CapsuleSubLayer(nn.Module):
                 # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
                 # so we can do matrix product u_hat and v_j1.
                 # u_vj1 shape: [1, 1152, 10, 1]
-                u_vj1 = torch.matmul(u_hat, v_j1).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
+                u_vj1 = torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
 
                 # print("||||u_vj1 after matmul|||")
                 # print(u_vj1.size())
