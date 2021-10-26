@@ -107,7 +107,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
              key=x,
              value=x,
              key_padding_mask=encoder_padding_mask,
-             need_weights=True,
+             need_weights=False,
              attn_mask=attn_mask,
          )
 
