@@ -205,7 +205,7 @@ class CapsuleSubLayer(nn.Module):
             output.append(squeezed)
 
         print("////////// output ///////////////")
-        print(type(torch.cat(output,dim=3)))
+        print(torch.cat(output,dim=3).size())
         return torch.cat(output,dim=3)
 
     def no_routing(self, x):
