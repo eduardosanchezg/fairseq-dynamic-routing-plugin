@@ -34,9 +34,7 @@ class CapsuleSubLayer(nn.Module):
         self.weights = weights
 
     def forward(self, x):
-        if self.use_routing:
-            # Currently used by DigitCaps layer.
-            return self.routing(x)
+        self.routing(x)
 
     def routing(self, x):
         """
