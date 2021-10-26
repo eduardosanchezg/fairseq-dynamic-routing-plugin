@@ -15,7 +15,7 @@ from fairseq import utils
 from fairseq.incremental_decoding_utils import with_incremental_state
 from fairseq.modules.fairseq_dropout import FairseqDropout
 from fairseq.modules.quant_noise import quant_noise
-from torch import Tensor, nn
+from torch import Tensor, nn, autograd
 from torch.nn import Parameter
 
 
@@ -83,7 +83,8 @@ class ModifiedMultiheadAttention(nn.Module):
         )
 
         # Added capsule weights
-        self.dynamic_routing_weights = [nn.Parameter(torch.randn( self.head_dim, self.num_heads, self.num_heads, device='cuda', dtype= torch.half)) for _ in range (0, self.num_heads)]
+        with autograd.detect_anomaly():
+            self.dynamic_routing_weights = [nn.Parameter(torch.randn( self.head_dim, self.num_heads, self.num_heads, device='cuda', dtype= torch.half)) for _ in range (0, self.num_heads)]
 
         if add_bias_kv:
             self.bias_k = Parameter(torch.Tensor(1, 1, embed_dim))
