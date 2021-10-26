@@ -68,7 +68,7 @@ class CapsuleSubLayer(nn.Module):
             # stack ops output shape: [128, 1152, 10, 8]
             # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
             #x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
-            stacked_u_i = torch.stack([u_i]*num_heads, dim=1) # EDU: stacking u_i num_head times to multiply simultaneously
+            stacked_u_i = torch.stack([u_i]*num_heads, dim=3) # EDU: stacking u_i num_head times to multiply simultaneously
             # print("||||stacked_u_i|||")
             # print(stacked_u_i.size())
             # print("||||||||||||||||||||")
