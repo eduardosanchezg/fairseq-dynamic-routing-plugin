@@ -104,7 +104,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
 
         #self_attn_layer = self_attn_layer.half()
         #self_attn_layer = self.self_attn_layer.cuda()
-        x, _ = self.self_attn_layer(
+        x, _ = self.self_attn_layer.forward(
              query=x,
              key=x,
              value=x,
