@@ -83,7 +83,7 @@ class ModifiedMultiheadAttention(nn.Module):
         )
 
         # Added capsule weights
-        self.dynamic_routing_weights = [nn.Parameter(torch.randn( self.head_dim, self.num_heads, self.num_heads, device='cuda')) for _ in range (0, self.num_heads)]
+        self.dynamic_routing_weights = [nn.Parameter(torch.randn( self.head_dim, self.num_heads, self.num_heads, device='cuda', dtype= torch.Tensor.half)) for _ in range (0, self.num_heads)]
 
         if add_bias_kv:
             self.bias_k = Parameter(torch.Tensor(1, 1, embed_dim))
