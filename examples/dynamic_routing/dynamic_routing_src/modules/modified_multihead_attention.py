@@ -212,7 +212,7 @@ class ModifiedMultiheadAttention(nn.Module):
                 v_proj_weight=self.v_proj.weight,
                 # capsule_proj_weight=self.capsule_proj_weight,
                 # capsule_proj_bias=self.capsule_proj_bias,
-                dynamic_routing_weight=self.dynamic_routing_weight
+                dynamic_routing_weights=self.dynamic_routing_weights
             )
 
         if incremental_state is not None:

@@ -25,26 +25,13 @@ class CapsuleSubLayer(nn.Module):
     The core implementation of the idea of capsules
     """
 
-    def __init__(self, num_routing, cuda_enabled, weight):
+    def __init__(self, num_routing, cuda_enabled, weights):
         super(CapsuleSubLayer, self).__init__()
 
 
         self.num_routing = num_routing
         self.cuda_enabled = cuda_enabled
-        self.weight = weight
-        if self.use_routing:
-            """
-            Based on the paper, DigitCaps which is capsule layer(s) with
-            capsule inputs use a routing algorithm that uses this weight matrix, Wij
-            """
-            # weight shape:
-            # [1 x primary_unit_size x num_classes x output_unit_size x num_primary_unit]
-            # == [1 x 1152 x 10 x 16 x 8]
-
-            self.weight = weight #replaced in_unit for num_unit in last position
-
-            # print("||||||||||||||TENSOR CHECK (after assigning in capslayer init) ||||||||||")
-            # print(self.weight.size())
+        self.weights = weights
 
     def forward(self, x):
         if self.use_routing:
@@ -93,7 +80,7 @@ class CapsuleSubLayer(nn.Module):
 
             # Convert single weight to batch weight.
             # [1 x 1152 x 10 x 16 x 8] to: [128, 1152, 10, 16, 8]
-            batch_weight = torch.stack([self.weight[i]] * bsz, dim=0)
+            batch_weight = torch.stack([self.weights[i]] * bsz, dim=0)
             # print("||||self.weight[i]|||")
             # print(self.weight[i].size())
             # print("||||||||||||||||||||")

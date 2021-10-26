@@ -4171,7 +4171,7 @@ def multi_head_attention_forward(
     static_v: Optional[Tensor] = None,
     capsule_proj_weight: Optional[Tensor] = None,
     capsule_proj_bias: Optional[Tensor] = None,
-    dynamic_routing_weight: Optional[Tensor] = None,
+    dynamic_routing_weights: Optional[Tensor] = None,
 ) -> Tuple[Tensor, Optional[Tensor]]:
     r"""
     Args:
@@ -4419,7 +4419,7 @@ def multi_head_attention_forward(
     # print(dynamic_routing_weight.size())
 
     #no idea why in_channel=16 and num_unit=10
-    capsnet_sublayer = CapsuleSubLayer(num_routing=3, cuda_enabled=True, weight=dynamic_routing_weight)
+    capsnet_sublayer = CapsuleSubLayer(num_routing=3, cuda_enabled=True, weights=dynamic_routing_weights)
 
 
 
