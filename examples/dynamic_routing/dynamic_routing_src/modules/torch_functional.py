@@ -4423,7 +4423,7 @@ def multi_head_attention_forward(
 
 
 
-    attn_output = capsnet_sublayer.forward(attn_output)
+    attn_output = capsnet_sublayer.forward(attn_output.contiguous().view(num_heads, bsz, tgt_len, head_dim))
 
     attn_output = attn_output.transpose(0,3).transpose(1,3).contiguous().view(bsz * num_heads, tgt_len, head_dim)
 
