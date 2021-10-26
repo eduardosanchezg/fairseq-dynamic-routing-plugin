@@ -92,10 +92,10 @@ class CapsuleSubLayer(nn.Module):
 
 
             #stacked_u_i = stacked_u_i.transpose(2,3)
-            print("||||batch_weight|||")
-            print(batch_weight.size())
-            print("||||stacked_u_i|||")
-            print(stacked_u_i.size())
+            # print("||||batch_weight|||")
+            # print(batch_weight.size())
+            # print("||||stacked_u_i|||")
+            # print(stacked_u_i.size())
             u_hat = torch.matmul(batch_weight, stacked_u_i.transpose(1,3))
 
             # print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
