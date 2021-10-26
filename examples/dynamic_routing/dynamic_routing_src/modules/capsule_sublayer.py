@@ -25,17 +25,12 @@ class CapsuleSubLayer(nn.Module):
     The core implementation of the idea of capsules
     """
 
-    def __init__(self, in_unit, in_channel, num_unit, unit_size, use_routing,
-                 num_routing, cuda_enabled, weight):
+    def __init__(self, num_routing, cuda_enabled, weight):
         super(CapsuleSubLayer, self).__init__()
 
-        self.in_unit = in_unit
-        self.in_channel = in_channel
-        self.num_unit = num_unit
-        self.use_routing = use_routing
+
         self.num_routing = num_routing
         self.cuda_enabled = cuda_enabled
-        self.unit_size = unit_size
         self.weight = weight
         if self.use_routing:
             """
@@ -73,9 +68,9 @@ class CapsuleSubLayer(nn.Module):
 
             u_i = x[i,:,:,:] # EDU: keep only one of the heads
 
-            print("||||u_i|||")
-            print(u_i.size())
-            print("||||||||||||||||||||")
+            # print("||||u_i|||")
+            # print(u_i.size())
+            # print("||||||||||||||||||||")
             #batch_size = x.size(0)
 
             #x = x.transpose(1, 2) # dim 1 and dim 2 are swapped. out tensor shape: [128, 1152, 8]
@@ -89,9 +84,9 @@ class CapsuleSubLayer(nn.Module):
             # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
             #x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
             stacked_u_i = torch.stack([u_i]*num_heads, dim=1) # EDU: stacking u_i num_head times to multiply simultaneously
-            print("||||stacked_u_i|||")
-            print(stacked_u_i.size())
-            print("||||||||||||||||||||")
+            # print("||||stacked_u_i|||")
+            # print(stacked_u_i.size())
+            # print("||||||||||||||||||||")
             # print("||||AFTER STACKING AND ADDING|||")
             # print(x.size())
             # print("||||||||||||||||||||")
@@ -99,12 +94,12 @@ class CapsuleSubLayer(nn.Module):
             # Convert single weight to batch weight.
             # [1 x 1152 x 10 x 16 x 8] to: [128, 1152, 10, 16, 8]
             batch_weight = torch.stack([self.weight[i]] * bsz, dim=0)
-            print("||||self.weight[i]|||")
-            print(self.weight[i].size())
-            print("||||||||||||||||||||")
-            print("||||batch_weight|||")
-            print(batch_weight.size())
-            print("||||||||||||||||||||")
+            # print("||||self.weight[i]|||")
+            # print(self.weight[i].size())
+            # print("||||||||||||||||||||")
+            # print("||||batch_weight|||")
+            # print(batch_weight.size())
+            # print("||||||||||||||||||||")
             # u_hat is "prediction vectors" from the capsules in the layer below.
             # Transform inputs by weight matrix.
             # Matrix product of 2 tensors with shape: [128, 1152, 10, 16, 8] x [128, 1152, 10, 8, 1]
