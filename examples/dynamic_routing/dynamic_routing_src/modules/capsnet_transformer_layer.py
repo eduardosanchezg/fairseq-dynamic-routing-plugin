@@ -48,7 +48,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # print(self.dynamic_routing_weight.size())
         self.num_heads = 16
         self.head_dim = int(self.embed_dim / self.num_heads)
-        self.dynamic_routing_weights = [nn.Parameter(torch.ones((self.head_dim, self.num_heads, self.num_heads), device='cuda', dtype='half', requires_grad=True)) for _ in range(0, self.num_heads)]
+        self.dynamic_routing_weights = [nn.Parameter(torch.ones(self.head_dim, self.num_heads, self.num_heads, device='cuda', dtype='half', requires_grad=True)) for _ in range(0, self.num_heads)]
         self.self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
             #self.cfg.encoder.attention_heads,
