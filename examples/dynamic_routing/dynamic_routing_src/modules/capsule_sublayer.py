@@ -200,10 +200,10 @@ class CapsuleSubLayer(nn.Module):
             # print(v_j.size())
             # print("||||||||||||||||||||")
 
-            print("/////// squeezed #" + str(i) + " /////////////////")
-            print(squeezed.size())
-            output.append(squeezed)
+            # print("/////// squeezed #" + str(i) + " /////////////////")
+            # print(squeezed.size())
+            # output.append(squeezed)
 
-        print("////////// output ///////////////")
-        print(torch.cat(output,dim=3).size())
+        # print("////////// output ///////////////")
+        # print(torch.cat(output,dim=3).size())
         return torch.cat(output,dim=3)
