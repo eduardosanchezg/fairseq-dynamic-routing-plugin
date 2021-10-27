@@ -98,8 +98,8 @@ class CapsuleSubLayer(nn.Module):
             # print(stacked_u_i.size())
             u_hat = torch.matmul(batch_weight, stacked_u_i.transpose(1,3))
 
-            # print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
-            # print(u_hat)
+            print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
+            print(u_hat.mean())
 
             # All the routing logits (b_ij in the paper) are initialized to zero.
             # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
@@ -186,10 +186,10 @@ class CapsuleSubLayer(nn.Module):
 
                 u_vj1 = torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
 
-                # print("||||u_vj1|||")
-                # print(u_vj1)
-                # print(iteration)
-                # print("||||||||||||||||||||")
+                print("||||u_vj1|||")
+                print(u_vj1.mean())
+                print(iteration)
+                print("||||||||||||||||||||")
 
                 # Update routing (b_ij) by adding the agreement to the initial logit.
 
