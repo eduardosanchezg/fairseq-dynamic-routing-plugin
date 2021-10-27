@@ -98,8 +98,8 @@ class CapsuleSubLayer(nn.Module):
             # print(stacked_u_i.size())
             u_hat = torch.matmul(batch_weight, stacked_u_i.transpose(1,3))
 
-            print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
-            print(u_hat)
+            # print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
+            # print(u_hat)
 
             # All the routing logits (b_ij in the paper) are initialized to zero.
             # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
@@ -178,8 +178,8 @@ class CapsuleSubLayer(nn.Module):
                 # so we can do matrix product u_hat and v_j1.
                 # u_vj1 shape: [1, 1152, 10, 1]
 
-                print("||||||||||||||||||torch.matmul|||||||||||||||||||||||||||||||")
-                print(torch.matmul(u_hat, v_j1.half()))
+                # print("||||||||||||||||||torch.matmul|||||||||||||||||||||||||||||||")
+                # print(torch.matmul(u_hat, v_j1.half()))
                 # print("||||||||||||||||||||mean dim 3 ||||||||||||||||||||||||||||||||1")
                 # print(torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True))
 
