@@ -183,10 +183,13 @@ class CapsuleSubLayer(nn.Module):
                 # print("||||||||||||||||||||mean dim 3 ||||||||||||||||||||||||||||||||1")
                 # print(torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True))
 
-
+                print("||||v_j1|||")
+                print(v_j1.abs().mean())
+                print(iteration)
+                print("||||||||||||||||||||")
                 u_vj1 = torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
-                if u_vj1.abs().mean().item() > 1:
-                    u_vj1 = u_vj1 / 10
+                # if u_vj1.abs().mean().item() > 1:
+                #     u_vj1 = u_vj1 / 10
                 # if i == 0:
                 #     print("||||u_vj1|||")
                 #     print(u_vj1.abs().mean())
