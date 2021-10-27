@@ -47,7 +47,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         self.dynamic_routing_weights = [nn.Parameter(torch.ones( self.head_dim, self.num_heads, self.num_heads, device='cuda', dtype= torch.half, requires_grad=True)) for _ in range (0, self.num_heads)]
 
         print("||||||||||||||TENSOR CHECK ||||||||||")
-        print(self.dynamic_routing_weight[0])
+        print(self.dynamic_routing_weights[0])
 
         self.self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
