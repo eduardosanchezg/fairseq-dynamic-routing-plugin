@@ -43,9 +43,9 @@ class CapsuleSubLayer(nn.Module):
         :return: vector output of capsule j
         """
         num_heads, bsz, seq_len, head_dim = x.size()
-        print("||||INITIAL VALUE|||")
-        print(x)
-        print("||||||||||||||||||||")
+        # print("||||INITIAL VALUE|||")
+        # print(x)
+        # print("||||||||||||||||||||")
 
         output = []
 
@@ -53,9 +53,9 @@ class CapsuleSubLayer(nn.Module):
 
             u_i = x[i,:,:,:] # EDU: keep only one of the heads
 
-            print("||||u_i|||")
-            print(u_i)
-            print("||||||||||||||||||||")
+            # print("||||u_i|||")
+            # print(u_i)
+            # print("||||||||||||||||||||")
             #batch_size = x.size(0)
 
             #x = x.transpose(1, 2) # dim 1 and dim 2 are swapped. out tensor shape: [128, 1152, 8]
@@ -69,9 +69,9 @@ class CapsuleSubLayer(nn.Module):
             # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
             #x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
             stacked_u_i = torch.stack([u_i]*num_heads, dim=2) # EDU: stacking u_i num_head times to multiply simultaneously
-            print("||||stacked_u_i|||")
-            print(stacked_u_i)
-            print("||||||||||||||||||||")
+            # print("||||stacked_u_i|||")
+            # print(stacked_u_i)
+            # print("||||||||||||||||||||")
             # print("||||AFTER STACKING AND ADDING|||")
             # print(x.size())
             # print("||||||||||||||||||||")
@@ -82,9 +82,9 @@ class CapsuleSubLayer(nn.Module):
             # print("||||self.weight[i]|||")
             # print(self.weight[i].size())
             # print("||||||||||||||||||||")
-            print("||||batch_weight|||")
-            print(batch_weight)
-            print("||||||||||||||||||||")
+            # print("||||batch_weight|||")
+            # print(batch_weight)
+            # print("||||||||||||||||||||")
             # u_hat is "prediction vectors" from the capsules in the layer below.
             # Transform inputs by weight matrix.
             # Matrix product of 2 tensors with shape: [128, 1152, 10, 16, 8] x [128, 1152, 10, 8, 1]
@@ -108,13 +108,13 @@ class CapsuleSubLayer(nn.Module):
             #b_ij = Variable(torch.randn(1, head_dim, num_heads ,1))
             b_ij = Variable(torch.zeros(1, head_dim, num_heads ,1))
 
-            print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
-            print(b_ij)
+            # print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
+            # print(b_ij)
 
             if self.cuda_enabled:
                 b_ij = b_ij.cuda()
-            print("|||||||||||||||||||||||||||||||||| Bij after cuda ||||||||||||||||||||||||||||||||||")
-            print(b_ij)
+            # print("|||||||||||||||||||||||||||||||||| Bij after cuda ||||||||||||||||||||||||||||||||||")
+            # print(b_ij)
             # From the paper in the "Capsules on MNIST" section,
             # the sample MNIST test reconstructions of a CapsNet with 3 routing iterations.
             num_iterations = self.num_routing
@@ -126,18 +126,18 @@ class CapsuleSubLayer(nn.Module):
                 # c_ij shape: [1, 1152, 10, 1]
                 c_ij = F.softmax(b_ij, dim=2)  # Convert routing logits (b_ij) to softmax.
 
-                print("||||Cij |||")
-                print(c_ij)
-                print(iteration)
-                print("||||||||||||||||||||")
+                # print("||||Cij |||")
+                # print(c_ij)
+                # print(iteration)
+                # print("||||||||||||||||||||")
 
                 # c_ij shape from: [128, 1152, 10, 1] to: [128, 1152, 10, 1, 1]
                 c_ij = torch.cat([c_ij] * bsz, dim=0)
 
-                print("||||Cij AFTER stacking|||")
-                print(c_ij)
-                print(iteration)
-                print("||||||||||||||||||||")
+                # print("||||Cij AFTER stacking|||")
+                # print(c_ij)
+                # print(iteration)
+                # print("||||||||||||||||||||")
 
                 # Implement equation 2 in the paper.
                 # s_j is total input to a capsule, is a weigthed sum over all "prediction vectors".
@@ -147,10 +147,10 @@ class CapsuleSubLayer(nn.Module):
                 # Sum of Primary Capsules outputs, 1152D becomes 1D.
                 s_j = (c_ij.transpose(2,3) * u_hat.transpose(2,3)).sum(dim=3, keepdim=True)
 
-                print("||||Sj|||")
-                print(s_j)
-                print(iteration)
-                print("||||||||||||||||||||")
+                # print("||||Sj|||")
+                # print(s_j)
+                # print(iteration)
+                # print("||||||||||||||||||||")
 
                 # Squash the vector output of capsule j.
                 # v_j shape: [batch_size, weighted sum of PrimaryCaps output,
@@ -159,19 +159,19 @@ class CapsuleSubLayer(nn.Module):
                 # So, the length of the output vector of a capsule is 16, which is in dim 3.
                 v_j = squash(s_j, dim=3)
 
-                print("||||Vj |||")
-                print(v_j)
-                print(iteration)
-                print("||||||||||||||||||||")
+                # print("||||Vj |||")
+                # print(v_j)
+                # print(iteration)
+                # print("||||||||||||||||||||")
 
                 # in_channel is 1152.
                 # v_j1 shape: [128, 1152, 10, 16, 1]
                 v_j1 = torch.cat([v_j] * num_heads, dim=3)
 
-                print("||||v_j1|||")
-                print(v_j1)
-                print(iteration)
-                print("||||||||||||||||||||")
+                # print("||||v_j1|||")
+                # print(v_j1)
+                # print(iteration)
+                # print("||||||||||||||||||||")
 
                 # The agreement.
                 # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
@@ -180,16 +180,16 @@ class CapsuleSubLayer(nn.Module):
 
                 print("||||||||||||||||||torch.matmul|||||||||||||||||||||||||||||||")
                 print(torch.matmul(u_hat, v_j1.half()))
-                print("||||||||||||||||||||mean dim 3 ||||||||||||||||||||||||||||||||1")
-                print(torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True))
+                # print("||||||||||||||||||||mean dim 3 ||||||||||||||||||||||||||||||||1")
+                # print(torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True))
 
 
                 u_vj1 = torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
 
-                print("||||u_vj1|||")
-                print(u_vj1)
-                print(iteration)
-                print("||||||||||||||||||||")
+                # print("||||u_vj1|||")
+                # print(u_vj1)
+                # print(iteration)
+                # print("||||||||||||||||||||")
 
                 # Update routing (b_ij) by adding the agreement to the initial logit.
 
@@ -201,17 +201,17 @@ class CapsuleSubLayer(nn.Module):
 
                 b_ij = b_ij + u_vj1
 
-                print("||||Bij after adding|||")
-                print(b_ij)
-                print(iteration)
-                print("||||||||||||||||||||")
+                # print("||||Bij after adding|||")
+                # print(b_ij)
+                # print(iteration)
+                # print("||||||||||||||||||||")
 
             #ORIGINAL: return v_j.squeeze(1) # shape: [128, 10, 16, 1]
             squeezed =  v_j.squeeze(2).squeeze(1) # shape: [128, 10, 16, 1]
 
-            print("||||squeezed|||")
-            print(squeezed)
-            print("||||||||||||||||||||")
+            # print("||||squeezed|||")
+            # print(squeezed)
+            # print("||||||||||||||||||||")
 
             # print("/////// squeezed #" + str(i) + " /////////////////")
             # print(squeezed.size())
