@@ -4415,14 +4415,15 @@ def multi_head_attention_forward(
 
     from .capsule_sublayer import CapsuleSubLayer
 
-    # print("||||||||||||||TENSOR CHECK (before init capsulesublayer) ||||||||||")
-    # print(dynamic_routing_weight.size())
+    print("||||||||||||||TENSOR CHECK (before init capsulesublayer) ||||||||||")
+    print(dynamic_routing_weights[0])
 
     #no idea why in_channel=16 and num_unit=10
     capsnet_sublayer = CapsuleSubLayer(num_routing=3, cuda_enabled=True, weights=dynamic_routing_weights)
 
 
-
+    print("|||||||||||||||||||||||attn_output before capsue forward|||||||||||||||||||")
+    print(attn_output)
     attn_output = capsnet_sublayer.forward(attn_output.contiguous().view(num_heads, bsz, tgt_len, head_dim))
 
     attn_output = attn_output.transpose(0, 3)
