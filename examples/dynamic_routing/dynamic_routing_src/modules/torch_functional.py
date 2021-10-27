@@ -4424,7 +4424,7 @@ def multi_head_attention_forward(
 
     # print("|||||||||||||||||||||||attn_output before capsue forward|||||||||||||||||||")
     # print(attn_output)
-    # attn_output = capsnet_sublayer.forward(attn_output.contiguous().view(num_heads, bsz, tgt_len, head_dim))
+    attn_output = capsnet_sublayer.forward(attn_output.contiguous().view(num_heads, bsz, tgt_len, head_dim))
 
     attn_output = attn_output.transpose(0, 3)
     attn_output = attn_output.transpose(1,3)
