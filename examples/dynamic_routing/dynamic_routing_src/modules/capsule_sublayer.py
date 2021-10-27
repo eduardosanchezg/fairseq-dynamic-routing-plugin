@@ -185,7 +185,7 @@ class CapsuleSubLayer(nn.Module):
 
 
                 u_vj1 = torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
-                if u_vj1.abs().mean().item() > 10:
+                if u_vj1.abs().mean().item() > 1:
                     u_vj1 = u_vj1 / 10
                 # if i == 0:
                 #     print("||||u_vj1|||")
