@@ -4419,7 +4419,7 @@ def multi_head_attention_forward(
     # print(dynamic_routing_weights[0])
 
     #no idea why in_channel=16 and num_unit=10
-    capsnet_sublayer = CapsuleSubLayer(num_routing=100, cuda_enabled=True, weights=dynamic_routing_weights)
+    capsnet_sublayer = CapsuleSubLayer(num_routing=1, cuda_enabled=True, weights=dynamic_routing_weights)
 
 
     # print("|||||||||||||||||||||||attn_output before capsue forward|||||||||||||||||||")
