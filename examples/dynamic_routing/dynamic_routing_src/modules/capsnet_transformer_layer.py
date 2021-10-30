@@ -55,7 +55,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
             #self.cfg.encoder.attention_heads,
             #dropout=self.cfg.attention_dropout,
             num_heads=16,
-            dropout=self.cfg.attention_dropout,
+            dropout=0.3,
             self_attention=True,
             q_noise=self.quant_noise,
             qn_block_size=self.quant_noise_block_size,
