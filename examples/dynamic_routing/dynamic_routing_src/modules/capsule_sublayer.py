@@ -63,7 +63,7 @@ class CapsuleSubLayer(nn.Module):
 
         s = [None for _ in range(num_out)] # [out_dim]
         v = [None for _ in range(num_out)] # [out_dim]
-        B = Variable(torch.zeros(num_in, num_out) )
+        B = np.zeros((num_in, num_out))
 
 
 
