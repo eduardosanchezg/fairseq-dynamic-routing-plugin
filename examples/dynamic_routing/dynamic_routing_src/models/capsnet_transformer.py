@@ -33,16 +33,9 @@ class CapsNetTransformerEncoder(TransformerEncoder):
         super().__init__(args, dictionary, embed_tokens)
 
         self.layers[0] = CapsNetTransformerEncoderLayer(args)
-        clip_value = 1
-        for p in self.layers[0].parameters():
-            p.register_hook(lambda grad: torch.clamp(grad, -clip_value, clip_value))
-
-        # print("///////////////////////////////////////////////////////// LAYERS ///////////////////////////////////////////////")
-        # print(self.layers)
-        # print("///////////////////////////////////////////////////////////////////////////////////////")
-        # for param in self.parameters():
-        #     #print(param)
-        #     print(param.data.size())
+        # clip_value = 1
+        # for p in self.layers[0].parameters():
+        #     p.register_hook(lambda grad: torch.clamp(grad, -clip_value, clip_value))
 
 
 
