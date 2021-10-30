@@ -88,4 +88,4 @@ class CapsuleSubLayer(nn.Module):
 
 
 
-        return torch.stack(v,dim=2)
+        return torch.stack(v,dim=2).permute(2,0,1).reshape(17,224,15,33)

@@ -4426,11 +4426,7 @@ def multi_head_attention_forward(
     # print(attn_output)
     attn_output = capsnet_sublayer.forward(attn_output.contiguous().view(num_heads, bsz, tgt_len, head_dim))
 
-    attn_output = attn_output.transpose(0, 3)
-    attn_output = attn_output.transpose(1,3)
-
     attn_output = attn_output.contiguous().view(bsz * num_heads, tgt_len, head_dim)
-
 
     attn_output = attn_output.transpose(0, 1).contiguous().view(tgt_len, bsz, embed_dim)
     attn_output = linear(attn_output, out_proj_weight, out_proj_bias)
