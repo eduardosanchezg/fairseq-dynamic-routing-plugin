@@ -21,10 +21,16 @@ class CapsuleSubLayer(nn.Module):
     """
     The core implementation of the idea of capsules
     """
-
-    def __init__(self, num_routing, cuda_enabled, weights):
+    num_in : int
+    num_out : int
+    in_dim : int
+    out_dim : int
+    def __init__(self, num_routing, cuda_enabled, weights, num_in, num_out, in_dim, out_dim):
         super(CapsuleSubLayer, self).__init__()
-
+        self.num_in = num_in
+        self.num_out = num_out
+        self.in_dim = in_dim
+        self.out_dim = out_dim
 
         self.num_routing = num_routing
         self.cuda_enabled = cuda_enabled
