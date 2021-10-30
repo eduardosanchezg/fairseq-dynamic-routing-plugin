@@ -88,4 +88,4 @@ class CapsuleSubLayer(nn.Module):
 
 
 
-        return torch.cat([v],dim=2)
+        return torch.cat(v,dim=2)
