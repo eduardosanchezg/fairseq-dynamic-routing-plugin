@@ -65,8 +65,8 @@ class CapsuleSubLayer(nn.Module):
 
 
 
-        if self.cuda_enabled:
-            B = B.cuda()
+        # if self.cuda_enabled:
+        #     B = B.cuda()
         num_iterations = self.num_routing
 
         for iteration in range(num_iterations):
