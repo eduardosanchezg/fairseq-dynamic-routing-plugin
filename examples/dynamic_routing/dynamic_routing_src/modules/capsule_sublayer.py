@@ -94,7 +94,7 @@ class CapsuleSubLayer(nn.Module):
                     B[i,j] = B[i,j] + u_vj1
 
         print("||||||||||||||absmean||||||||||||")
-        print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B.absolute))))
+        print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
 
 
         return torch.stack(v,dim=2).permute(2,0,1).reshape(num_out,bsz,seq_len,out_dim)
