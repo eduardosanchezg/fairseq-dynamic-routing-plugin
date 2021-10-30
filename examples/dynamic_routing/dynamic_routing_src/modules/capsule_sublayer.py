@@ -72,7 +72,7 @@ class CapsuleSubLayer(nn.Module):
         for iteration in range(num_iterations):
             # Routing algorithm
 
-            C = softmax(B, dim=0)  # Convert routing logits (b_ij) to softmax.
+            C = softmax(B)  # Convert routing logits (b_ij) to softmax.
 
             for j in range(num_out):
                 for i in range(num_in):
