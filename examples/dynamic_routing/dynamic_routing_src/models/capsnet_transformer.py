@@ -32,8 +32,10 @@ class CapsNetTransformerEncoder(TransformerEncoder):
     def __init__(self, args, dictionary, embed_tokens):
         super().__init__(args, dictionary, embed_tokens)
 
-        self.layers[0] = CapsNetTransformerEncoderLayer(args)
+        self.layers[0] = CapsNetTransformerEncoderLayer(args).requires_grad_()
 
+        print("|||||||||||||||||grad||||||||||||||")
+        print(self.layers[0].requires_grad_())
         # torch.nn.utils.clip_grad_norm_(self.layers[0].parameters(), max_norm=1)
         #
         # clip_value = 1
