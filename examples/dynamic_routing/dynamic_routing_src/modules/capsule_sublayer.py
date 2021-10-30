@@ -46,6 +46,7 @@ class CapsuleSubLayer(nn.Module):
         return self.routing(x)
 
     def routing(self, x):
+
         num_in, bsz, seq_len, in_dim = x.size()
         assert in_dim == self.in_dim
         assert num_in == self.num_in
@@ -92,6 +93,8 @@ class CapsuleSubLayer(nn.Module):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
                     B[i,j] = B[i,j] + u_vj1
 
+        print("||||||||||||||absmean||||||||||||")
+        print("w: " + self.weights.abs().mean() + " v[0]: " + v[0].abs().mean() + " B: " + B.abs().mean())
 
 
         return torch.stack(v,dim=2).permute(2,0,1).reshape(num_out,bsz,seq_len,out_dim)
