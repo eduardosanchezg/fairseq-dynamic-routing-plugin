@@ -75,7 +75,7 @@ class CapsuleSubLayer(nn.Module):
         for iteration in range(num_iterations):
             # Routing algorithm
 
-            C = scipy.special.softmax(B, axis= 0)  # Convert routing logits (b_ij) to softmax.
+            C = scipy.special.softmax(B, axis= 0) # Convert routing logits (b_ij) to softmax.
 
             for j in range(num_out):
                 for i in range(num_in):
@@ -106,17 +106,23 @@ class CapsuleSubLayer(nn.Module):
                         break
                     B[i,j] = B[i,j] + u_vj1
 
+            if str(np.mean(np.absolute(B))) == "nan":
+                print("|||||||||||B||||||||||||||")
+                print(B)
+                print("--end of b loop--")
+                break
+
         # print("||||||||||||||absmean||||||||||||")
         # print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
-        if str(np.mean(np.absolute(B))) == "nan":
-            print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
-            print(u_hat)
-            print("||||||||||||||||||||||||u")
-            print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
-            print(s[0])
-            print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
-            print(v[0])
-            print("||||||||||||||||||||||||||||||B||||||||||||||||||||||||||||")
-            print(B)
+        # if str(np.mean(np.absolute(B))) == "nan":
+        #     print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
+        #     print(u_hat)
+        #     print("||||||||||||||||||||||||u")
+        #     print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
+        #     print(s[0])
+        #     print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
+        #     print(v[0])
+        #     print("||||||||||||||||||||||||||||||B||||||||||||||||||||||||||||")
+        #     print(B)
 
         return torch.stack(v,dim=2).permute(2,0,1).reshape(num_out,bsz,seq_len,out_dim)
