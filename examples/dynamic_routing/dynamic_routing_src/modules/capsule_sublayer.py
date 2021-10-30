@@ -1,3 +1,4 @@
+import scipy
 import torch
 from torch import nn
 
@@ -15,6 +16,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 import numpy as np
+import scipy.special as scps
 
 
 def softmax(x):
@@ -72,7 +74,7 @@ class CapsuleSubLayer(nn.Module):
         for iteration in range(num_iterations):
             # Routing algorithm
 
-            C = softmax(B)  # Convert routing logits (b_ij) to softmax.
+            C = scipy.special.softmax(B, axis= 0)  # Convert routing logits (b_ij) to softmax.
 
             for j in range(num_out):
                 for i in range(num_in):
