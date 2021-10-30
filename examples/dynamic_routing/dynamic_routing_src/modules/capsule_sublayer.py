@@ -93,8 +93,14 @@ class CapsuleSubLayer(nn.Module):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
                     B[i,j] = B[i,j] + u_vj1
 
-        print("||||||||||||||absmean||||||||||||")
-        print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
-
+        # print("||||||||||||||absmean||||||||||||")
+        # print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
+        if str(np.mean(np.absolute(B))) == "nan":
+            print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
+            print(s[0])
+            print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
+            print(v[0])
+            print("||||||||||||||||||||||||||||||B||||||||||||||||||||||||||||")
+            print(B)
 
         return torch.stack(v,dim=2).permute(2,0,1).reshape(num_out,bsz,seq_len,out_dim)
