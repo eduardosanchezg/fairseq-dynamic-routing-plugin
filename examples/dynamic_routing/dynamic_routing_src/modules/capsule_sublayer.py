@@ -83,6 +83,13 @@ class CapsuleSubLayer(nn.Module):
                         s[j] = C[i,j]*u_hat[:,i,j,:] # [joint_batch, ]
                     else:
                         s[j] = C[i,j]*u_hat[:,i,j,:]
+                    if str(s[j].abs().mean().item()) == "nan":
+                        print("|||||||||||s_j||||||||||||||")
+                        print(s[j])
+                        print(i)
+                        print(j)
+                        break
+
 
             v = [squash(s[j], dim=1) for j in range(num_out)]
 
@@ -91,6 +98,12 @@ class CapsuleSubLayer(nn.Module):
             for i in range(num_in):
                 for j in range(num_out):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
+                    if str(np.mean(np.absolute(B))) == "nan":
+                        print("|||||||||||B||||||||||||||")
+                        print(B)
+                        print(i)
+                        print(j)
+                        break
                     B[i,j] = B[i,j] + u_vj1
 
         # print("||||||||||||||absmean||||||||||||")
@@ -98,6 +111,7 @@ class CapsuleSubLayer(nn.Module):
         if str(np.mean(np.absolute(B))) == "nan":
             print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
             print(u_hat)
+            print("||||||||||||||||||||||||u")
             print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
             print(s[0])
             print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
