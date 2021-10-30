@@ -17,6 +17,10 @@ from torch import nn
 import numpy as np
 
 
+def softmax(x):
+    """Compute softmax values for each sets of scores in x."""
+    return np.exp(x) / np.sum(np.exp(x), axis=0)
+
 class CapsuleSubLayer(nn.Module):
     """
     The core implementation of the idea of capsules
@@ -57,7 +61,7 @@ class CapsuleSubLayer(nn.Module):
 
         s = [None for _ in range(num_out)] # [out_dim]
         v = [None for _ in range(num_out)] # [out_dim]
-        B = torch.zeros(num_in, num_out)
+        B = Variable(torch.zeros(num_in, num_out) )
 
 
 
@@ -68,7 +72,7 @@ class CapsuleSubLayer(nn.Module):
         for iteration in range(num_iterations):
             # Routing algorithm
 
-            C = F.softmax(B, dim=1)  # Convert routing logits (b_ij) to softmax.
+            C = softmax(B, dim=0)  # Convert routing logits (b_ij) to softmax.
 
             for j in range(num_out):
                 for i in range(num_in):
