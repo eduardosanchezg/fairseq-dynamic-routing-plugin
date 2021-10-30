@@ -46,24 +46,19 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         self.out_dim = 32
         self.num_in = 16
         self.num_out = 16
-        #self.capsule_proj_weight = None#Parameter(torch.randn(512, 16))
-        #self.capsule_proj_bias = None#Parameter(torch.randn(512))    #emb_size
-        self.dynamic_routing_weights = nn.Parameter(torch.randn( (self.num_in, self.num_out, self.in_dim, self.out_dim), device='cuda', dtype= torch.half, requires_grad=True))
+        self.dynamic_routing_weights = nn.Parameter(torch.randn( (self.num_in, self.num_out, self.in_dim, self.out_dim), device='cuda', dtype= torch.half))
 
-        # print("||||||||||||||TENSOR CHECK ||||||||||")
-        # print(self.dynamic_routing_weights[0])
+
 
         self.self_attn_layer = ModifiedMultiheadAttention(
             self.embed_dim,
             #self.cfg.encoder.attention_heads,
             #dropout=self.cfg.attention_dropout,
             num_heads=16,
-            dropout=0.1,
+            dropout=self.cfg.attention_dropout,
             self_attention=True,
             q_noise=self.quant_noise,
             qn_block_size=self.quant_noise_block_size,
-            #capsule_proj_weight=self.capsule_proj_weight,
-            #capsule_proj_bias=self.capsule_proj_bias,
             dynamic_routing_weights = self.dynamic_routing_weights
         )
 
