@@ -3,10 +3,7 @@ from torch import nn
 
 from .utils import squash
 
-BATCH_SIZE = 100
-NUM_CLASSES = 10
-#NUM_EPOCHS = 500
-NUM_ROUTING_ITERATIONS = 3
+
 
 from torch.autograd import Variable
 from torch.optim import Adam
@@ -37,191 +34,52 @@ class CapsuleSubLayer(nn.Module):
         return self.routing(x)
 
     def routing(self, x):
-        """
-        Routing algorithm for capsule.
-        :input: tensor x of shape [128, 8, 1152]
-        :return: vector output of capsule j
-        """
-        num_heads, bsz, seq_len, head_dim = x.size()
-        # print("||||INITIAL VALUE|||")
-        # print(x)
-        # print("||||||||||||||||||||")
+        num_in, bsz, seq_len, in_dim = x.size()
+        assert in_dim == self.in_dim
+        assert num_in == self.num_in
+        out_dim = self.out_dim
+        num_out = self.num_out
+        joint_batch = bsz * seq_len
 
-        output = []
+        u = x.transpose(0,2).contiguous().view(joint_batch,num_in,in_dim) # [joint_batch, num_in, in_dim]
 
-        for i in range(num_heads):
+        stacked_u = torch.stack([u] * num_out, dim=2) # [joint_batch, num_in, num_out, in_dim]
 
-            u_i = x[i,:,:,:] # EDU: keep only one of the heads
+        u_hat = torch.einsum('wxyz,bwxy->bwxz', (self.weights, stacked_u))
 
-            # print("||||u_i|||")
-            # print(u_i)
-            # print("||||||||||||||||||||")
-            #batch_size = x.size(0)
+        #u_hat = torch.bmm(self.weights.expand(joint_batch, num_in, num_out, in_dim, out_dim).contiguous().view(joint_batch,num_in*num_out), stacked_u.unsqueeze(3)) # [joint_batch, num_in, num_out, out_dim]
 
-            #x = x.transpose(1, 2) # dim 1 and dim 2 are swapped. out tensor shape: [128, 1152, 8]
-
-            # print("||||AFTER TRANSPOSE|||")
-            # print(x.size())
-            # print("||||||||||||||||||||")
-
-            # Stacking and adding a dimension to a tensor.
-            # stack ops output shape: [128, 1152, 10, 8]
-            # unsqueeze ops output shape: [128, 1152, 10, 8, 1]
-            #x = torch.stack([x] * self.num_unit, dim=2).unsqueeze(4)
-            stacked_u_i = torch.stack([u_i]*num_heads, dim=2) # EDU: stacking u_i num_head times to multiply simultaneously
-            # print("||||stacked_u_i|||")
-            # print(stacked_u_i)
-            # print("||||||||||||||||||||")
-            # print("||||AFTER STACKING AND ADDING|||")
-            # print(x.size())
-            # print("||||||||||||||||||||")
-
-            # Convert single weight to batch weight.
-            # [1 x 1152 x 10 x 16 x 8] to: [128, 1152, 10, 16, 8]
-            batch_weight = torch.stack([self.weights[i]] * bsz, dim=0)
-            # print("||||self.weight[i]|||")
-            # print(self.weight[i].size())
-            # print("||||||||||||||||||||")
-            # print("||||batch_weight|||")
-            # print(batch_weight)
-            # print("||||||||||||||||||||")
-            # u_hat is "prediction vectors" from the capsules in the layer below.
-            # Transform inputs by weight matrix.
-            # Matrix product of 2 tensors with shape: [128, 1152, 10, 16, 8] x [128, 1152, 10, 8, 1]
-            # u_hat shape: [128, 1152, 10, 16, 1]
+        s = [None for _ in range(num_out)] # [out_dim]
+        v = [None for _ in range(num_out)] # [out_dim]
+        B = Variable(torch.zeros(num_in, num_out) )
 
 
-            #stacked_u_i = stacked_u_i.transpose(2,3)
-            # print("||||batch_weight|||")
-            # print(batch_weight.size())
-            # print("||||stacked_u_i|||")
-            # print(stacked_u_i.size())
-            u_hat = torch.matmul(batch_weight, stacked_u_i.transpose(1,3))
 
-            print("|||||||||||||||||||||||||||||||||| U HAT ||||||||||||||||||||||||||||||||||")
-            print(u_hat.abs().mean())
+        if self.cuda_enabled:
+            B = B.cuda()
+        num_iterations = self.num_routing
 
-            # All the routing logits (b_ij in the paper) are initialized to zero.
-            # self.in_channel = primary_unit_size = 32 * 6 * 6 = 1152
-            # self.num_unit = num_classes = 10
-            # b_ij shape: [1, 1152, 10, 1]
-            #b_ij = Variable(torch.randn(1, head_dim, num_heads ,1))
-            b_ij = Variable(torch.zeros(1, head_dim, num_heads ,1))
+        for iteration in range(num_iterations):
+            # Routing algorithm
 
-            # print("|||||||||||||||||||||||||||||||||| Bij ||||||||||||||||||||||||||||||||||")
-            # print(b_ij)
+            C = F.softmax(B, dim=1)  # Convert routing logits (b_ij) to softmax.
 
-            if self.cuda_enabled:
-                b_ij = b_ij.cuda()
-            # print("|||||||||||||||||||||||||||||||||| Bij after cuda ||||||||||||||||||||||||||||||||||")
-            # print(b_ij)
-            # From the paper in the "Capsules on MNIST" section,
-            # the sample MNIST test reconstructions of a CapsNet with 3 routing iterations.
-            num_iterations = self.num_routing
+            for j in range(num_out):
+                for i in range(num_in):
+                    if s[j] == None:
+                        s[j] = C[i,j]*u_hat[:,i,j,:] # [joint_batch, ]
+                    else:
+                        s[j] = C[i,j]*u_hat[:,i,j,:]
 
-            for iteration in range(num_iterations):
-                # Routing algorithm
+            v = [squash(s[j], dim=1) for j in range(num_out)]
 
-                # Calculate routing or also known as coupling coefficients (c_ij).
-                # c_ij shape: [1, 1152, 10, 1]
-                c_ij = F.softmax(b_ij, dim=2)  # Convert routing logits (b_ij) to softmax.
 
-                # print("||||Cij |||")
-                # print(c_ij)
-                # print(iteration)
-                # print("||||||||||||||||||||")
 
-                # c_ij shape from: [128, 1152, 10, 1] to: [128, 1152, 10, 1, 1]
-                c_ij = torch.cat([c_ij] * bsz, dim=0)
+            for i in range(num_in):
+                for j in range(num_out):
+                    u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
+                    B[i,j] = B[i,j] + u_vj1
 
-                # print("||||Cij AFTER stacking|||")
-                # print(c_ij)
-                # print(iteration)
-                # print("||||||||||||||||||||")
 
-                # Implement equation 2 in the paper.
-                # s_j is total input to a capsule, is a weigthed sum over all "prediction vectors".
-                # u_hat is weighted inputs, prediction ˆuj|i made by capsule i.
-                # c_ij * u_hat shape: [128, 1152, 10, 16, 1]
-                # s_j output shape: [batch_size=128, 1, 10, 16, 1]
-                # Sum of Primary Capsules outputs, 1152D becomes 1D.
-                s_j = (c_ij.transpose(2,3) * u_hat.transpose(2,3)).sum(dim=3, keepdim=True)
 
-                # print("||||Sj|||")
-                # print(s_j)
-                # print(iteration)
-                # print("||||||||||||||||||||")
-
-                # Squash the vector output of capsule j.
-                # v_j shape: [batch_size, weighted sum of PrimaryCaps output,
-                #             num_classes, output_unit_size from u_hat, 1]
-                # == [128, 1, 10, 16, 1]
-                # So, the length of the output vector of a capsule is 16, which is in dim 3.
-                v_j = squash(s_j, dim=3)
-
-                # print("||||Vj |||")
-                # print(v_j)
-                # print(iteration)
-                # print("||||||||||||||||||||")
-
-                # in_channel is 1152.
-                # v_j1 shape: [128, 1152, 10, 16, 1]
-                v_j1 = torch.cat([v_j] * num_heads, dim=3)
-
-                # print("||||v_j1|||")
-                # print(v_j1)
-                # print(iteration)
-                # print("||||||||||||||||||||")
-
-                # The agreement.
-                # Transpose u_hat with shape [128, 1152, 10, 16, 1] to [128, 1152, 10, 1, 16],
-                # so we can do matrix product u_hat and v_j1.
-                # u_vj1 shape: [1, 1152, 10, 1]
-
-                # print("||||||||||||||||||torch.matmul|||||||||||||||||||||||||||||||")
-                # print(torch.matmul(u_hat, v_j1.half()))
-                # print("||||||||||||||||||||mean dim 3 ||||||||||||||||||||||||||||||||1")
-                # print(torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True))
-
-                # print("||||v_j1|||")
-                # print(v_j1.abs().mean())
-                # print(iteration)
-                # print("||||||||||||||||||||")
-                u_vj1 = torch.matmul(u_hat, v_j1.half()).mean(dim=3, keepdim=True).mean(dim=0, keepdim=True)
-                # if u_vj1.abs().mean().item() > 1:
-                #     u_vj1 = u_vj1 / 10
-                # if i == 0:
-                #     print("||||u_vj1|||")
-                #     print(u_vj1.abs().mean())
-                #     print(iteration)
-                #     print("||||||||||||||||||||")
-
-                # Update routing (b_ij) by adding the agreement to the initial logit.
-
-                # print("||||Bij and Uvj1 before adding|||")
-                # print(b_ij.size())
-                # print(u_vj1.size())
-                # print(iteration)
-                # print("||||||||||||||||||||")
-
-                b_ij = b_ij + u_vj1
-
-                # print("||||Bij after adding|||")
-                # print(b_ij)
-                # print(iteration)
-                # print("||||||||||||||||||||")
-
-            #ORIGINAL: return v_j.squeeze(1) # shape: [128, 10, 16, 1]
-            squeezed =  v_j.squeeze(2).squeeze(1) # shape: [128, 10, 16, 1]
-
-            # print("||||squeezed|||")
-            # print(squeezed)
-            # print("||||||||||||||||||||")
-
-            # print("/////// squeezed #" + str(i) + " /////////////////")
-            # print(squeezed.size())
-            output.append(squeezed)
-
-        # print("////////// output ///////////////")
-        # print(torch.cat(output,dim=3).size())
-        return torch.cat(output,dim=3)
+        return torch.cat(v,dim=3)
