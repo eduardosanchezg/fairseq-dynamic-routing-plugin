@@ -100,14 +100,14 @@ class CapsuleSubLayer(nn.Module):
             v = [squash(s[j], dim=1) for j in range(num_out)]
 
             for i in range(len(v)):
-                if str(s[j].abs().mean().item()) == "nan":
+                if print(torch.isnan(v[i]).any()):
                     print("|||||||||||||||||V||||||||||||")
                     print(v[i])
                     print(i)
 
             for i in range(num_in):
                 for j in range(num_out):
-                    u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j].float(), dim=0).half())
+                    u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
 
                     if str(np.mean(np.absolute(B))) == "nan":
                         print(torch.isnan(v[j]).any())
