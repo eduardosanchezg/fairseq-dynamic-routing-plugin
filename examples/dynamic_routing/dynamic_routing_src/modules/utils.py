@@ -55,8 +55,19 @@ def squash(sj):
         print("||||||||||||SQ NORM|||||||||||||")
         print(sq_norm)
 
+    num = sq_norm * sj
 
-    vj = torch.div(sq_norm * sj, (1 + sq_norm) * norm)
+    if torch.isnan(num).any():
+        print("|||||||||||| NUM |||||||||||||")
+        print(num)
+
+    den = (1 + sq_norm) * norm
+
+    if torch.isnan(den).any():
+        print("|||||||||||| DEN |||||||||||||")
+        print(den)
+
+    vj = torch.div(num, den)
 
     if torch.isnan(vj).any():
         print("||||||||||||V_j|||||||||||||")
