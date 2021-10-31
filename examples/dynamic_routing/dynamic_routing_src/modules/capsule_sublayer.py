@@ -107,7 +107,7 @@ class CapsuleSubLayer(nn.Module):
 
             for i in range(num_in):
                 for j in range(num_out):
-                    u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
+                    u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j].float(), dim=0).half())
                     if str(np.mean(np.absolute(B))) == "nan":
                         print("|||||||||||B||||||||||||||")
                         print(B)
@@ -122,6 +122,7 @@ class CapsuleSubLayer(nn.Module):
                         print(v[j])
                         print(">>>>>>>>>>>>>>>v_j mean")
                         print(torch.mean(v[j], dim=0))
+                        break
                     B[i,j] = B[i,j] + u_vj1
 
             if str(np.mean(np.absolute(B))) == "nan":
