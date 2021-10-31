@@ -79,7 +79,7 @@ def squash(sj):
                     print(num[i,j])
                     print(den[i,j])
                     print(norm[i,j])
-                    print(sj[i,j])
+                    print(sj[i,:])
                     break
                     break_out = True
             if break_out:
