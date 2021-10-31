@@ -47,7 +47,7 @@ def squash(sj):
     sq_norm = torch.dot(norm,norm)
     # ||sj||
 
-    vj = torch.div(torch.dot(sq_norm,sj),torch.dot(1 + sq_norm),norm)
+    vj = torch.div(torch.dot(sq_norm,sj),torch.dot(1 + sq_norm,norm))
 
     return vj
 
