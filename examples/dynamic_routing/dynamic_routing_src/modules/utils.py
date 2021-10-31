@@ -66,21 +66,24 @@ def squash(sj):
     # if torch.isnan(den).any():
     #     print("|||||||||||| DEN |||||||||||||")
     #     print(den)
-    break_out = False
-    for i in range(sj.size(0)):
-        for j in range(sj.size(1)):
-            a = num[i,j] / den[i,j]
-            if torch.isnan(a):
-                print("||||||a||||||||||||||")
-                print(a)
-                print(num[i,j])
-                print(den[i,j])
-                break
-                break_out = True
-        if break_out:
-            break
 
     vj = torch.div(num, den)
+    if torch.isnan(vj).any():
+        break_out = False
+        for i in range(sj.size(0)):
+            for j in range(sj.size(1)):
+                a = num[i,j] / den[i,j]
+                if torch.isnan(a):
+                    print("||||||a||||||||||||||")
+                    print(a)
+                    print(num[i,j])
+                    print(den[i,j])
+                    break
+                    break_out = True
+            if break_out:
+                break
+
+
 
     # if torch.isnan(vj).any():
     #     print("||||||||||||V_j|||||||||||||")
