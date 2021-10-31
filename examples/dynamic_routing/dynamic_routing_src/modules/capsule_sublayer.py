@@ -77,6 +77,11 @@ class CapsuleSubLayer(nn.Module):
 
             C = scipy.special.softmax(B, axis= 0) # Convert routing logits (b_ij) to softmax.
 
+            if str(np.mean(np.absolute(C))) == "nan":
+                print("|||||||||||C||||||||||||||")
+                print(C)
+                print(iteration)
+
             for j in range(num_out):
                 for i in range(num_in):
                     if s[j] == None:
@@ -88,6 +93,7 @@ class CapsuleSubLayer(nn.Module):
                         print(s[j])
                         print(i)
                         print(j)
+                        print(iteration)
                         break
 
 
@@ -103,6 +109,7 @@ class CapsuleSubLayer(nn.Module):
                         print(B)
                         print(i)
                         print(j)
+                        print(iteration)
                         break
                     B[i,j] = B[i,j] + u_vj1
 
@@ -110,6 +117,7 @@ class CapsuleSubLayer(nn.Module):
                 print("|||||||||||B||||||||||||||")
                 print(B)
                 print("--end of b loop--")
+                print(iteration)
                 break
 
         # print("||||||||||||||absmean||||||||||||")
