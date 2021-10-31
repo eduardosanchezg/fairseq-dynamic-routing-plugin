@@ -44,9 +44,12 @@ def squash(sj):
 
     norm = torch.linalg.vector_norm(sj, dim=1)
 
-    # if torch.isnan(norm).any():
-    #     print("||||||||||||NORM|||||||||||||")
-    #     print(norm)
+    if torch.iszero(norm).any():
+        print("||||||||||||NORM|||||||||||||")
+        try:
+            print(norm[4060,:])
+        except:
+            print("INDEX NOT VALID")
 
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
