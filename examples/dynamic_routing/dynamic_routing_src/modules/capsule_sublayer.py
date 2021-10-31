@@ -96,14 +96,17 @@ class CapsuleSubLayer(nn.Module):
                         print(iteration)
                         break
 
-            for i in range(len(s)):
-                if torch.isnan(s[i]).any():
-                    print("|||||||||||||||||S||||||||||||")
-                    print(s[i])
-                    print(i)
+
 
             v = [squash(s[j], dim=1) for j in range(num_out)]
 
+            for i in range(len(v)):
+                if torch.isnan(v[i]).any():
+                    print("|||||||||||||||||S||||||||||||")
+                    print(s[i])
+                    print("|||||||||||||||||V||||||||||||")
+                    print(v[i])
+                    print(i)
 
 
             for i in range(num_in):
