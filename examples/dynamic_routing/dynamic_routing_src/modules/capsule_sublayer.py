@@ -99,7 +99,11 @@ class CapsuleSubLayer(nn.Module):
 
             v = [squash(s[j], dim=1) for j in range(num_out)]
 
-
+            for i in range(len(v)):
+                if str(s[j].abs().mean().item()) == "nan":
+                    print("|||||||||||||||||V||||||||||||")
+                    print(v[i])
+                    print(i)
 
             for i in range(num_in):
                 for j in range(num_out):
@@ -111,7 +115,6 @@ class CapsuleSubLayer(nn.Module):
                         print(j)
                         print(iteration)
                         print(u_vj1)
-                        break
                     B[i,j] = B[i,j] + u_vj1
 
             if str(np.mean(np.absolute(B))) == "nan":
@@ -127,6 +130,7 @@ class CapsuleSubLayer(nn.Module):
             print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
             print(u_hat)
             print("||||||||||||||||||||||||u")
+            print(u)
             print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
             print(s[0])
             print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
