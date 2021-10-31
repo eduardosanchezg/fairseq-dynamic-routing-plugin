@@ -88,19 +88,20 @@ class CapsuleSubLayer(nn.Module):
                         s[j] = C[i,j]*u_hat[:,i,j,:] # [joint_batch, ]
                     else:
                         s[j] = C[i,j]*u_hat[:,i,j,:]
-                    for k in range(joint_batch):
-                        if s[j][k,:].mean().item() == "0":
-                            print("|||||||||||s_j||||||||||||||")
-                            print(s[j][k,:])
-                            print(i)
-                            print(j)
-                            print(k)
-                            print(iteration)
-                            break
 
 
+            for j in range(num_out):
+                for k in range(joint_batch):
+                    if s[j][k, :].mean().item() == 0:
+                        print("|||||||||||s_j||||||||||||||")
+                        print(s[j][k, :])
+                        print(j)
+                        print(k)
+                        break
 
             v = [squash(s[j]) for j in range(num_out)]
+
+
 
             #v = s
 
