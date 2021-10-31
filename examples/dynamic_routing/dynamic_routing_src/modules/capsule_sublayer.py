@@ -114,21 +114,21 @@ class CapsuleSubLayer(nn.Module):
 
             #v = s
 
-            # for i in range(len(v)):
-            #     if torch.isnan(v[i]).any():
-            #         print("|||||||||||||||||S||||||||||||")
-            #         print(torch.isnan(s[i]).any())
-            #         print("|||||||||||||||||V||||||||||||")
-            #         print(torch.isnan(v[i]))
-            #         print(i)
+            for i in range(len(v)):
+                if not torch.isfinite(v[i]).any():
+                    print("|||||||||||||||||S||||||||||||")
+                    print(torch.isnan(s[i]).any())
+                    print("|||||||||||||||||V||||||||||||")
+                    print(torch.isnan(v[i]))
+                    print(i)
 
 
             for i in range(num_in):
                 for j in range(num_out):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
 
-                    if str(np.mean(np.absolute(B))) == "nan":
-                        print(torch.isnan(v[j]).any())
+                    if str(np.mean(np.absolute(B))) in ["nan","inf","-inf"]:
+                        print(not torch.isfinite(v[j]).any())
                         print("|||||||||||B||||||||||||||")
                         print(B)
                         print(i)
