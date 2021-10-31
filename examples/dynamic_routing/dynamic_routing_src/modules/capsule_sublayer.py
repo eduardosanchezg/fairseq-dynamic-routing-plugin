@@ -1,3 +1,5 @@
+from random import random
+
 import scipy
 import torch
 from torch import nn
@@ -55,6 +57,8 @@ class CapsuleSubLayer(nn.Module):
         joint_batch = bsz * seq_len
 
         u = x.transpose(0,2).contiguous().view(joint_batch,num_in,in_dim) # [joint_batch, num_in, in_dim]
+
+        u[u==0] = random.uniform(-0.010, 0.010)
 
         # print("||||||||||||||||||U||||||||||||||||||||||||")
         # try:
