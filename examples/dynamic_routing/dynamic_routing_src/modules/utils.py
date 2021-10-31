@@ -44,34 +44,41 @@ def squash(sj):
 
     norm = torch.linalg.vector_norm(sj, dim=1)
 
-    if torch.isnan(norm).any():
-        print("||||||||||||NORM|||||||||||||")
-        print(norm)
+    # if torch.isnan(norm).any():
+    #     print("||||||||||||NORM|||||||||||||")
+    #     print(norm)
 
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
 
-    if torch.isnan(sq_norm).any():
-        print("||||||||||||SQ NORM|||||||||||||")
-        print(sq_norm)
+    # if torch.isnan(sq_norm).any():
+    #     print("||||||||||||SQ NORM|||||||||||||")
+    #     print(sq_norm)
 
     num = sq_norm * sj
 
-    if torch.isnan(num).any():
-        print("|||||||||||| NUM |||||||||||||")
-        print(num)
+    # if torch.isnan(num).any():
+    #     print("|||||||||||| NUM |||||||||||||")
+    #     print(num)
 
     den = (1 + sq_norm) * norm
 
-    if torch.isnan(den).any():
-        print("|||||||||||| DEN |||||||||||||")
-        print(den)
+    # if torch.isnan(den).any():
+    #     print("|||||||||||| DEN |||||||||||||")
+    #     print(den)
+
+    for i in range(sj.size(0)):
+        for j in range(sj.size(1)):
+            a = num[i,j] / den[i,j]
+            if torch.isnan(a):
+                print("||||||a||||||||||||||")
+                print(a)
 
     vj = torch.div(num, den)
 
-    if torch.isnan(vj).any():
-        print("||||||||||||V_j|||||||||||||")
-        print(vj)
+    # if torch.isnan(vj).any():
+    #     print("||||||||||||V_j|||||||||||||")
+    #     print(vj)
 
     return vj
 
