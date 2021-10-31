@@ -44,10 +44,10 @@ def squash(sj):
 
     norm = torch.linalg.vector_norm(sj, dim=1)
     norm = torch.stack([norm]*sj.size(1),dim=1)
-    sq_norm = torch.dot(norm,norm)
+    sq_norm = norm * norm
     # ||sj||
 
-    vj = torch.div(torch.dot(sq_norm,sj),torch.dot(1 + sq_norm,norm))
+    vj = torch.div(sq_norm * sj, (1 + sq_norm) * norm)
 
     return vj
 
