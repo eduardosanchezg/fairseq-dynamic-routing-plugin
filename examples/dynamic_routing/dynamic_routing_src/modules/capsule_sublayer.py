@@ -57,7 +57,7 @@ class CapsuleSubLayer(nn.Module):
 
         u = x.transpose(0,2).contiguous().view(joint_batch,num_in,in_dim) # [joint_batch, num_in, in_dim]
 
-        u[u==0] = np.random.uniform(-0.010, 0.010)
+        u[u==0] = np.random.uniform(-1, 1)
 
         # print("||||||||||||||||||U||||||||||||||||||||||||")
         # try:
