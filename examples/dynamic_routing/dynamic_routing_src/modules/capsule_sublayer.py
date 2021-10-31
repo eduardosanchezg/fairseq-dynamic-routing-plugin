@@ -59,11 +59,11 @@ class CapsuleSubLayer(nn.Module):
 
         u[u==0.0] = np.random.uniform(-0.5, 0.5)
 
-        # print("||||||||||||||||||U||||||||||||||||||||||||")
-        # try:
-        #     print(u[4060,:,:])
-        # except:
-        #     print("INDEX NOT VALID")
+        print("||||||||||||||||||U||||||||||||||||||||||||")
+        try:
+            print(u[4060,:,:])
+        except:
+            print("INDEX NOT VALID")
 
         stacked_u = torch.stack([u] * num_out, dim=2) # [joint_batch, num_in, num_out, in_dim]
 
