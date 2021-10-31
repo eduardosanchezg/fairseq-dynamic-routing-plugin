@@ -98,7 +98,9 @@ class CapsuleSubLayer(nn.Module):
 
 
 
-            v = [squash(s[j], dim=0) for j in range(num_out)]
+            #v = [squash(s[j], dim=0) for j in range(num_out)]
+
+            v = s
 
             for i in range(len(v)):
                 if torch.isnan(v[i]).any():
