@@ -119,6 +119,8 @@ class CapsuleSubLayer(nn.Module):
                         print(">>>>>>>>>>>>>u_hat")
                         print(torch.mean(u_hat[:, i, j, :], dim=0))
                         print(">>>>>>>>>>>>>>>v_j")
+                        print(v[j])
+                        print(">>>>>>>>>>>>>>>v_j mean")
                         print(torch.mean(v[j], dim=0))
                     B[i,j] = B[i,j] + u_vj1
 
