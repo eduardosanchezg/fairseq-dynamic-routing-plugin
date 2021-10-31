@@ -103,9 +103,9 @@ class CapsuleSubLayer(nn.Module):
             for i in range(len(v)):
                 if torch.isnan(v[i]).any():
                     print("|||||||||||||||||S||||||||||||")
-                    print(s[i])
+                    print(torch.isnan(s[i]).any())
                     print("|||||||||||||||||V||||||||||||")
-                    print(v[i])
+                    print(torch.isnan(v[i]))
                     print(i)
 
 
