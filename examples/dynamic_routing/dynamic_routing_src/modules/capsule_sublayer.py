@@ -108,7 +108,9 @@ class CapsuleSubLayer(nn.Module):
             for i in range(num_in):
                 for j in range(num_out):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j].float(), dim=0).half())
+
                     if str(np.mean(np.absolute(B))) == "nan":
+                        print(torch.isnan(x).any())
                         print("|||||||||||B||||||||||||||")
                         print(B)
                         print(i)
