@@ -43,7 +43,7 @@ def squash(sj):
 
 
     norm = torch.linalg.vector_norm(sj, dim=1)
-    norm = norm.stack([norm]*sj.size(1),dim=1)
+    norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = torch.dot(norm,norm)
     # ||sj||
 
