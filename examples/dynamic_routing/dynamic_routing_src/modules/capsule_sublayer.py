@@ -127,22 +127,22 @@ class CapsuleSubLayer(nn.Module):
                 for j in range(num_out):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
 
-                    # if str(np.mean(np.absolute(B))) == "nan":
-                    #     print(torch.isnan(v[j]).any())
-                    #     print("|||||||||||B||||||||||||||")
-                    #     print(B)
-                    #     print(i)
-                    #     print(j)
-                    #     print(iteration)
-                    #     print(">>>>>>>>>>>>u_vj1")
-                    #     print(u_vj1)
-                    #     print(">>>>>>>>>>>>>u_hat")
-                    #     print(torch.mean(u_hat[:, i, j, :], dim=0))
-                    #     print(">>>>>>>>>>>>>>>v_j")
-                    #     print(v[j])
-                    #     print(">>>>>>>>>>>>>>>v_j mean")
-                    #     print(torch.mean(v[j], dim=0))
-                    #     break
+                    if str(np.mean(np.absolute(B))) == "nan":
+                        print(torch.isnan(v[j]).any())
+                        print("|||||||||||B||||||||||||||")
+                        print(B)
+                        print(i)
+                        print(j)
+                        print(iteration)
+                        print(">>>>>>>>>>>>u_vj1")
+                        print(u_vj1)
+                        print(">>>>>>>>>>>>>u_hat")
+                        print(torch.mean(u_hat[:, i, j, :], dim=0))
+                        print(">>>>>>>>>>>>>>>v_j")
+                        print(v[j])
+                        print(">>>>>>>>>>>>>>>v_j mean")
+                        print(torch.mean(v[j], dim=0))
+                        break
                     B[i,j] = B[i,j] + u_vj1
 
             # if str(np.mean(np.absolute(B))) == "nan":
@@ -152,8 +152,8 @@ class CapsuleSubLayer(nn.Module):
             #     print(iteration)
             #     break
 
-        # print("||||||||||||||absmean||||||||||||")
-        # print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
+        print("||||||||||||||absmean||||||||||||")
+        print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
         # if str(np.mean(np.absolute(B))) == "nan":
         #     print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
         #     print(u_hat)
