@@ -43,11 +43,24 @@ def squash(sj):
 
 
     norm = torch.linalg.vector_norm(sj, dim=1)
+
+    if torch.isnan(norm).any():
+        print("||||||||||||NORM|||||||||||||")
+        print(norm)
+
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
-    # ||sj||
+
+    if torch.isnan(sq_norm).any():
+        print("||||||||||||SQ NORM|||||||||||||")
+        print(sq_norm)
+
 
     vj = torch.div(sq_norm * sj, (1 + sq_norm) * norm)
+
+    if torch.isnan(vj).any():
+        print("||||||||||||V_j|||||||||||||")
+        print(vj)
 
     return vj
 

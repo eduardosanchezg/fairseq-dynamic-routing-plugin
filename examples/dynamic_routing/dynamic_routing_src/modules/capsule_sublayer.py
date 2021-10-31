@@ -75,12 +75,12 @@ class CapsuleSubLayer(nn.Module):
         for iteration in range(num_iterations):
             # Routing algorithm
 
-            C = scipy.special.softmax(B, axis= 0) # Convert routing logits (b_ij) to softmax.
+            C = scipy.special.softmax(B, axis= 1) # Convert routing logits (b_ij) to softmax.
 
-            if str(np.mean(np.absolute(C))) == "nan":
-                print("|||||||||||C||||||||||||||")
-                print(C)
-                print(iteration)
+            # if str(np.mean(np.absolute(C))) == "nan":
+            #     print("|||||||||||C||||||||||||||")
+            #     print(C)
+            #     print(iteration)
 
             for j in range(num_out):
                 for i in range(num_in):
@@ -88,13 +88,13 @@ class CapsuleSubLayer(nn.Module):
                         s[j] = C[i,j]*u_hat[:,i,j,:] # [joint_batch, ]
                     else:
                         s[j] = C[i,j]*u_hat[:,i,j,:]
-                    if str(s[j].abs().mean().item()) == "nan":
-                        print("|||||||||||s_j||||||||||||||")
-                        print(s[j])
-                        print(i)
-                        print(j)
-                        print(iteration)
-                        break
+                    # if str(s[j].abs().mean().item()) == "nan":
+                    #     print("|||||||||||s_j||||||||||||||")
+                    #     print(s[j])
+                    #     print(i)
+                    #     print(j)
+                    #     print(iteration)
+                    #     break
 
 
 
@@ -102,56 +102,56 @@ class CapsuleSubLayer(nn.Module):
 
             #v = s
 
-            for i in range(len(v)):
-                if torch.isnan(v[i]).any():
-                    print("|||||||||||||||||S||||||||||||")
-                    print(torch.isnan(s[i]).any())
-                    print("|||||||||||||||||V||||||||||||")
-                    print(torch.isnan(v[i]))
-                    print(i)
+            # for i in range(len(v)):
+            #     if torch.isnan(v[i]).any():
+            #         print("|||||||||||||||||S||||||||||||")
+            #         print(torch.isnan(s[i]).any())
+            #         print("|||||||||||||||||V||||||||||||")
+            #         print(torch.isnan(v[i]))
+            #         print(i)
 
 
             for i in range(num_in):
                 for j in range(num_out):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
 
-                    if str(np.mean(np.absolute(B))) == "nan":
-                        print(torch.isnan(v[j]).any())
-                        print("|||||||||||B||||||||||||||")
-                        print(B)
-                        print(i)
-                        print(j)
-                        print(iteration)
-                        print(">>>>>>>>>>>>u_vj1")
-                        print(u_vj1)
-                        print(">>>>>>>>>>>>>u_hat")
-                        print(torch.mean(u_hat[:, i, j, :], dim=0))
-                        print(">>>>>>>>>>>>>>>v_j")
-                        print(v[j])
-                        print(">>>>>>>>>>>>>>>v_j mean")
-                        print(torch.mean(v[j], dim=0))
-                        break
+                    # if str(np.mean(np.absolute(B))) == "nan":
+                    #     print(torch.isnan(v[j]).any())
+                    #     print("|||||||||||B||||||||||||||")
+                    #     print(B)
+                    #     print(i)
+                    #     print(j)
+                    #     print(iteration)
+                    #     print(">>>>>>>>>>>>u_vj1")
+                    #     print(u_vj1)
+                    #     print(">>>>>>>>>>>>>u_hat")
+                    #     print(torch.mean(u_hat[:, i, j, :], dim=0))
+                    #     print(">>>>>>>>>>>>>>>v_j")
+                    #     print(v[j])
+                    #     print(">>>>>>>>>>>>>>>v_j mean")
+                    #     print(torch.mean(v[j], dim=0))
+                    #     break
                     B[i,j] = B[i,j] + u_vj1
 
-            if str(np.mean(np.absolute(B))) == "nan":
-                print("|||||||||||B||||||||||||||")
-                print(B)
-                print("--end of b loop--")
-                print(iteration)
-                break
+            # if str(np.mean(np.absolute(B))) == "nan":
+            #     print("|||||||||||B||||||||||||||")
+            #     print(B)
+            #     print("--end of b loop--")
+            #     print(iteration)
+            #     break
 
-        print("||||||||||||||absmean||||||||||||")
-        print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
-        if str(np.mean(np.absolute(B))) == "nan":
-            print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
-            print(u_hat)
-            print("||||||||||||||||||||||||u")
-            print(u)
-            print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
-            print(s[0])
-            print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
-            print(v[0])
-            print("||||||||||||||||||||||||||||||B||||||||||||||||||||||||||||")
-            print(B)
+        # print("||||||||||||||absmean||||||||||||")
+        # print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
+        # if str(np.mean(np.absolute(B))) == "nan":
+        #     print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
+        #     print(u_hat)
+        #     print("||||||||||||||||||||||||u")
+        #     print(u)
+        #     print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
+        #     print(s[0])
+        #     print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
+        #     print(v[0])
+        #     print("||||||||||||||||||||||||||||||B||||||||||||||||||||||||||||")
+        #     print(B)
 
         return torch.stack(v,dim=2).permute(2,0,1).reshape(num_out,bsz,seq_len,out_dim)
