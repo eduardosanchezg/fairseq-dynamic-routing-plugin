@@ -34,17 +34,22 @@ def checkpoint(state, epoch):
 
 
 
-def squash(sj, dim=2):
+def squash(sj):
     """
     The non-linear activation used in Capsule.
     It drives the length of a large vector to near 1 and small vector to 0
     This implement equation 1 from the paper.
     """
-    sj_mag_sq = torch.sum(sj**2, dim, keepdim=True)
+
+
+    norm = torch.linalg.vector_norm(sj, dim=1)
+    norm = norm.stack([norm]*sj.size(1),dim=1)
+    sq_norm = torch.dot(norm,norm)
     # ||sj||
-    sj_mag = torch.sqrt(sj_mag_sq)
-    v_j = (sj_mag_sq / (1.0 + sj_mag_sq)) * (sj / sj_mag)
-    return v_j
+
+    vj = torch.div(torch.dot(sq_norm,sj),torch.dot(1 + sq_norm),norm)
+
+    return vj
 
 
 def mask(out_digit_caps, cuda_enabled=True):
