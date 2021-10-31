@@ -56,8 +56,11 @@ class CapsuleSubLayer(nn.Module):
 
         u = x.transpose(0,2).contiguous().view(joint_batch,num_in,in_dim) # [joint_batch, num_in, in_dim]
 
-        print("||||||||||||||||||U|||||||||||||||||||||||1")
-        print(u[4060,:,:])
+        print("||||||||||||||||||U||||||||||||||||||||||||")
+        try:
+            print(u[4060,:,:])
+        except:
+            print("INDEX NOT VALID")
 
         stacked_u = torch.stack([u] * num_out, dim=2) # [joint_batch, num_in, num_out, in_dim]
 
