@@ -56,6 +56,9 @@ class CapsuleSubLayer(nn.Module):
 
         u = x.transpose(0,2).contiguous().view(joint_batch,num_in,in_dim) # [joint_batch, num_in, in_dim]
 
+        print("||||||||||||||||||U|||||||||||||||||||||||1")
+        print(u[4060,:,:])
+
         stacked_u = torch.stack([u] * num_out, dim=2) # [joint_batch, num_in, num_out, in_dim]
 
         u_hat = torch.einsum('wxyz,bwxy->bwxz', (self.weights, stacked_u))
@@ -90,14 +93,14 @@ class CapsuleSubLayer(nn.Module):
                         s[j] = C[i,j]*u_hat[:,i,j,:]
 
 
-            for j in range(num_out):
-                for k in range(joint_batch):
-                    if s[j][k, :].mean().item() == 0:
-                        print("|||||||||||s_j||||||||||||||")
-                        print(s[j][k, :])
-                        print(j)
-                        print(k)
-                        break
+            # for j in range(num_out):
+            #     for k in range(joint_batch):
+            #         if s[j][k, :].mean().item() == 0:
+            #             print("|||||||||||s_j||||||||||||||")
+            #             print(s[j][k, :])
+            #             print(j)
+            #             print(k)
+            #             break
 
             v = [squash(s[j]) for j in range(num_out)]
 
