@@ -94,7 +94,7 @@ def squash(sj):
     #     print("||||||||||||V_j|||||||||||||")
     #     print(vj)
 
-    return torch.nan_to_num(vj)
+    return vj
 
 
 def mask(out_digit_caps, cuda_enabled=True):
