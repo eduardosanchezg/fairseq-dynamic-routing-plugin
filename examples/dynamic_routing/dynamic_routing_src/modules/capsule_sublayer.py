@@ -110,6 +110,7 @@ class CapsuleSubLayer(nn.Module):
                         print(i)
                         print(j)
                         print(iteration)
+                        print(u_vj1)
                         break
                     B[i,j] = B[i,j] + u_vj1
 
@@ -120,17 +121,17 @@ class CapsuleSubLayer(nn.Module):
                 print(iteration)
                 break
 
-        # print("||||||||||||||absmean||||||||||||")
-        # print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
-        # if str(np.mean(np.absolute(B))) == "nan":
-        #     print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
-        #     print(u_hat)
-        #     print("||||||||||||||||||||||||u")
-        #     print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
-        #     print(s[0])
-        #     print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
-        #     print(v[0])
-        #     print("||||||||||||||||||||||||||||||B||||||||||||||||||||||||||||")
-        #     print(B)
+        print("||||||||||||||absmean||||||||||||")
+        print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
+        if str(np.mean(np.absolute(B))) == "nan":
+            print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
+            print(u_hat)
+            print("||||||||||||||||||||||||u")
+            print("|||||||||||||||||||||||||||s_0||||||||||||||||||||||||||")
+            print(s[0])
+            print("|||||||||||||||||||||||||||v_0||||||||||||||||||||||||||||")
+            print(v[0])
+            print("||||||||||||||||||||||||||||||B||||||||||||||||||||||||||||")
+            print(B)
 
         return torch.stack(v,dim=2).permute(2,0,1).reshape(num_out,bsz,seq_len,out_dim)
