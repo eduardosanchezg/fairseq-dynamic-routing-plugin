@@ -71,7 +71,7 @@ def squash(sj):
     #     print(den)
 
     vj = torch.div(num, den)
-    if not torch.isfinite(vj).any():
+    if not torch.isfinite(vj).all():
         break_out = False
         for i in range(sj.size(0)):
             for j in range(sj.size(1)):
