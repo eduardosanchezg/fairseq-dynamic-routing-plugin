@@ -44,21 +44,21 @@ def squash(sj):
     #sj[sj == 0.0] = -0.001
 
     #if not torch.isfinite(sj).all():
-    if (sj == 0.0).sum().item != 0:
-        print("THERE'S SOMETHING WRONG WITH THE INPUT")
-        for i in range(sj.size(0)):
-            if (sj[i,:] == 0.0).sum().item != 0:
-                    print(i)
-                    print(sj[i,:])
+    # if (sj == 0.0).sum().item != 0:
+    #     print("THERE'S SOMETHING WRONG WITH THE INPUT")
+    #     for i in range(sj.size(0)):
+    #         if (sj[i,:] == 0.0).sum().item != 0:
+    #                 print(i)
+    #                 print(sj[i,:])
 
     norm = torch.linalg.vector_norm(sj, dim=1)
 
-    if not torch.isfinite(norm).all():
+    if (norm == 0.0).sum().item != 0:
         print("THERE'S SOMETHING WRONG WITH THE NORM")
         for i in range(norm.size(0)):
-            if not torch.isfinite(sj[i, :]).all():
+            if (norm[i,:] == 0.0).sum().item != 0:
                 print(i)
-                print(sj[i, :])
+                print(norm[i, :])
 
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
