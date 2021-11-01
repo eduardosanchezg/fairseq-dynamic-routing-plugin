@@ -56,9 +56,9 @@ def squash(sj):
     if (norm == 0.0).sum().item != 0:
         print("THERE'S SOMETHING WRONG WITH THE NORM")
         for i in range(norm.size(0)):
-            if (norm[i,:] == 0.0).sum().item != 0:
+            if (norm[i] == 0.0).sum().item != 0:
                 print(i)
-                print(norm[i, :])
+                print(norm[i])
 
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
