@@ -119,7 +119,7 @@ class CapsuleSubLayer(nn.Module):
                     print("|||||||||||||||||S||||||||||||")
                     print(torch.isfinite(s[i]).all())
                     print("|||||||||||||||||V||||||||||||")
-                    print(torch.isnan(v[i]))
+                    print(torch.isfinite(v[i]).all())
                     print(i)
 
             #str(np.mean(np.absolute(B))) in ["nan", "inf", "-inf"]
