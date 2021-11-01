@@ -41,7 +41,7 @@ def squash(sj):
     This implement equation 1 from the paper.
     """
 
-    sj[sj == 0.0] = np.random.uniform(-0.001, 0.001)
+    #sj[sj == 0.0] = np.random.uniform(-0.001, 0.001)
 
     if not torch.isfinite(sj).all():
         print("THERE'S SOMETHING WRONG WITH THE INPUT")
