@@ -41,6 +41,12 @@ def squash(sj):
     This implement equation 1 from the paper.
     """
 
+    if not torch.isfinite(sj).all():
+        print("THERE'S SOMETHING WRONG WITH THE INPUT")
+        for i in range(sj.size(0)):
+            if not torch.isfinite(sj[i,:]).all():
+                    print(i)
+                    print(sj[i,:])
 
     norm = torch.linalg.vector_norm(sj, dim=1)
 
@@ -84,7 +90,7 @@ def squash(sj):
                     print(num[i,j])
                     print(den[i,j])
                     print(norm[i,j])
-                    print(sj[i,j])
+                    print(sj[i,:])
 
                     break
                     break_out = True
