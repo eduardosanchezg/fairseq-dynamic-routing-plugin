@@ -43,7 +43,8 @@ def squash(sj):
 
     #sj[sj == 0.0] = np.random.uniform(-0.001, 0.001)
 
-    if not torch.isfinite(sj).all():
+    #if not torch.isfinite(sj).all():
+    if not torch.is_nonzero(sj).all():
         print("THERE'S SOMETHING WRONG WITH THE INPUT")
         for i in range(sj.size(0)):
             if not torch.isfinite(sj[i,:]).all():
