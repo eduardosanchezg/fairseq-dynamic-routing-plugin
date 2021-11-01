@@ -41,15 +41,15 @@ def squash(sj):
     This implement equation 1 from the paper.
     """
 
-    #sj[sj == 0.0] = np.random.uniform(-0.001, 0.001)
+    sj[sj == 0.0] = -0.001
 
     #if not torch.isfinite(sj).all():
-    if not torch.is_nonzero(sj).all():
-        print("THERE'S SOMETHING WRONG WITH THE INPUT")
-        for i in range(sj.size(0)):
-            if not torch.isfinite(sj[i,:]).all():
-                    print(i)
-                    print(sj[i,:])
+    # if not torch.zer(sj).all():
+    #     print("THERE'S SOMETHING WRONG WITH THE INPUT")
+    #     for i in range(sj.size(0)):
+    #         if not torch.isfinite(sj[i,:]).all():
+    #                 print(i)
+    #                 print(sj[i,:])
 
     norm = torch.linalg.vector_norm(sj, dim=1)
 
