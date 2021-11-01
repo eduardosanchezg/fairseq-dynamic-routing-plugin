@@ -78,11 +78,14 @@ def squash(sj):
                 a = num[i,j] / den[i,j]
                 if not torch.isfinite(a).item():
                     print("||||||a||||||||||||||")
+                    print(i)
+                    print(j)
                     print(a)
                     print(num[i,j])
                     print(den[i,j])
                     print(norm[i,j])
-                    print(sj)
+                    print(sj[i,j])
+
                     break
                     break_out = True
             if break_out:
