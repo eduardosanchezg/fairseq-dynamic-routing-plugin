@@ -43,10 +43,11 @@ def squash(sj):
 
     #sj[sj == 0.0] = -0.001
 
-    if not torch.isfinite(sj).all():
+    #if not torch.isfinite(sj).all():
+    if (sj == 0.0).sum().item != 0:
         print("THERE'S SOMETHING WRONG WITH THE INPUT")
         for i in range(sj.size(0)):
-            if not torch.isfinite(sj[i,:]).all():
+            if (sj[i,:] == 0.0).sum().item != 0:
                     print(i)
                     print(sj[i,:])
 
