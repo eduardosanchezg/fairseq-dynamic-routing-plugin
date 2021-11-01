@@ -5,7 +5,7 @@ Dynamic Routing Between Capsules. NIPS 2017.
 https://arxiv.org/abs/1710.09829
 Author: Cedric Chee
 """
-
+import numpy as np
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
@@ -40,6 +40,8 @@ def squash(sj):
     It drives the length of a large vector to near 1 and small vector to 0
     This implement equation 1 from the paper.
     """
+
+    sj[sj == 0.0] = np.random.uniform(-0.001, 0.001)
 
     if not torch.isfinite(sj).all():
         print("THERE'S SOMETHING WRONG WITH THE INPUT")
