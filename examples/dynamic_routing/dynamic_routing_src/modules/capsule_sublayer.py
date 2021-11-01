@@ -122,12 +122,12 @@ class CapsuleSubLayer(nn.Module):
                     print(torch.isnan(v[i]))
                     print(i)
 
+            #str(np.mean(np.absolute(B))) in ["nan", "inf", "-inf"]
 
             for i in range(num_in):
                 for j in range(num_out):
                     u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
-
-                    if str(np.mean(np.absolute(B))) in ["nan","inf","-inf"]:
+                    if not torch.isfinite(u_vj1).any():
                         print(not torch.isfinite(v[j]).any())
                         print("|||||||||||B||||||||||||||")
                         print(B)
