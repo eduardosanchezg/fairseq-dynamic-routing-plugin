@@ -76,7 +76,7 @@ def squash(sj):
         for i in range(sj.size(0)):
             for j in range(sj.size(1)):
                 a = num[i,j] / den[i,j]
-                if not torch.isfinite(a):
+                if not torch.isfinite(a).all():
                     print("||||||a||||||||||||||")
                     print(a)
                     print(num[i,j])
@@ -90,9 +90,9 @@ def squash(sj):
 
 
 
-    # if torch.isnan(vj).any():
-    #     print("||||||||||||V_j|||||||||||||")
-    #     print(vj)
+    if not torch.isfinite(vj).all():
+        print("||||||||||||V_j|||||||||||||")
+        print(vj)
 
     return vj
 
