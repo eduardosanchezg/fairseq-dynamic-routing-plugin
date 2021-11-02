@@ -69,13 +69,13 @@ def squash(sj):
     #     print("||||||||||||SQ NORM|||||||||||||")
     #     print(sq_norm)
 
-    num = sq_norm * sj  #   sjq_norm[bsz,output_dim] sj[bsz,output_dim]
+    num = 0.001 * sq_norm * sj  #   sjq_norm[bsz,output_dim] sj[bsz,output_dim]
 
     # if torch.isnan(num).any():
     #     print("|||||||||||| NUM |||||||||||||")
     #     print(num)
 
-    den = (1 + sq_norm) * norm
+    den = 0.001 * (1 + sq_norm) * norm
 
     # if torch.isnan(den).any():
     #     print("|||||||||||| DEN |||||||||||||")
@@ -86,7 +86,7 @@ def squash(sj):
         break_out = False
         for i in range(sj.size(0)):
             for j in range(sj.size(1)):
-                a = (1 + num[i,j]) / (1 + den[i,j])
+                a = num[i,j] / den[i,j]
                 if not torch.isfinite(a).item():
                     print("||||||a||||||||||||||")
                     print(i)
@@ -96,12 +96,12 @@ def squash(sj):
                     print(den[i,:])
                     print(norm[i,:])
                     print(sj[i,:])
-                    if not os.path.exists("norm.pt"):
-                        torch.save(norm,"norm.pt")
-                        torch.save(num,"num.pt")
-                        torch.save(den,"den.pt")
-                        torch.save(sj,"sj.pt")
-                        torch.save(vj,"vj.pt")
+                    # if not os.path.exists("norm.pt"):
+                    #     torch.save(norm,"norm.pt")
+                    #     torch.save(num,"num.pt")
+                    #     torch.save(den,"den.pt")
+                    #     torch.save(sj,"sj.pt")
+                    #     torch.save(vj,"vj.pt")
 
                     break
                     break_out = True
