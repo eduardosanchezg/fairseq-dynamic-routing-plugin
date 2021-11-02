@@ -5,6 +5,8 @@ Dynamic Routing Between Capsules. NIPS 2017.
 https://arxiv.org/abs/1710.09829
 Author: Cedric Chee
 """
+import os.path
+
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -67,7 +69,7 @@ def squash(sj):
     #     print("||||||||||||SQ NORM|||||||||||||")
     #     print(sq_norm)
 
-    num = sq_norm * sj
+    num = sq_norm * sj  #   sjq_norm[bsz,output_dim] sj[bsz,output_dim]
 
     # if torch.isnan(num).any():
     #     print("|||||||||||| NUM |||||||||||||")
@@ -94,6 +96,12 @@ def squash(sj):
                     print(den[i,:])
                     print(norm[i,:])
                     print(sj[i,:])
+                    if not os.path.exists("norm.pt"):
+                        torch.save(norm,"norm.pt")
+                        torch.save(num,"num.pt")
+                        torch.save(den,"den.pt")
+                        torch.save(sj,"sj.pt")
+                        torch.save(vj,"vj.pt")
 
                     break
                     break_out = True
