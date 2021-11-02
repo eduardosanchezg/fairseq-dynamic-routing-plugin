@@ -9,8 +9,6 @@ import torch
 import torch.nn as nn
 from torch.nn import Parameter
 
-from .dynamic_routing import DynamicRouting
-
 #from examples.dynamic_routing.dynamic_routing_src.modules.dynamic_routing import DynamicRouting
 from fairseq.modules import TransformerEncoderLayer
 from torch import Tensor
