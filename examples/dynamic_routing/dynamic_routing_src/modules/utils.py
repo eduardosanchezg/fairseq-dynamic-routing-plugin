@@ -53,10 +53,10 @@ def squash(sj):
 
     norm = torch.linalg.vector_norm(sj, dim=1)
 
-    if (norm == 0.0).sum().item != 0:
+    if (norm == 0.0).sum().item() != 0:
         print("THERE'S SOMETHING WRONG WITH THE NORM")
         for i in range(norm.size(0)):
-            if (norm[i] == 0.0).item:
+            if (norm[i] == 0.0).item():
                 print(i)
                 print(norm[i])
 
@@ -84,7 +84,7 @@ def squash(sj):
         break_out = False
         for i in range(sj.size(0)):
             for j in range(sj.size(1)):
-                a = num[i,j] / den[i,j]
+                a = (1 + num[i,j]) / (1 + den[i,j])
                 if not torch.isfinite(a).item():
                     print("||||||a||||||||||||||")
                     print(i)
