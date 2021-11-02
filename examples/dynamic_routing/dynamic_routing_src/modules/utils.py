@@ -56,7 +56,7 @@ def squash(sj):
     if (norm == 0.0).sum().item != 0:
         print("THERE'S SOMETHING WRONG WITH THE NORM")
         for i in range(norm.size(0)):
-            if (norm[i] == 0.0).sum().item != 0:
+            if (norm[i] == 0.0).item:
                 print(i)
                 print(norm[i])
 
