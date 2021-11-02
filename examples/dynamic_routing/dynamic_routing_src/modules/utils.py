@@ -90,9 +90,9 @@ def squash(sj):
                     print(i)
                     print(j)
                     print(a)
-                    print(num[i,j])
-                    print(den[i,j])
-                    print(norm[i,j])
+                    print(num[i,:])
+                    print(den[i,:])
+                    print(norm[i,:])
                     print(sj[i,:])
 
                     break
