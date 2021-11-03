@@ -36,7 +36,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         self.out_dim = 32
         self.num_in = 16
         self.num_out = 16
-        self.dynamic_routing_weights = nn.Parameter(torch.randn( (self.num_in, self.num_out, self.in_dim, self.out_dim), device='cuda', requires_grad=True)).requires_grad_()
+        self.dynamic_routing_weights = nn.Parameter(torch.empty( (self.num_in, self.num_out, self.in_dim, self.out_dim), device='cuda', requires_grad=True)).requires_grad_()
         print("INITIALIZED!!!!!!")
 
 
@@ -115,12 +115,12 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # print(x.size())
         # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
-        print("w: {}".format(str(self.dynamic_routing_weights.clone().abs().mean())))
+        print("w: {}".format(str(self.dynamic_routing_weights.abs().mean())))
         if self.dynamic_routing_weights.grad != None:
-            print("grad: {}".format(self.dynamic_routing_weights.clone().grad.norm()))
+            print("grad: {}".format(self.dynamic_routing_weights.grad.norm()))
         else:
             print("grad: None")
-        print(self.dynamic_routing_weights.clone()[0,0,0,:])
+        print(self.dynamic_routing_weights[0,0,0,:])
 
         return x
 
