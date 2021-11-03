@@ -69,7 +69,7 @@ def squash(sj, pos,s):
                     torch.save(pos, "pos.pt")
                     torch.save(sj, "sj.pt")
 
-    #norm[norm == 0.0] = 0.001
+    norm[norm == 0.0] = 0.001
 
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
