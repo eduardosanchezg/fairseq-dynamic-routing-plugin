@@ -36,7 +36,7 @@ def checkpoint(state, epoch):
 
 
 
-def squash(sj):
+def squash(sj, pos,s):
     """
     The non-linear activation used in Capsule.
     It drives the length of a large vector to near 1 and small vector to 0
@@ -61,7 +61,15 @@ def squash(sj):
         for i in range(norm.size(0)):
             if (norm[i] == 0.0).item():
                 print(i)
+                print(pos)
                 print(norm[i])
+                if not os.path.exists("norm.pt"):
+                    torch.save(norm, "norm.pt")
+                    torch.save(s, "s.pt")
+                    torch.save(pos, "pos.pt")
+                    torch.save(sj, "sj.pt")
+
+    #norm[norm == 0.0] = 0.001
 
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
@@ -97,12 +105,12 @@ def squash(sj):
                     print(den[i,:])
                     print(norm[i,:])
                     print(sj[i,:])
-                    if not os.path.exists("norm.pt"):
-                        torch.save(norm,"norm.pt")
-                        torch.save(num,"num.pt")
-                        torch.save(den,"den.pt")
-                        torch.save(sj,"sj.pt")
-                        torch.save(vj,"vj.pt")
+                    # if not os.path.exists("norm.pt"):
+                    #     torch.save(norm,"norm.pt")
+                    #     torch.save(num,"num.pt")
+                    #     torch.save(den,"den.pt")
+                    #     torch.save(sj,"sj.pt")
+                    #     torch.save(vj,"vj.pt")
 
                     break
                     break_out = True

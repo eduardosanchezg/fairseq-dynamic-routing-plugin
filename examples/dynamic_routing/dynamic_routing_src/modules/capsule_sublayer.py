@@ -109,7 +109,7 @@ class CapsuleSubLayer(nn.Module):
             #             print(k)
             #             break
 
-            v = [squash(s[j]) for j in range(num_out)]
+            v = [squash(s[j],j,s) for j in range(num_out)]
 
 
 
