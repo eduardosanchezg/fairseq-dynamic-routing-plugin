@@ -45,6 +45,7 @@ def squash(sj):
 
     sj[sj == 0.0] = 0.001
 
+
     #if not torch.isfinite(sj).all():
     # if (sj == 0.0).sum().item != 0:
     #     print("THERE'S SOMETHING WRONG WITH THE INPUT")
@@ -96,12 +97,12 @@ def squash(sj):
                     print(den[i,:])
                     print(norm[i,:])
                     print(sj[i,:])
-                    # if not os.path.exists("norm.pt"):
-                    #     torch.save(norm,"norm.pt")
-                    #     torch.save(num,"num.pt")
-                    #     torch.save(den,"den.pt")
-                    #     torch.save(sj,"sj.pt")
-                    #     torch.save(vj,"vj.pt")
+                    if not os.path.exists("norm.pt"):
+                        torch.save(norm,"norm.pt")
+                        torch.save(num,"num.pt")
+                        torch.save(den,"den.pt")
+                        torch.save(sj,"sj.pt")
+                        torch.save(vj,"vj.pt")
 
                     break
                     break_out = True
