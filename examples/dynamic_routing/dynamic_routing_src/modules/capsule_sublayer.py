@@ -154,7 +154,7 @@ class CapsuleSubLayer(nn.Module):
             #     break
 
         # print("||||||||||||||absmean||||||||||||")
-        # print("w: " + str(self.weights.abs().mean()) + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
+        # + " v[0]: " + str(v[0].abs().mean()) + " B: " + str(np.mean(np.absolute(B))))
         # print(self.weights[0,0,0,:])
         # if str(np.mean(np.absolute(B))) == "nan":
         #     print("|||||||||||||||||||||||||||u_hat|||||||||||||||||||||||")
