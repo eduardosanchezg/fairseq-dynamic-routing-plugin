@@ -56,18 +56,18 @@ def squash(sj, pos,s):
 
     norm = torch.linalg.vector_norm(sj, dim=1)
 
-    if (norm == 0.0).sum().item() != 0:
-        print("THERE'S SOMETHING WRONG WITH THE NORM")
-        for i in range(norm.size(0)):
-            if (norm[i] == 0.0).item():
-                print(i)
-                print(pos)
-                print(norm[i])
-                if not os.path.exists("norm.pt"):
-                    torch.save(norm, "norm.pt")
-                    torch.save(s, "s.pt")
-                    torch.save(pos, "pos.pt")
-                    torch.save(sj, "sj.pt")
+    # if (norm == 0.0).sum().item() != 0:
+    #     print("THERE'S SOMETHING WRONG WITH THE NORM")
+    #     for i in range(norm.size(0)):
+    #         if (norm[i] == 0.0).item():
+    #             print(i)
+    #             print(pos)
+    #             print(norm[i])
+    #             if not os.path.exists("norm.pt"):
+    #                 torch.save(norm, "norm.pt")
+    #                 torch.save(s, "s.pt")
+    #                 torch.save(pos, "pos.pt")
+    #                 torch.save(sj, "sj.pt")
 
     norm[norm == 0.0] = 0.001
 
