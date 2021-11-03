@@ -81,7 +81,7 @@ def squash(sj, pos,s):
 
 
     #num = sq_norm * sj  #   sjq_norm[bsz,output_dim] sj[bsz,output_dim]
-    norm = norm * sj
+    num = norm * sj
     #num += 0.001
 
     # if torch.isnan(num).any():
