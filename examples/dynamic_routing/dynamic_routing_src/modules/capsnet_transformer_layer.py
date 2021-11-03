@@ -45,7 +45,7 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         self.num_in = 16
         self.num_out = 16
         self.dynamic_routing_weights = nn.Parameter(torch.randn( (self.num_in, self.num_out, self.in_dim, self.out_dim), device='cuda'))
-
+        print("INITIALIZED!!!!!!")
 
 
         self.self_attn_layer = ModifiedMultiheadAttention(
