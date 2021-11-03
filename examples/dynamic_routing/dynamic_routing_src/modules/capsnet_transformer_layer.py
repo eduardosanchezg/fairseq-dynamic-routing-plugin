@@ -115,11 +115,11 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         # print(x.size())
         # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
 
-        print("w: {}".format(self.self_attn_layer.out_proj.weight.abs().mean()))
-        if self.dynamic_routing_weights.grad != None:
-            print("grad: {}".format(self.self_attn_layer.self_attention.out_proj.weight.grad.norm()))
-        else:
-            print("grad: None")
+        # print("w: {}".format(self.self_attn_layer.out_proj.weight.abs().mean()))
+        # if self.dynamic_routing_weights.grad != None:
+        #     print("grad: {}".format(self.self_attn_layer.self_attention.out_proj.weight.grad.norm()))
+        # else:
+        #     print("grad: None")
 
 
         # print("w: {}".format(str(self.dynamic_routing_weights.abs().mean())))
