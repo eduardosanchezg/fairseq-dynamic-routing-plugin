@@ -69,16 +69,20 @@ def squash(sj, pos,s):
     #                 torch.save(pos, "pos.pt")
     #                 torch.save(sj, "sj.pt")
 
-    norm[norm == 0.0] = 0.001
+
 
     norm = torch.stack([norm]*sj.size(1),dim=1)
     sq_norm = norm * norm
+
 
     # if torch.isnan(sq_norm).any():
     #     print("||||||||||||SQ NORM|||||||||||||")
     #     print(sq_norm)
 
+
     num = sq_norm * sj  #   sjq_norm[bsz,output_dim] sj[bsz,output_dim]
+
+    num += 0.001
 
     # if torch.isnan(num).any():
     #     print("|||||||||||| NUM |||||||||||||")
@@ -86,6 +90,7 @@ def squash(sj, pos,s):
 
     den = (1 + sq_norm) * norm
 
+    den +=0.001
     # if torch.isnan(den).any():
     #     print("|||||||||||| DEN |||||||||||||")
     #     print(den)
