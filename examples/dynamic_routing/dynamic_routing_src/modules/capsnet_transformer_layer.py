@@ -4,18 +4,10 @@
 # LICENSE file in the root directory of this source tree.
 
 from typing import Dict, List, Optional
-
-import torch
-import torch.nn as nn
-from torch.nn import Parameter
-
-#from examples.dynamic_routing.dynamic_routing_src.modules.dynamic_routing import DynamicRouting
 from fairseq.modules import TransformerEncoderLayer
 from torch import Tensor
 import torch
-import torch.nn.functional as F
 from torch import nn
-import numpy as np
 
 from .modified_multihead_attention import ModifiedMultiheadAttention
 
@@ -87,69 +79,22 @@ class CapsNetTransformerEncoderLayer(TransformerEncoderLayer):
         #    attn_mask = attn_mask.masked_fill(attn_mask.to(torch.bool), -1e8)
 
         residual = x
-        # print("||||||||||||||||RESIDUAL|||||||||||||||||||||")
-        # print(x.size())
-        # print("||||||||||||||||||||||")
+
         if self.normalize_before:
             x = self.self_attn_layer_norm(x)
-        # print("||||||||||||||||NORMALIZED|||||||||||||||||||||")
-        # print(x.size())
-        # print("||||||||||||||||||||||")
 
         self.embed_dim = x.size(2)
 
-
-        #self_attn_layer = self_attn_layer.half()
-        #self_attn_layer = self.self_attn_layer.cuda()
         x, _ = self.self_attn_layer.forward(
              query=x,
              key=x,
              value=x,
              key_padding_mask=encoder_padding_mask,
-             need_weights=True,
+             need_weights=False,
              attn_mask=attn_mask,
          )
 
-        # x, _ = self.self_attn(
-        #     query=x,
-        #     key=x,
-        #     value=x,
-        #     key_padding_mask=encoder_padding_mask,
-        #     need_weights=False,
-        #     attn_mask=attn_mask,
-        # )
-
-        # print("||||||||||||||||AFTER SELF-ATTENTION|||||||||||||||||||||")
-        # print(x.size())
-        # print("||||||||||||||||||||||")
-        # print("||||||||||||||attn weights||||||||")
-        # print(attn.size())
-        # print("|||||||||||||||||||")
-        IN_UNIT = 224
-        IN_CHANNEL = 2
-        NUM_UNIT = 224
-        UNIT_SIZE = 512
-        NUM_ROUTING = 3
-
-        #capsnet = CapsuleSubLayer(in_unit=IN_UNIT, in_channel=IN_CHANNEL, num_unit=NUM_UNIT, unit_size=UNIT_SIZE, use_routing=True, num_routing=NUM_ROUTING, cuda_enabled=True)
-
-        #x = capsnet.forward(x)
-
-        #print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
-        #print(residual.size())
-        #print(x.size())
-
-       # dynamic_routing = DynamicRouting(12,512,False)
-
-        #x = dynamic_routing.forward(x,3)
-
         x = self.dropout_module(x)
-
-        # print("|||||||||||||||||||||||||||||||||| D E B U G || OUTER LAYER ||||||||||||||||||||||||||||||||||")
-        # #print(residual.size())
-        # print(x[0,11:,0])
-        # print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-
 
         x = self.residual_connection(x, residual)
         if not self.normalize_before:
