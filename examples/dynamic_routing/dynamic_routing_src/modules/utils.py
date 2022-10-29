@@ -96,38 +96,38 @@ def squash(sj, pos,s):
     #     print("|||||||||||| DEN |||||||||||||")
     #     print(den)
 
-    vj = torch.div(num, den)
-    if not torch.isfinite(vj).all():
-        break_out = False
-        for i in range(sj.size(0)):
-            for j in range(sj.size(1)):
-                a = num[i,j] / den[i,j]
-                if not torch.isfinite(a).item():
-                    print("||||||a||||||||||||||")
-                    print(i)
-                    print(j)
-                    print(a)
-                    print(num[i,:])
-                    print(den[i,:])
-                    print(norm[i,:])
-                    print(sj[i,:])
-                    # if not os.path.exists("norm.pt"):
-                    #     torch.save(norm,"norm.pt")
-                    #     torch.save(num,"num.pt")
-                    #     torch.save(den,"den.pt")
-                    #     torch.save(sj,"sj.pt")
-                    #     torch.save(vj,"vj.pt")
+    # vj = torch.div(num, den)
+    # if not torch.isfinite(vj).all():
+    #     break_out = False
+    #     for i in range(sj.size(0)):
+    #         for j in range(sj.size(1)):
+    #             a = num[i,j] / den[i,j]
+    #             if not torch.isfinite(a).item():
+    #                 print("||||||a||||||||||||||")
+    #                 print(i)
+    #                 print(j)
+    #                 print(a)
+    #                 print(num[i,:])
+    #                 print(den[i,:])
+    #                 print(norm[i,:])
+    #                 print(sj[i,:])
+    #                 # if not os.path.exists("norm.pt"):
+    #                 #     torch.save(norm,"norm.pt")
+    #                 #     torch.save(num,"num.pt")
+    #                 #     torch.save(den,"den.pt")
+    #                 #     torch.save(sj,"sj.pt")
+    #                 #     torch.save(vj,"vj.pt")
 
-                    break
-                    break_out = True
-            if break_out:
-                break
+    #                 break
+    #                 break_out = True
+    #         if break_out:
+    #             break
 
 
 
-    if not torch.isfinite(vj).all():
-        print("||||||||||||V_j|||||||||||||")
-        print(vj)
+    # if not torch.isfinite(vj).all():
+    #     print("||||||||||||V_j|||||||||||||")
+    #     print(vj)
 
     return vj
 
