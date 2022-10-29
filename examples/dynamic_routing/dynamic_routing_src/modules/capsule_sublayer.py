@@ -115,36 +115,36 @@ class CapsuleSubLayer(nn.Module):
 
             #v = s
 
-            for i in range(len(v)):
-                if not torch.isfinite(v[i]).all():
-                    print("|||||||||||||||||S||||||||||||")
-                    print(torch.isfinite(s[i]).all())
-                    print("|||||||||||||||||V||||||||||||")
-                    print(torch.isfinite(v[i]).all())
-                    print(i)
+            # for i in range(len(v)):
+            #     if not torch.isfinite(v[i]).all():
+            #         print("|||||||||||||||||S||||||||||||")
+            #         print(torch.isfinite(s[i]).all())
+            #         print("|||||||||||||||||V||||||||||||")
+            #         print(torch.isfinite(v[i]).all())
+            #         print(i)
 
             #str(np.mean(np.absolute(B))) in ["nan", "inf", "-inf"]
 
-            for i in range(num_in):
-                for j in range(num_out):
-                    u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
-                    if not torch.isfinite(u_vj1).all():
-                        print(not torch.isfinite(v[j]).all())
-                        print("|||||||||||B||||||||||||||")
-                        print(B)
-                        print(i)
-                        print(j)
-                        print(iteration)
-                        print(">>>>>>>>>>>>u_vj1")
-                        print(u_vj1)
-                        print(">>>>>>>>>>>>>u_hat")
-                        print(torch.mean(u_hat[:, i, j, :], dim=0))
-                        print(">>>>>>>>>>>>>>>v_j")
-                        print(v[j])
-                        print(">>>>>>>>>>>>>>>v_j mean")
-                        print(torch.mean(v[j], dim=0))
-                        break
-                    B[i,j] = B[i,j] + u_vj1
+            # for i in range(num_in):
+            #     for j in range(num_out):
+            #         u_vj1 = torch.dot(torch.mean(u_hat[:,i,j,:], dim=0), torch.mean(v[j], dim=0))
+            #         if not torch.isfinite(u_vj1).all():
+            #             print(not torch.isfinite(v[j]).all())
+            #             print("|||||||||||B||||||||||||||")
+            #             print(B)
+            #             print(i)
+            #             print(j)
+            #             print(iteration)
+            #             print(">>>>>>>>>>>>u_vj1")
+            #             print(u_vj1)
+            #             print(">>>>>>>>>>>>>u_hat")
+            #             print(torch.mean(u_hat[:, i, j, :], dim=0))
+            #             print(">>>>>>>>>>>>>>>v_j")
+            #             print(v[j])
+            #             print(">>>>>>>>>>>>>>>v_j mean")
+            #             print(torch.mean(v[j], dim=0))
+            #             break
+            #         B[i,j] = B[i,j] + u_vj1
 
             # if str(np.mean(np.absolute(B))) == "nan":
             #     print("|||||||||||B||||||||||||||")
