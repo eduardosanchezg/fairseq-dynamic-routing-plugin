@@ -96,7 +96,7 @@ def squash(sj, pos,s):
     #     print("|||||||||||| DEN |||||||||||||")
     #     print(den)
 
-    # vj = torch.div(num, den)
+    vj = torch.div(num, den)
     # if not torch.isfinite(vj).all():
     #     break_out = False
     #     for i in range(sj.size(0)):
